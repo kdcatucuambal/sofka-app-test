@@ -21,6 +21,7 @@ $ ./build.sh
 ```
 
 Construir las imagenes y levantar el proyectos
+Crear archivo .env con las credenciales de base de datos, tomar como referencia template.env
 ```sh
 $ docker-compose up --build
 ```
