@@ -1,0 +1,594 @@
+{
+	"info": {
+		"_postman_id": "a2c46aaa-4b2b-4018-8ec7-92a17f49600a",
+		"name": "SOFKA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11484364"
+	},
+	"item": [
+		{
+			"name": "CLIENTES",
+			"item": [
+				{
+					"name": "GET ALL CLIENTES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{PORT}}/sofka/api/mcl/v1/clientes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"sofka",
+								"api",
+								"mcl",
+								"v1",
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BY ID CLIENTE",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{PORT}}/sofka/api/mcl/v1/clientes/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"sofka",
+								"api",
+								"mcl",
+								"v1",
+								"clientes",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE CLIENTE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Juan Osorio\",\r\n    \"genero\": \"F\",\r\n    \"edad\": 22,\r\n    \"identificacion\": \"3\",\r\n    \"direccion\": \"13 junio y Equinoccial\",\r\n    \"telefono\": \"098254785\",\r\n    \"contrasena\": \"12345678\",\r\n    \"estado\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{PORT}}/sofka/api/mcl/v1/clientes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"sofka",
+								"api",
+								"mcl",
+								"v1",
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ACTUALIZAR-CLIENTE",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"David editado\",\r\n    \"genero\": \"M\",\r\n    \"edad\": 33,\r\n    \"direccion\": \"Olmedo y Cifuentes, Ibarra x\",\r\n    \"telefono\": \"0991744859\",\r\n    \"estado\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{PORT}}/sofka/api/mcl/v1/clientes/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"sofka",
+								"api",
+								"mcl",
+								"v1",
+								"clientes",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ELIMINAR-CLIENTE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"DAVID BORGUES\",\r\n    \"genero\": \"M\",\r\n    \"edad\": 30,\r\n    \"identificacion\": \"1102321324\",\r\n    \"direccion\": \"X\",\r\n    \"telefono\": \"0991744859\",\r\n    \"clienteId\": 2,\r\n    \"contrasena\": \"PWD\",\r\n    \"estado\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{PORT}}/sofka/api/mcl/v1/clientes/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"sofka",
+								"api",
+								"mcl",
+								"v1",
+								"clientes",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CUENTAS",
+			"item": [
+				{
+					"name": "CREATE CUENTA",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"numeroDeCuenta\": \"585545222\",\r\n    \"saldoInicial\": 1000,\r\n    \"tipoDeCuenta\": \"Corriente\",\r\n    \"estado\": true,\r\n    \"cliente\": {\r\n        \"id\": 7\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{PORT}}/sofka/api/mcu/v1/cuentas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"sofka",
+								"api",
+								"mcu",
+								"v1",
+								"cuentas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL CUENTAS",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"numeroDeCuenta\": \"12347\",\r\n    \"saldoInicial\": 100,\r\n    \"tipoDeCuenta\": \"Ahorros\",\r\n    \"estado\": true,\r\n    \"cliente\": {\r\n        \"id\": 1\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{PORT}}/sofka/api/mcu/v1/cuentas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"sofka",
+								"api",
+								"mcu",
+								"v1",
+								"cuentas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BY ID CUENTA",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"numeroDeCuenta\": \"12347\",\r\n    \"saldoInicial\": 100,\r\n    \"tipoDeCuenta\": \"Ahorros\",\r\n    \"estado\": true,\r\n    \"cliente\": {\r\n        \"id\": 1\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{PORT}}/sofka/api/mcu/v1/cuentas/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"sofka",
+								"api",
+								"mcu",
+								"v1",
+								"cuentas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BY NUMERO CUENTA",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"numeroDeCuenta\": \"12347\",\r\n    \"saldoInicial\": 100,\r\n    \"tipoDeCuenta\": \"Ahorros\",\r\n    \"estado\": true,\r\n    \"cliente\": {\r\n        \"id\": 1\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{PORT}}/sofka/api/mcu/v1/cuentas/numero-cuenta/00000009",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"sofka",
+								"api",
+								"mcu",
+								"v1",
+								"cuentas",
+								"numero-cuenta",
+								"00000009"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE BY ID CUENTA",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"numeroDeCuenta\": \"12347\",\r\n    \"saldoInicial\": 100,\r\n    \"tipoDeCuenta\": \"Ahorros\",\r\n    \"estado\": true,\r\n    \"cliente\": {\r\n        \"id\": 1\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{PORT}}/sofka/api/mcu/v1/cuentas/numero-cuenta/110001111",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"sofka",
+								"api",
+								"mcu",
+								"v1",
+								"cuentas",
+								"numero-cuenta",
+								"110001111"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE BY ID CUENTA",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"numeroDeCuenta\": \"00000009\",\r\n    \"tipoDeCuenta\": \"Ahorros\",\r\n    \"estado\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{PORT}}/sofka/api/mcu/v1/cuentas/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"sofka",
+								"api",
+								"mcu",
+								"v1",
+								"cuentas",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE CUENTA POR ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"numeroDeCuenta\": \"00000009\",\r\n    \"tipoDeCuenta\": \"Ahorros\",\r\n    \"estado\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{PORT}}/sofka/api/mcu/v1/cuentas/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"sofka",
+								"api",
+								"mcu",
+								"v1",
+								"cuentas",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MOVIMIENTOS",
+			"item": [
+				{
+					"name": "CREATE MOVIMIENTO",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipo\": \"Retiro\",\r\n    \"valor\": -540,\r\n    \"cuenta\":{\r\n        \"numero\": \"496825\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{PORT}}/sofka/api/mcu/v1/movimientos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"sofka",
+								"api",
+								"mcu",
+								"v1",
+								"movimientos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET REPORT MOVIMIENTO BY CLIENTE ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipo\": \"Deposito\",\r\n    \"valor\": 200,\r\n    \"cuenta\":{\r\n        \"numero\": \"12342\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{PORT}}/sofka/api/mcu/v1/movimientos/reporte/2/fechas?startDate=2024-07-23&endDate=2024-07-28",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"sofka",
+								"api",
+								"mcu",
+								"v1",
+								"movimientos",
+								"reporte",
+								"2",
+								"fechas"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-07-23"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-07-28"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVIMIENTOS POR CUENTA",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipo\": \"Deposito\",\r\n    \"valor\": 200,\r\n    \"cuenta\":{\r\n        \"numero\": \"12342\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{PORT}}/sofka/api/mcu/v1/movimientos/numero-cuenta/00000009",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"sofka",
+								"api",
+								"mcu",
+								"v1",
+								"movimientos",
+								"numero-cuenta",
+								"00000009"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL MOVIMIENTOS",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipo\": \"Deposito\",\r\n    \"valor\": 200,\r\n    \"cuenta\":{\r\n        \"numero\": \"12342\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{PORT}}/sofka/api/mcu/v1/movimientos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"sofka",
+								"api",
+								"mcu",
+								"v1",
+								"movimientos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "PORT",
+			"value": "8080",
+			"type": "string"
+		}
+	]
+}
