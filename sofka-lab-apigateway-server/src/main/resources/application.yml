@@ -1,0 +1,23 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - '*'
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: clients-service # Route ID
+          uri: lb://sofka-lab-customers-service # Load balanced URI
+          predicates: # Predicates
+            - Path=/sofka/api/mcl/v1/** # Path predicate to match the incoming request
+          filters:
+            - StripPrefix=4 # Strip the prefix /api/products from the request URI
+        - id: clients-service # Route ID
+          uri: lb://sofka-lab-accounts-service # Load balanced URI
+          predicates: # Predicates
+            - Path=/sofka/api/mcu/v1/** # Path predicate to match the incoming request
+          filters:
+            - StripPrefix=4 # Strip the prefix /api/products from the request URI

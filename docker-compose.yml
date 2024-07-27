@@ -1,0 +1,71 @@
+version: "3"
+
+services:
+  eureka-server:
+    build:
+      context: ./sofka-lab-eureka-server
+      args:
+        - JAR_FILE=target/*.jar
+        - PORT=8761
+    ports:
+      - "8761:8761"
+    environment:
+      - JAVA_OPTS=-Duser.timezone=America/Bogota
+    networks:
+      - sofka-lab-network
+
+  acccounts-service:
+    build:
+      context: ./sofka-lab-accounts-service
+      args:
+        - JAR_FILE=target/*.jar
+        - PORT=8081
+        - HOST_EUREKA_SERVER=eureka-server:8761
+    depends_on:
+      - eureka-server
+    environment:
+      - JAVA_OPTS=-Duser.timezone=America/Bogota
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_NAME=${DATABASE_NAME}
+    networks:
+      - sofka-lab-network
+
+  customers-service:
+    build:
+      context: ./sofka-lab-customers-service
+      args:
+        - JAR_FILE=target/*.jar
+        - PORT=8082
+        - HOST_EUREKA_SERVER=eureka-server:8761
+    depends_on:
+      - eureka-server
+    environment:
+      - JAVA_OPTS=-Duser.timezone=America/Bogota
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_NAME=${DATABASE_NAME}
+    networks:
+      - sofka-lab-network
+
+  api-gateway-server:
+    build:
+      context: ./sofka-lab-apigateway-server
+      args:
+        - JAR_FILE=target/*.jar
+        - PORT=8090
+        - HOST_EUREKA_SERVER=eureka-server:8761
+    ports:
+      - "8080:8090"
+    depends_on:
+      - eureka-server
+      - acccounts-service
+      - customers-service
+    environment:
+      - JAVA_OPTS=-Duser.timezone=America/Bogota
+    networks:
+      - sofka-lab-network
+
+networks:
+  sofka-lab-network:
+
