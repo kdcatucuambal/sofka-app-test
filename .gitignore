@@ -4,3 +4,4 @@ out.yaml
 .stack/
 .idea/
 .aws-sam/
+.env
