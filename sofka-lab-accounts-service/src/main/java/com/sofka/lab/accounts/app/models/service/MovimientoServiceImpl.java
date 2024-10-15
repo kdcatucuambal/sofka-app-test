@@ -81,8 +81,8 @@ public class MovimientoServiceImpl implements MovimientoService {
 
     @Override
     public List<ReporteCuentasDto> getReporteCuentas(String clienteId, Date startDate, Date endDate) throws SofkaException {
-        logger.info("startDate=>: " + startDate);
-        logger.info("endDate=>: " + endDate);
+        logger.info("startDates=>: " + startDate);
+        logger.info("endDates=>: " + endDate);
         ClienteDto clienteDto = clienteRest.findByIdentificacion(clienteId);
         if (clienteDto == null) {
             throw new SofkaException("Cliente no encontrado", HttpStatus.NOT_FOUND);
@@ -90,6 +90,7 @@ public class MovimientoServiceImpl implements MovimientoService {
 
 
         List<ReporteCuentasDto> reporteCuentas = movimientoDao.report(clienteDto.getId(), startDate, endDate);
+//        List<ReporteCuentasDto> reporteCuentas = movimientoDao.report(clienteDto.getId());
         reporteCuentas.forEach(r -> r.setCliente(clienteDto.getNombre()));
         return reporteCuentas;
     }
