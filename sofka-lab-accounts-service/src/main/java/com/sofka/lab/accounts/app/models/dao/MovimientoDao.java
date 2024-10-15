@@ -21,10 +21,15 @@ public interface MovimientoDao extends JpaRepository<Movimiento, Long> {
 
 
 
+//    @Query("SELECT NEW com.sofka.lab.common.models.dtos.ReporteCuentasDto(m.fecha, c.numero, c.tipo, c.saldoInicial, c.estado, m.valor, m.saldo) FROM Cuenta c " +
+//            "JOIN Movimiento m ON c.id = m.cuenta.id " +
+//            "WHERE c.clienteId = :clienteId " +
+//            "AND m.fecha BETWEEN :startDate AND :endDate " +
+//            "ORDER BY m.fecha DESC"
+//    )
     @Query("SELECT NEW com.sofka.lab.common.models.dtos.ReporteCuentasDto(m.fecha, c.numero, c.tipo, c.saldoInicial, c.estado, m.valor, m.saldo) FROM Cuenta c " +
             "JOIN Movimiento m ON c.id = m.cuenta.id " +
             "WHERE c.clienteId = :clienteId " +
-            "AND m.fecha BETWEEN :startDate AND :endDate " +
             "ORDER BY m.fecha DESC"
     )
     List<ReporteCuentasDto> report(
