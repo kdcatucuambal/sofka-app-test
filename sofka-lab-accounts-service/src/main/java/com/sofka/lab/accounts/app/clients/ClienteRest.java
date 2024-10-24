@@ -8,10 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "sofka-lab-customers-service")
 public interface ClienteRest {
 
-
     @GetMapping("/clientes/{id}")
     ClienteDto findById(@PathVariable Long id);
-
 
     @GetMapping("/clientes/identificacion/{identificacion}")
     ClienteDto findByIdentificacion(@PathVariable String identificacion);

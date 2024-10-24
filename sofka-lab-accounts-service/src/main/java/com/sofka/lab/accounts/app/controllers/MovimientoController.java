@@ -4,6 +4,8 @@ import com.sofka.lab.accounts.app.exceptions.SofkaException;
 import com.sofka.lab.accounts.app.models.dtos.MovimientoDto;
 import com.sofka.lab.accounts.app.models.entity.Movimiento;
 import com.sofka.lab.accounts.app.models.service.MovimientoService;
+import com.sofka.lab.common.exceptions.BusinessLogicException;
+import com.sofka.lab.common.exceptions.HttpCustomException;
 import com.sofka.lab.common.models.dtos.ReporteCuentasDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,8 +20,11 @@ import java.util.List;
 @RequestMapping("/movimientos")
 public class MovimientoController {
 
-    @Autowired
-    private MovimientoService movimientoService;
+    private final MovimientoService movimientoService;
+
+    public MovimientoController(MovimientoService movimientoService) {
+        this.movimientoService = movimientoService;
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -27,11 +32,8 @@ public class MovimientoController {
 
         try {
             return movimientoService.save(movimiento);
-        } catch (SofkaException e) {
-            throw new ResponseStatusException(
-                    e.getHttpStatus(),
-                    e.getMessage()
-            );
+        } catch (BusinessLogicException e) {
+            throw new HttpCustomException(e);
         }
 
     }
@@ -52,8 +54,6 @@ public class MovimientoController {
     }
 
 
-
-
     @GetMapping("/reporte/{clienteId}/fechas")
     public List<ReporteCuentasDto> reporte(@PathVariable String clienteId,
                                            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
@@ -61,11 +61,8 @@ public class MovimientoController {
 
         try {
             return movimientoService.getReporteCuentas(clienteId, startDate, endDate);
-        } catch (SofkaException e) {
-            throw new ResponseStatusException(
-                    e.getHttpStatus(),
-                    e.getMessage()
-            );
+        } catch (BusinessLogicException e) {
+            throw new HttpCustomException("Error al generar el reporte de cuentas", "109");
         }
 
     }

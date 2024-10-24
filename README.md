@@ -1,16 +1,16 @@
 # Especificaciones
-Java: 17
-SpringBoot: 3
-SpringCloud: 2023
-Maven: 3.6.8
-Ejecución de comandos Linux 
+- Java: 17
+- SpringBoot: 3
+- SpringCloud: 2023
+- Maven: 3.6.8
+- Ejecución de comandos Linux 
 
 # Proyectos
-lab-common: clases en común entre los proyectos
-lab-customers-service: Microservicio para administrar clientes
-lab-accounts-service: Microservicio para administrar cuentas
-lab-apigateway-server: Apigateway para enrutar los endpoints
-lab-eureka-server: Registro de microservicios
+- sofka-lab-common: clases en común entre los proyectos
+- sofka-lab-customers-service: Microservicio para administrar clientes
+- sofka- lab-accounts-service: Microservicio para administrar cuentas
+- sofka - lab-apigateway-server: Apigateway para enrutar los endpoints
+- sofka - lab-eureka-server: Registro de microservicios
 
 # Levantar proyecto
 
@@ -26,5 +26,5 @@ Crear archivo .env con las credenciales de base de datos, tomar como referencia 
 $ docker-compose up --build
 ```
 
-Puerto expuesto APIGATEWAY: 8080
-Puerto expuesto EUREKA: 8761
+- Puerto expuesto APIGATEWAY: 8080
+- Puerto expuesto EUREKA: 8761

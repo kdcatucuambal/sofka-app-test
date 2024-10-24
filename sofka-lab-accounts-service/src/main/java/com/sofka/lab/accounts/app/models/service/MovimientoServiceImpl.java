@@ -6,6 +6,7 @@ import com.sofka.lab.accounts.app.models.dao.MovimientoDao;
 import com.sofka.lab.accounts.app.models.dtos.CuentaDto;
 import com.sofka.lab.accounts.app.models.dtos.MovimientoDto;
 import com.sofka.lab.accounts.app.models.entity.Movimiento;
+import com.sofka.lab.common.exceptions.BusinessLogicException;
 import com.sofka.lab.common.models.dtos.ClienteDto;
 import com.sofka.lab.common.models.dtos.ReporteCuentasDto;
 import org.slf4j.Logger;
@@ -34,19 +35,19 @@ public class MovimientoServiceImpl implements MovimientoService {
 
 
     @Override
-    public Movimiento save(Movimiento movimiento) throws SofkaException {
+    public Movimiento save(Movimiento movimiento) throws BusinessLogicException {
 
         String numeroCuenta = movimiento.getCuenta().getNumero();
 
         CuentaDto cuentaDto = cuentaService.findByNumero(numeroCuenta);
 
         if (cuentaDto == null) {
-            throw new SofkaException("Cuenta no encontrada", HttpStatus.NOT_FOUND);
+            throw new BusinessLogicException("Cuenta no encontrada", "100");
         }
 
         BigDecimal saldo = cuentaDto.getSaldoDisponible().add(movimiento.getValor());
         if (saldo.compareTo(BigDecimal.ZERO) < 0) {
-            throw new SofkaException("Saldo no disponible", HttpStatus.CONFLICT);
+            throw new BusinessLogicException("Saldo insuficiente", "101");
         }
 
         //cuentaService.updateSaldo(numeroCuenta, saldo);
@@ -60,8 +61,6 @@ public class MovimientoServiceImpl implements MovimientoService {
         cuentaService.updateSaldo(numeroCuenta, saldo);
         return movimientoDao.save(movimiento);
     }
-
-
 
 
     @Override
@@ -80,12 +79,12 @@ public class MovimientoServiceImpl implements MovimientoService {
     }
 
     @Override
-    public List<ReporteCuentasDto> getReporteCuentas(String clienteId, Date startDate, Date endDate) throws SofkaException {
+    public List<ReporteCuentasDto> getReporteCuentas(String clienteId, Date startDate, Date endDate) throws BusinessLogicException {
         logger.info("startDates=>: " + startDate);
         logger.info("endDates=>: " + endDate);
         ClienteDto clienteDto = clienteRest.findByIdentificacion(clienteId);
         if (clienteDto == null) {
-            throw new SofkaException("Cliente no encontrado", HttpStatus.NOT_FOUND);
+            throw new BusinessLogicException("Cliente no encontrado", "100");
         }
 
 

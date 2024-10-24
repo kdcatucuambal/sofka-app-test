@@ -1,7 +1,6 @@
 package com.sofka.lab.common.models.dtos;
 
 
-
 public class ClienteDto {
 
 
@@ -37,9 +36,6 @@ public class ClienteDto {
         this.estado = estado;
 
     }
-
-
-
 
 
     public Long getId() {
