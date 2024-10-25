@@ -21,9 +21,13 @@ public class AccountsConfiguration {
     @Primary
     public BusinessToHttpError httpCodeMapping() {
         var businessToHttpErrorMapping = new BusinessToHttpErrorImpl();
+
         businessToHttpErrorMapping.addNewMapping("100", HttpStatus.NOT_FOUND);
         businessToHttpErrorMapping.addNewMapping("101", HttpStatus.NOT_FOUND);
         businessToHttpErrorMapping.addNewMapping("102", HttpStatus.NOT_FOUND);
+
+        businessToHttpErrorMapping.addNewMapping("200", HttpStatus.NOT_FOUND);
+        businessToHttpErrorMapping.addNewMapping("202", HttpStatus.NOT_FOUND);
         return businessToHttpErrorMapping;
     }
 

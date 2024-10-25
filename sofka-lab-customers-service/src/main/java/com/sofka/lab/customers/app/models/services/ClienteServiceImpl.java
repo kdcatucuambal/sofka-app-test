@@ -1,6 +1,7 @@
 package com.sofka.lab.customers.app.models.services;
 
 import com.sofka.lab.common.dtos.ClienteDto;
+import com.sofka.lab.common.exceptions.BusinessLogicException;
 import com.sofka.lab.customers.app.models.dao.ClienteDao;
 import com.sofka.lab.customers.app.models.entity.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,53 +13,55 @@ import java.util.List;
 @Service
 public class ClienteServiceImpl implements ClienteService {
 
-  @Autowired
-  private ClienteDao clienteDao;
+    private final ClienteDao clienteDao;
+    private final PasswordEncoder passwordEncoder;
 
-  @Autowired
-  private PasswordEncoder passwordEncoder;
-
-  @Override
-  public List<ClienteDto> findAll() {
-    return clienteDao.findAllDto();
-  }
-
-  @Override
-  public ClienteDto findById(Long id) {
-    if (clienteDao.findById(id).isPresent()) {
-      return clienteDao.findByIdDto(id);
+    public ClienteServiceImpl(ClienteDao clienteDao, PasswordEncoder passwordEncoder) {
+        this.clienteDao = clienteDao;
+        this.passwordEncoder = passwordEncoder;
     }
-    return null;
-  }
 
-  @Override
-  public ClienteDto save(Cliente cliente) {
-    cliente.setContrasena(passwordEncoder.encode(cliente.getContrasena()));
-    clienteDao.save(cliente);
-    return cliente.toDto();
-  }
+    @Override
+    public List<ClienteDto> findAll() {
+        return clienteDao.findAllDto();
+    }
 
-  @Override
-  public ClienteDto update(ClienteDto cliente) {
-    this.clienteDao.findById(cliente.getId()).ifPresent(cliente1 -> {
-      cliente1.setNombre(cliente.getNombre());
-      cliente1.setGenero(cliente.getGenero());
-      cliente1.setEdad(cliente.getEdad());
-      cliente1.setDireccion(cliente.getDireccion());
-      cliente1.setTelefono(cliente.getTelefono());
-      cliente1.setEstado(cliente.getEstado());
-      clienteDao.save(cliente1);
-    });
-    return cliente;
-  }
+    @Override
+    public ClienteDto findById(Long id) {
+        if (clienteDao.findById(id).isPresent()) {
+            return clienteDao.findByIdDto(id);
+        }
+        throw new BusinessLogicException("El cliente con el ID proprocionado no existe:  " + id, "300");
+    }
 
-  @Override
-  public void delete(Long id) {
-    clienteDao.deleteById(id);
-  }
+    @Override
+    public ClienteDto save(Cliente cliente) {
+        cliente.setContrasena(passwordEncoder.encode(cliente.getContrasena()));
+        clienteDao.save(cliente);
+        return cliente.toDto();
+    }
 
-  @Override
-  public ClienteDto findByIdentificacion(String identificacion) {
-    return clienteDao.findByIdentificacionDto(identificacion);
-  }
+    @Override
+    public ClienteDto update(ClienteDto cliente) {
+        this.clienteDao.findById(cliente.getId()).ifPresent(cliente1 -> {
+            cliente1.setNombre(cliente.getNombre());
+            cliente1.setGenero(cliente.getGenero());
+            cliente1.setEdad(cliente.getEdad());
+            cliente1.setDireccion(cliente.getDireccion());
+            cliente1.setTelefono(cliente.getTelefono());
+            cliente1.setEstado(cliente.getEstado());
+            clienteDao.save(cliente1);
+        });
+        return cliente;
+    }
+
+    @Override
+    public void delete(Long id) {
+        clienteDao.deleteById(id);
+    }
+
+    @Override
+    public ClienteDto findByIdentificacion(String identificacion) {
+        return clienteDao.findByIdentificacionDto(identificacion);
+    }
 }

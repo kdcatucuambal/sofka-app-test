@@ -32,7 +32,7 @@ public class CuentaServiceImpl implements CuentaService {
 
     @Override
     public CuentaDto save(CuentaDto cuentaDto) {
-        ClienteDto clienteDto = null;
+        ClienteDto clienteDto;
         Long id = cuentaDto.getCliente().getId();
         if (id != null) {
             clienteDto = clienteRest.findById(id);
@@ -41,7 +41,7 @@ public class CuentaServiceImpl implements CuentaService {
         }
 
         if (clienteDto == null) {
-            throw new BusinessLogicException("Cliente no encontrado", "100");
+            throw new BusinessLogicException("El cliente asociado no existe.", "100");
         }
 
         Cuenta cuenta = new Cuenta();
@@ -53,7 +53,6 @@ public class CuentaServiceImpl implements CuentaService {
         cuenta.setSaldo(cuenta.getSaldoInicial());
         cuenta = cuentaDao.save(cuenta);
         cuentaDto.setId(cuenta.getId());
-
 
         Movimiento movimiento = new Movimiento();
         movimiento.setCuenta(cuenta);
@@ -70,7 +69,7 @@ public class CuentaServiceImpl implements CuentaService {
     public CuentaDto findById(Long id) {
         Cuenta cuenta = cuentaDao.findById(id).orElse(null);
         if (cuenta == null) {
-            return null;
+            throw new BusinessLogicException("No existe la cuenta con el id proprocionado: " + id, "101");
         }
         return cuenta.toDto();
     }
@@ -79,7 +78,8 @@ public class CuentaServiceImpl implements CuentaService {
     public CuentaDto findByNumero(String numeroCuenta) {
         Cuenta cuenta = cuentaDao.findByNumero(numeroCuenta);
         if (cuenta == null) {
-            throw new BusinessLogicException("Cuenta no encontrada con el numero de cuenta proporcionado.", "102");
+            throw new BusinessLogicException("No existe la cuenta con el número propcionado: "
+                    + numeroCuenta, "102");
         }
         return cuenta.toDto();
     }
@@ -89,7 +89,7 @@ public class CuentaServiceImpl implements CuentaService {
         Optional<Cuenta> cuentaDbOptional = cuentaDao.findById(cuenta.getId());
 
         if (cuentaDbOptional.isEmpty()) {
-            throw new BusinessLogicException("Cuenta no encontrada", "101");
+            throw new BusinessLogicException("No existe la cuenta con el id proprocionado: " + cuenta.getId(), "101");
         }
 
         Cuenta cuentaDb = cuentaDbOptional.get();
@@ -117,6 +117,7 @@ public class CuentaServiceImpl implements CuentaService {
 
     @Override
     public void delete(Long id) {
+        //TODO: Delete logical database
         cuentaDao.deleteById(id);
     }
 }

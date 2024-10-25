@@ -34,22 +34,17 @@ public class MovimientoServiceImpl implements MovimientoService {
 
     @Override
     public Movimiento save(Movimiento movimiento) {
-
         String numeroCuenta = movimiento.getCuenta().getNumero();
-
         CuentaDto cuentaDto = cuentaService.findByNumero(numeroCuenta);
-
         if (cuentaDto == null) {
-            throw new BusinessLogicException("Cuenta no encontrada", "100");
+            throw new BusinessLogicException("Cuenta no encontrada para la trnasacción.", "200");
         }
 
         BigDecimal saldo = cuentaDto.getSaldoDisponible().add(movimiento.getValor());
         if (saldo.compareTo(BigDecimal.ZERO) < 0) {
-            throw new BusinessLogicException("Saldo insuficiente", "101");
+            throw new BusinessLogicException("El saldo es insuficiente para la transacción.", "201");
         }
-
         //cuentaService.updateSaldo(numeroCuenta, saldo);
-
         movimiento.setValor(movimiento.getValor());
         movimiento.setSaldo(saldo);
         cuentaDto.setSaldoDisponible(saldo);
@@ -82,10 +77,8 @@ public class MovimientoServiceImpl implements MovimientoService {
         logger.info("endDates=>: {}", endDate);
         ClienteDto clienteDto = clienteRest.findByIdentificacion(clienteId);
         if (clienteDto == null) {
-            throw new BusinessLogicException("Cliente no encontrado", "100");
+            throw new BusinessLogicException("Cliente no encontrado para generar el reporte.", "202");
         }
-
-
         List<ReporteCuentasDto> reporteCuentas = movimientoDao.report(clienteDto.getId(), startDate, endDate);
 //        List<ReporteCuentasDto> reporteCuentas = movimientoDao.report(clienteDto.getId());
         reporteCuentas.forEach(r -> r.setCliente(clienteDto.getNombre()));

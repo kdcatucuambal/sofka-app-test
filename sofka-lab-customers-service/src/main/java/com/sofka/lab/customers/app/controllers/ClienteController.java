@@ -13,14 +13,10 @@ import java.util.List;
 @RequestMapping("/clientes")
 public class ClienteController {
 
+    private final ClienteService clienteService;
 
-    @Autowired
-    private ClienteService clienteService;
-
-
-    @GetMapping("/test")
-    public String test() {
-        return "Test";
+    public ClienteController(ClienteService clienteService){
+        this.clienteService = clienteService;
     }
 
 
@@ -29,7 +25,7 @@ public class ClienteController {
         return clienteService.findAll();
     }
 
-
+    //TODO: Join find by id and find by identificacion in one method
     @GetMapping("/{id}")
     public ClienteDto findById(@PathVariable Long id) {
         return clienteService.findById(id);
@@ -39,7 +35,6 @@ public class ClienteController {
     public ClienteDto findByIdentificacion(@PathVariable String identificacion) {
         return clienteService.findByIdentificacion(identificacion);
     }
-
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
