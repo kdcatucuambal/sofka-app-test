@@ -1,17 +1,12 @@
 package com.sofka.lab.accounts.app.controllers;
 
-import com.sofka.lab.accounts.app.exceptions.SofkaException;
 import com.sofka.lab.accounts.app.models.dtos.MovimientoDto;
 import com.sofka.lab.accounts.app.models.entity.Movimiento;
 import com.sofka.lab.accounts.app.models.service.MovimientoService;
-import com.sofka.lab.common.exceptions.BusinessLogicException;
-import com.sofka.lab.common.exceptions.HttpCustomException;
-import com.sofka.lab.common.models.dtos.ReporteCuentasDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sofka.lab.common.dtos.ReporteCuentasDto;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 import java.util.List;
@@ -29,13 +24,7 @@ public class MovimientoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Movimiento save(@RequestBody Movimiento movimiento) {
-
-        try {
-            return movimientoService.save(movimiento);
-        } catch (BusinessLogicException e) {
-            throw new HttpCustomException(e);
-        }
-
+        return movimientoService.save(movimiento);
     }
 
     @GetMapping
@@ -59,11 +48,7 @@ public class MovimientoController {
                                            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
                                            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
 
-        try {
-            return movimientoService.getReporteCuentas(clienteId, startDate, endDate);
-        } catch (BusinessLogicException e) {
-            throw new HttpCustomException("Error al generar el reporte de cuentas", "109");
-        }
+        return movimientoService.getReporteCuentas(clienteId, startDate, endDate);
 
     }
 

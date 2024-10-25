@@ -1,19 +1,14 @@
 package com.sofka.lab.customers.app.models.entity;
 
 
-import com.sofka.lab.common.models.dtos.ClienteDto;
+import com.sofka.lab.common.dtos.ClienteDto;
 import com.sofka.lab.customers.app.models.dao.ClienteDao;
-import com.sofka.lab.customers.app.models.services.ClienteService;
 import com.sofka.lab.customers.app.models.services.ClienteServiceImpl;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static org.mockito.Mockito.when;
 

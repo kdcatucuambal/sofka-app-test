@@ -1,6 +1,11 @@
 package com.sofka.lab.common.exceptions;
 
-public class BusinessLogicException extends Exception {
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+public class BusinessLogicException extends RuntimeException {
 
     private String businessCode;
 
@@ -14,11 +19,4 @@ public class BusinessLogicException extends Exception {
         this.businessCode = code;
     }
 
-    public String getBusinessCode() {
-        return businessCode;
-    }
-
-    public void setBusinessCode(String businessCode) {
-        this.businessCode = businessCode;
-    }
 }

@@ -2,7 +2,7 @@ package com.sofka.lab.accounts.app.models.dao;
 
 import com.sofka.lab.accounts.app.models.dtos.MovimientoDto;
 import com.sofka.lab.accounts.app.models.entity.Movimiento;
-import com.sofka.lab.common.models.dtos.ReporteCuentasDto;
+import com.sofka.lab.common.dtos.ReporteCuentasDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,7 +18,7 @@ public interface MovimientoDao extends JpaRepository<Movimiento, Long> {
     List<MovimientoDto> findByNumeroCuenta(String numeroCuenta);
 
 
-    @Query("SELECT NEW com.sofka.lab.common.models.dtos.ReporteCuentasDto(m.fecha, c.numero, c.tipo, c.saldoInicial, c.estado, m.valor, m.saldo) FROM Cuenta c " +
+    @Query("SELECT NEW com.sofka.lab.common.dtos.ReporteCuentasDto(m.fecha, c.numero, c.tipo, c.saldoInicial, c.estado, m.valor, m.saldo) FROM Cuenta c " +
             "JOIN Movimiento m ON c.id = m.cuenta.id " +
             "WHERE c.clienteId = :clienteId " +
             "AND m.fecha BETWEEN :startDate AND :endDate " +

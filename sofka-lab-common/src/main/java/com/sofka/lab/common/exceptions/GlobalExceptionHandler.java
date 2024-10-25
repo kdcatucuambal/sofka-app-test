@@ -2,7 +2,7 @@ package com.sofka.lab.common.exceptions;
 
 import com.sofka.lab.common.exceptions.models.ErrorDetail;
 import com.sofka.lab.common.exceptions.models.ErrorMessage;
-import com.sofka.lab.common.exceptions.models.interfaces.BusinessToHttpFacade;
+import com.sofka.lab.common.exceptions.models.interfaces.BusinessToHttpError;
 import com.sofka.lab.common.exceptions.utils.Constants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,36 +16,38 @@ import java.util.Objects;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private final BusinessToHttpFacade businessToHttpFacade;
+    private final BusinessToHttpError businessToHttpError;
     private final Map<HttpStatus, String> httpCodeToReasonMapping;
 
 
     public GlobalExceptionHandler(
-            BusinessToHttpFacade businessToHttpFacade,
+            BusinessToHttpError businessToHttpError,
             Map<HttpStatus, String> httpCodeToReasonMapping
     ) {
-        this.businessToHttpFacade = businessToHttpFacade;
+        this.businessToHttpError = businessToHttpError;
         this.httpCodeToReasonMapping = httpCodeToReasonMapping;
     }
 
-    @ExceptionHandler(HttpCustomException.class)
-    public ResponseEntity<ErrorMessage> handleCustomError(HttpCustomException ex) {
+
+    @ExceptionHandler(BusinessLogicException.class)
+    public ResponseEntity<ErrorMessage> handleBusinessLogicException(BusinessLogicException ex) {
 
         HttpStatus httpStatus;
-        if (ex.getBlErrorCode().equals(Constants.CODE_500)) {
+        if (ex.getBusinessCode().equals(Constants.CODE_5xx)) {
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         } else {
-            httpStatus = Objects.requireNonNullElse(businessToHttpFacade.getHttpStatus(ex.getBlErrorCode()), HttpStatus.CONFLICT);
+            httpStatus = Objects.requireNonNullElse(
+                    businessToHttpError.getHttpStatus(ex.getBusinessCode()), HttpStatus.CONFLICT);
         }
         var httpReason = httpCodeToReasonMapping.get(httpStatus);
-        System.out.println("HTTP_REASON: " + httpReason);
-        var detail = ErrorDetail.builder().code(ex.getBlErrorCode()).message(ex.getBlErrorMessage()).build();
+        var detail = ErrorDetail.builder().code(ex.getBusinessCode()).message(ex.getMessage()).build();
         var errorMessage = ErrorMessage.builder()
                 .message(httpReason)
                 .details(List.of(detail))
                 .build();
         return new ResponseEntity<>(errorMessage, httpStatus);
     }
+
 
 
 }

@@ -1,6 +1,6 @@
 package com.sofka.lab.customers.app.models.dao;
 
-import com.sofka.lab.common.models.dtos.ClienteDto;
+import com.sofka.lab.common.dtos.ClienteDto;
 import com.sofka.lab.customers.app.models.entity.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,7 +1,7 @@
 package com.sofka.lab.accounts.app.models.dtos;
 
 import com.sofka.lab.accounts.app.models.entity.Cuenta;
-import com.sofka.lab.common.models.dtos.ClienteDto;
+import com.sofka.lab.common.dtos.ClienteDto;
 
 import java.math.BigDecimal;
 

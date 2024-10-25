@@ -1,7 +1,7 @@
 package com.sofka.lab.common.configuration;
 
 import com.sofka.lab.common.exceptions.models.BusinessToHttpErrorImpl;
-import com.sofka.lab.common.exceptions.models.interfaces.BusinessToHttpFacade;
+import com.sofka.lab.common.exceptions.models.interfaces.BusinessToHttpError;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -90,7 +90,7 @@ public class CommonConfiguration implements CommandLineRunner {
 
     @Bean
     @ConditionalOnMissingBean
-    public BusinessToHttpFacade defaultBusinessToHttpFacade() {
+    public BusinessToHttpError defaultBusinessToHttpFacade() {
         return new BusinessToHttpErrorImpl();
     }
 

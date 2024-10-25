@@ -1,18 +1,15 @@
 package com.sofka.lab.accounts.app.models.service;
 
 import com.sofka.lab.accounts.app.clients.ClienteRest;
-import com.sofka.lab.accounts.app.exceptions.SofkaException;
 import com.sofka.lab.accounts.app.models.dao.MovimientoDao;
 import com.sofka.lab.accounts.app.models.dtos.CuentaDto;
 import com.sofka.lab.accounts.app.models.dtos.MovimientoDto;
 import com.sofka.lab.accounts.app.models.entity.Movimiento;
 import com.sofka.lab.common.exceptions.BusinessLogicException;
-import com.sofka.lab.common.models.dtos.ClienteDto;
-import com.sofka.lab.common.models.dtos.ReporteCuentasDto;
+import com.sofka.lab.common.dtos.ClienteDto;
+import com.sofka.lab.common.dtos.ReporteCuentasDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -22,20 +19,21 @@ import java.util.List;
 @Service
 public class MovimientoServiceImpl implements MovimientoService {
 
-    private static Logger logger = LoggerFactory.getLogger(MovimientoServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(MovimientoServiceImpl.class);
 
-    @Autowired
-    private MovimientoDao movimientoDao;
+    private final MovimientoDao movimientoDao;
+    private final CuentaService cuentaService;
+    private final ClienteRest clienteRest;
 
-    @Autowired
-    private CuentaService cuentaService;
-
-    @Autowired
-    private ClienteRest clienteRest;
+    public MovimientoServiceImpl(MovimientoDao movimientoDao, CuentaService cuentaService, ClienteRest clienteRest) {
+        this.movimientoDao = movimientoDao;
+        this.cuentaService = cuentaService;
+        this.clienteRest = clienteRest;
+    }
 
 
     @Override
-    public Movimiento save(Movimiento movimiento) throws BusinessLogicException {
+    public Movimiento save(Movimiento movimiento) {
 
         String numeroCuenta = movimiento.getCuenta().getNumero();
 
@@ -79,9 +77,9 @@ public class MovimientoServiceImpl implements MovimientoService {
     }
 
     @Override
-    public List<ReporteCuentasDto> getReporteCuentas(String clienteId, Date startDate, Date endDate) throws BusinessLogicException {
-        logger.info("startDates=>: " + startDate);
-        logger.info("endDates=>: " + endDate);
+    public List<ReporteCuentasDto> getReporteCuentas(String clienteId, Date startDate, Date endDate)  {
+        logger.info("startDates=>: {}", startDate);
+        logger.info("endDates=>: {}", endDate);
         ClienteDto clienteDto = clienteRest.findByIdentificacion(clienteId);
         if (clienteDto == null) {
             throw new BusinessLogicException("Cliente no encontrado", "100");

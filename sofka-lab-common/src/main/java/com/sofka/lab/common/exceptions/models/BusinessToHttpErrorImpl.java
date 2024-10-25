@@ -1,6 +1,6 @@
 package com.sofka.lab.common.exceptions.models;
 
-import com.sofka.lab.common.exceptions.models.interfaces.BusinessToHttpFacade;
+import com.sofka.lab.common.exceptions.models.interfaces.BusinessToHttpError;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter
-public class BusinessToHttpErrorImpl implements BusinessToHttpFacade {
+public class BusinessToHttpErrorImpl implements BusinessToHttpError {
     private final Map<String, HttpStatus> businessToHttpErrorMapping;
 
     public BusinessToHttpErrorImpl(Map<String, HttpStatus> businessToHttpErrorMapping) {

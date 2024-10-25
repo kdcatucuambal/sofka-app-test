@@ -2,11 +2,10 @@ package com.sofka.lab.customers.app.controllers;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sofka.lab.common.models.dtos.ClienteDto;
+import com.sofka.lab.common.dtos.ClienteDto;
 import com.sofka.lab.customers.app.models.dao.ClienteDao;
 import com.sofka.lab.customers.app.models.entity.Cliente;
 import com.sofka.lab.customers.app.models.services.ClienteServiceImpl;
-import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.core.MediaType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 

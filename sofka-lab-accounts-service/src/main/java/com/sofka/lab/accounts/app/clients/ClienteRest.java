@@ -1,6 +1,6 @@
 package com.sofka.lab.accounts.app.clients;
 
-import com.sofka.lab.common.models.dtos.ClienteDto;
+import com.sofka.lab.common.dtos.ClienteDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

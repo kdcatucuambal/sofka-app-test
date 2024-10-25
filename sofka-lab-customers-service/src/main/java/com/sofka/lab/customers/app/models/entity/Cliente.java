@@ -1,6 +1,6 @@
 package com.sofka.lab.customers.app.models.entity;
 
-import com.sofka.lab.common.models.dtos.ClienteDto;
+import com.sofka.lab.common.dtos.ClienteDto;
 import jakarta.persistence.*;
 
 import java.io.Serial;

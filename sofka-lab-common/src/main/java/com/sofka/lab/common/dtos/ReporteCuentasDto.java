@@ -1,4 +1,4 @@
-package com.sofka.lab.common.models.dtos;
+package com.sofka.lab.common.dtos;
 
 import java.math.BigDecimal;
 import java.util.Date;

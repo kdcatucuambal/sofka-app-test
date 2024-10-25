@@ -19,7 +19,6 @@ public class SofkaLabAccountsServiceApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        //This method is executed when the application starts
         System.out.println("SofkaLabAccountsServiceApplication.run method executed");
     }
 }

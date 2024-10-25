@@ -1,9 +1,10 @@
 package com.sofka.lab.accounts.app.configuration;
 
 import com.sofka.lab.common.exceptions.models.BusinessToHttpErrorImpl;
-import com.sofka.lab.common.exceptions.models.interfaces.BusinessToHttpFacade;
+import com.sofka.lab.common.exceptions.models.interfaces.BusinessToHttpError;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 
 
@@ -17,7 +18,8 @@ public class AccountsConfiguration {
      * @return BusinessToHttpFacade
      */
     @Bean
-    public BusinessToHttpFacade httpCodeMapping() {
+    @Primary
+    public BusinessToHttpError httpCodeMapping() {
         var businessToHttpErrorMapping = new BusinessToHttpErrorImpl();
         businessToHttpErrorMapping.addNewMapping("100", HttpStatus.NOT_FOUND);
         businessToHttpErrorMapping.addNewMapping("101", HttpStatus.NOT_FOUND);

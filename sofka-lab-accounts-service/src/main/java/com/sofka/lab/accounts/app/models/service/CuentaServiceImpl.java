@@ -1,16 +1,13 @@
 package com.sofka.lab.accounts.app.models.service;
 
 import com.sofka.lab.accounts.app.clients.ClienteRest;
-import com.sofka.lab.accounts.app.exceptions.SofkaException;
 import com.sofka.lab.accounts.app.models.dao.CuentaDao;
 import com.sofka.lab.accounts.app.models.dao.MovimientoDao;
 import com.sofka.lab.accounts.app.models.dtos.CuentaDto;
 import com.sofka.lab.accounts.app.models.entity.Cuenta;
 import com.sofka.lab.accounts.app.models.entity.Movimiento;
+import com.sofka.lab.common.dtos.ClienteDto;
 import com.sofka.lab.common.exceptions.BusinessLogicException;
-import com.sofka.lab.common.models.dtos.ClienteDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,18 +18,20 @@ import java.util.Optional;
 @Service
 public class CuentaServiceImpl implements CuentaService {
 
-    @Autowired
-    private CuentaDao cuentaDao;
 
-    @Autowired
-    private ClienteRest clienteRest;
+    private final CuentaDao cuentaDao;
+    private final ClienteRest clienteRest;
+    private final MovimientoDao movimientoDao;
 
-    @Autowired
-    private MovimientoDao movimientoDao;
+    public CuentaServiceImpl(CuentaDao cuentaDao, ClienteRest clienteRest, MovimientoDao movimientoDao) {
+        this.cuentaDao = cuentaDao;
+        this.clienteRest = clienteRest;
+        this.movimientoDao = movimientoDao;
+    }
 
 
     @Override
-    public CuentaDto save(CuentaDto cuentaDto) throws BusinessLogicException {
+    public CuentaDto save(CuentaDto cuentaDto) {
         ClienteDto clienteDto = null;
         Long id = cuentaDto.getCliente().getId();
         if (id != null) {
@@ -77,7 +76,7 @@ public class CuentaServiceImpl implements CuentaService {
     }
 
     @Override
-    public CuentaDto findByNumero(String numeroCuenta) throws BusinessLogicException {
+    public CuentaDto findByNumero(String numeroCuenta) {
         Cuenta cuenta = cuentaDao.findByNumero(numeroCuenta);
         if (cuenta == null) {
             throw new BusinessLogicException("Cuenta no encontrada con el numero de cuenta proporcionado.", "102");
@@ -86,7 +85,7 @@ public class CuentaServiceImpl implements CuentaService {
     }
 
     @Override
-    public CuentaDto update(CuentaDto cuenta) throws BusinessLogicException {
+    public CuentaDto update(CuentaDto cuenta) {
         Optional<Cuenta> cuentaDbOptional = cuentaDao.findById(cuenta.getId());
 
         if (cuentaDbOptional.isEmpty()) {

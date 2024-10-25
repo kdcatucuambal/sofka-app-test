@@ -1,6 +1,6 @@
 package com.sofka.lab.customers.app.controllers;
 
-import com.sofka.lab.common.models.dtos.ClienteDto;
+import com.sofka.lab.common.dtos.ClienteDto;
 import com.sofka.lab.customers.app.models.entity.Cliente;
 import com.sofka.lab.customers.app.models.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;

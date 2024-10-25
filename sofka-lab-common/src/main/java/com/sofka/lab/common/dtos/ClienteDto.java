@@ -1,4 +1,4 @@
-package com.sofka.lab.common.models.dtos;
+package com.sofka.lab.common.dtos;
 
 
 public class ClienteDto {
