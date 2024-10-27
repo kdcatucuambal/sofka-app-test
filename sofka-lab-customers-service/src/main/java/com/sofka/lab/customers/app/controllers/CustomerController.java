@@ -28,8 +28,8 @@ public class CustomerController {
         return customerService.findById(id);
     }
 
-    @GetMapping("/by-identification/{id}")
-    public CustomerDto findByIdentification(@PathVariable String id) {
+    @GetMapping("/by-identification/{customerIdentification}")
+    public CustomerDto findByIdentification(@PathVariable String customerIdentification ) {
         return customerService.findByIdentification(id);
     }
 
