@@ -1,14 +1,14 @@
 package com.sofka.lab.accounts.app.models.dao;
 
-import com.sofka.lab.accounts.app.models.entity.Account;
+import com.sofka.lab.accounts.app.models.entity.AccountEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface AccountDao extends JpaRepository<Account, Long> {
+public interface AccountDao extends JpaRepository<AccountEntity, Long> {
 
 
-    @Query("select c from Account c where c.number = ?1")
-    Account findByNumber(String number);
+    @Query("select c from AccountEntity c where c.number = ?1")
+    AccountEntity findByNumber(String number);
 
 
 }

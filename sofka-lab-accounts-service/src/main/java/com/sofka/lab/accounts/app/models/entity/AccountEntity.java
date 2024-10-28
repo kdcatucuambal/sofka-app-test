@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "tbl_accounts")
-public class Account {
+public class AccountEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,7 @@ public class Account {
     private Long customerId;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Movement> movements;
+    private List<MovementEntity> movements;
 
 
 

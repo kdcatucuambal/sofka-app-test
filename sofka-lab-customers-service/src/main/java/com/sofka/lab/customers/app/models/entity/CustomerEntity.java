@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "tbl_clients")
-public class Customer extends Person implements Serializable {
+public class CustomerEntity extends Person implements Serializable {
 
 
     @Column(name = "cli_password", nullable = false)

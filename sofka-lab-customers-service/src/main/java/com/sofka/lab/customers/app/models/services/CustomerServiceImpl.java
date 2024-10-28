@@ -3,7 +3,7 @@ package com.sofka.lab.customers.app.models.services;
 import com.sofka.lab.common.dtos.CustomerDto;
 import com.sofka.lab.common.exceptions.BusinessLogicException;
 import com.sofka.lab.customers.app.models.dao.CustomerDao;
-import com.sofka.lab.customers.app.models.entity.Customer;
+import com.sofka.lab.customers.app.models.entity.CustomerEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDto save(Customer customer) {
+    public CustomerDto save(CustomerEntity customer) {
         if (customerDao.existsByIdentification(customer.getIdentification())) {
             throw new BusinessLogicException("El prospecto no puede ser creado: " + customer.getIdentification(), "301");
         }

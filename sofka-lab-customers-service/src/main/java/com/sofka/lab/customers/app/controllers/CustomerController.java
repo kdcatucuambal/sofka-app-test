@@ -1,7 +1,7 @@
 package com.sofka.lab.customers.app.controllers;
 
 import com.sofka.lab.common.dtos.CustomerDto;
-import com.sofka.lab.customers.app.models.entity.Customer;
+import com.sofka.lab.customers.app.models.entity.CustomerEntity;
 import com.sofka.lab.customers.app.models.services.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -30,12 +30,12 @@ public class CustomerController {
 
     @GetMapping("/by-identification/{customerIdentification}")
     public CustomerDto findByIdentification(@PathVariable String customerIdentification ) {
-        return customerService.findByIdentification(id);
+        return customerService.findByIdentification(customerIdentification);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomerDto save(@RequestBody Customer customer) {
+    public CustomerDto save(@RequestBody CustomerEntity customer) {
         return customerService.save(customer);
     }
 

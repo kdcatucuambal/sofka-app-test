@@ -4,7 +4,7 @@ package com.sofka.lab.customers.app.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sofka.lab.common.dtos.CustomerDto;
 import com.sofka.lab.customers.app.models.dao.CustomerDao;
-import com.sofka.lab.customers.app.models.entity.Customer;
+import com.sofka.lab.customers.app.models.entity.CustomerEntity;
 import com.sofka.lab.customers.app.models.services.CustomerServiceImpl;
 import jakarta.ws.rs.core.MediaType;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +43,7 @@ public class CustomerControllerTest {
 
     @Test
     public void testFindAll() throws Exception {
-        Customer customer1 = new Customer();
+        CustomerEntity customer1 = new CustomerEntity();
         customer1.setName("Juan");
         customer1.setAge(25);
         customer1.setIdentification("123456789");
@@ -54,7 +54,7 @@ public class CustomerControllerTest {
         customer1.setPhone("1234567890");
         customer1.setStatus(true);
         
-        Customer customer2 = new Customer();
+        CustomerEntity customer2 = new CustomerEntity();
         customer2.setName("Pedro");
         customer2.setAge(25);
         customer2.setIdentification("123456789");
@@ -77,7 +77,7 @@ public class CustomerControllerTest {
 
     @Test
     public void testFindById() throws Exception {
-        Customer customer = new Customer();
+        CustomerEntity customer = new CustomerEntity();
         customer.setName("Juan");
         customer.setAge(25);
         customer.setIdentification("123456789");
@@ -100,7 +100,7 @@ public class CustomerControllerTest {
     @Test
     public void testSaveCliente() throws Exception {
         // Configurar el mock
-        Customer customer = new Customer();
+        CustomerEntity customer = new CustomerEntity();
         customer.setName("Juan");
         customer.setAge(25);
         customer.setIdentification("123456789");
@@ -116,7 +116,7 @@ public class CustomerControllerTest {
         clienteOutputDto.setId(1L);
         clienteOutputDto.setName("Juan");
 
-        when(customerService.save(any(Customer.class))).thenReturn(clienteOutputDto);
+        when(customerService.save(any(CustomerEntity.class))).thenReturn(clienteOutputDto);
 
 
         // Realizar la solicitud POST y verificar el resultado

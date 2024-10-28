@@ -1,6 +1,6 @@
 package com.sofka.lab.accounts.app.models.dtos;
 
-import com.sofka.lab.accounts.app.models.entity.Account;
+import com.sofka.lab.accounts.app.models.entity.AccountEntity;
 import com.sofka.lab.common.dtos.CustomerDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,8 +37,8 @@ public class AccountDto {
         this.type = type;
     }
 
-    public Account toEntity() {
-        Account account = new Account();
+    public AccountEntity toEntity() {
+        AccountEntity account = new AccountEntity();
         account.setId(id);
         return account;
     }

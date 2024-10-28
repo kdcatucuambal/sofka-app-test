@@ -25,7 +25,7 @@ public class CustomerTest {
     void testFindByIdentificacion() {
         
 
-        Customer customer = new Customer();
+        CustomerEntity customer = new CustomerEntity();
         customer.setName("Juan");
         customer.setAge(25);
         customer.setIdentification("123456789");

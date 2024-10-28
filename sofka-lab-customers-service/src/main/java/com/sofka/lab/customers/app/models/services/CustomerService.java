@@ -1,7 +1,7 @@
 package com.sofka.lab.customers.app.models.services;
 
 import com.sofka.lab.common.dtos.CustomerDto;
-import com.sofka.lab.customers.app.models.entity.Customer;
+import com.sofka.lab.customers.app.models.entity.CustomerEntity;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public interface CustomerService {
 
   CustomerDto findById(Long id);
 
-  CustomerDto save(Customer customer);
+  CustomerDto save(CustomerEntity customer);
 
   CustomerDto update(CustomerDto customer);
 

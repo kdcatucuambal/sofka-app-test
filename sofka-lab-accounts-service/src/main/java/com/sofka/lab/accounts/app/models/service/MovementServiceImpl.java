@@ -4,7 +4,7 @@ import com.sofka.lab.accounts.app.clients.CustomerRest;
 import com.sofka.lab.accounts.app.models.dao.MovementDao;
 import com.sofka.lab.accounts.app.models.dtos.AccountDto;
 import com.sofka.lab.accounts.app.models.dtos.MovementDto;
-import com.sofka.lab.accounts.app.models.entity.Movement;
+import com.sofka.lab.accounts.app.models.entity.MovementEntity;
 import com.sofka.lab.common.exceptions.BusinessLogicException;
 import com.sofka.lab.common.dtos.CustomerDto;
 import com.sofka.lab.common.dtos.AccountReportDto;
@@ -33,7 +33,7 @@ public class MovementServiceImpl implements MovementService {
 
 
     @Override
-    public Movement save(Movement movement) {
+    public MovementEntity save(MovementEntity movement) {
         String accountNumber = movement.getAccount().getNumber();
         AccountDto accountDto = accountService.findByNumber(accountNumber);
         if (accountDto == null) {
@@ -57,7 +57,7 @@ public class MovementServiceImpl implements MovementService {
 
 
     @Override
-    public List<Movement> findAll() {
+    public List<MovementEntity> findAll() {
         return movementDao.findAll();
     }
 
@@ -67,7 +67,7 @@ public class MovementServiceImpl implements MovementService {
     }
 
     @Override
-    public Movement findById(Long id) {
+    public MovementEntity findById(Long id) {
         return movementDao.findById(id).orElse(null);
     }
 
