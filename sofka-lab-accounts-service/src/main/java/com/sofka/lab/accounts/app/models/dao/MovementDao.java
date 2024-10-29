@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -27,8 +28,8 @@ public interface MovementDao extends JpaRepository<MovementEntity, Long> {
     )
     List<AccountReportDto> report(
             @Param("customerId") Long customerId,
-            @Param("startDate") Date startDate,
-            @Param("endDate") Date endDate
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate
     );
 
 }

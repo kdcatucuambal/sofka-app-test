@@ -1,8 +1,6 @@
 package com.sofka.lab.accounts.app.controllers;
 
-import com.sofka.bank.objects.AccountPSTRq;
 import com.sofka.lab.accounts.app.models.dtos.AccountDto;
-import com.sofka.lab.accounts.app.models.entity.AccountEntity;
 import com.sofka.lab.accounts.app.models.service.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +19,7 @@ public class AccountController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AccountPSTRq save(@RequestBody AccountPSTRq accountPSTRq) {
-        var account = accountPSTRq.getAccount();
-        AccountEntity accountEntity = new AccountEntity();
-        accountEntity.setBalance(account.getBalance());
-        accountEntity.setType(account.getType());
-
+    public AccountDto save(@RequestBody AccountDto accountDto) {
         return accountService.save(accountDto);
     }
 

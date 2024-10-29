@@ -3,6 +3,8 @@ package com.sofka.lab.common.dtos;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 @Getter
@@ -14,7 +16,7 @@ import java.util.Date;
 public class AccountReportDto {
 
     private String customer;
-    private Date date;
+    private LocalDateTime date;
     private String accountNumber;
     private String type;
     private BigDecimal initialBalance;
@@ -22,7 +24,8 @@ public class AccountReportDto {
     private BigDecimal movement;
     private BigDecimal availableBalance;
 
-    public AccountReportDto(Date date, String accountNumber, String type, BigDecimal initialBalance, Boolean status, BigDecimal movement, BigDecimal availableBalance) {
+    public AccountReportDto(LocalDateTime date, String accountNumber, String type, BigDecimal
+            initialBalance, Boolean status, BigDecimal movement, BigDecimal availableBalance) {
         this.date = date;
         this.accountNumber = accountNumber;
         this.type = type;

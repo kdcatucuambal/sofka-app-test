@@ -16,7 +16,7 @@ public interface CustomerDao extends JpaRepository<CustomerEntity, Long> {
     CustomerDto findByIdDto(Long id);
 
    @Query("SELECT new com.sofka.lab.common.dtos.CustomerDto(c.id, c.identification, c.name, c.genre, " +
-            "c.age, c.address, c.phone, c.status) FROM CustomerEntity c")
+            "c.age, c.address, c.phone, c.status) FROM CustomerEntity c WHERE c.status = true")
     List<CustomerDto> findAllDto();
 
    @Query("SELECT new com.sofka.lab.common.dtos.CustomerDto(c.id, c.identification, c.name, c.genre, " +

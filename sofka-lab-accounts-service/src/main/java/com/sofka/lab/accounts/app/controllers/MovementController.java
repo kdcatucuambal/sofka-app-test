@@ -46,8 +46,9 @@ public class MovementController {
                                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
                                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
 
-        return movementService.getAccountReportByCustomerIdentification(customerIdentification, startDate, endDate);
+        //return movementService.getAccountReportByCustomerIdentification(customerIdentification, startDate, endDate);
 
+        return null;
     }
 
 

@@ -12,12 +12,12 @@ spring:
         - id: clients-service # Route ID
           uri: lb://sofka-lab-customers-service # Load balanced URI
           predicates: # Predicates
-            - Path=/sofka/api/v1/customers/** # Path predicate to match the incoming request
+            - Path=/sofka/api/v1/customers/**, /sofka/api/v1/customers-v2/** # Path predicate to match the incoming request
           filters:
             - StripPrefix=3 # Strip the prefix /api/products from the request URI
         - id: clients-service # Route ID
           uri: lb://sofka-lab-accounts-service # Load balanced URI
           predicates: # Predicates
-            - Path=/sofka/api/v1/accounts/**, /sofka/api/v1/movements/** # Path predicate to match the incoming request
+            - Path=/sofka/api/v1/accounts/**, /sofka/api/v1/movements/**, /sofka/api/v1/accounts-v2/**, /sofka/api/v1/transactions/** # Path predicate to match the incoming request
           filters:
             - StripPrefix=3 # Strip the prefix /api/products from the request URI

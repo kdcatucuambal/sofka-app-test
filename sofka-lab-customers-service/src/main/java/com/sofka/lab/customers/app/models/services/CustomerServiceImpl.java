@@ -59,7 +59,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void delete(Long id) {
-        customerDao.deleteById(id);
+        var customer = this.customerDao
+                .findById(id)
+                .orElseThrow(() -> new BusinessLogicException("El customer con el ID proporcionado no existe:  " + id, "300"));
+        customer.setStatus(false);
+        this.customerDao.save(customer);
     }
 
     @Override

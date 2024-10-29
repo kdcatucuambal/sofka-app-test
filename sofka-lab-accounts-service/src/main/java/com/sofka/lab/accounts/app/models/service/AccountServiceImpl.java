@@ -1,29 +1,28 @@
 package com.sofka.lab.accounts.app.models.service;
 
-import com.sofka.bank.objects.Account;
-import com.sofka.bank.objects.AccountPSTRq;
-import com.sofka.lab.accounts.app.clients.CustomerRest;
+import com.sofka.bank.objects.Customer;
+import com.sofka.lab.accounts.app.clients.CustomerRestAdapter;
 import com.sofka.lab.accounts.app.models.dao.AccountDao;
 import com.sofka.lab.accounts.app.models.dao.MovementDao;
 import com.sofka.lab.accounts.app.models.dtos.AccountDto;
 import com.sofka.lab.accounts.app.models.entity.AccountEntity;
 import com.sofka.lab.accounts.app.models.entity.MovementEntity;
-import com.sofka.lab.common.dtos.CustomerDto;
 import com.sofka.lab.common.exceptions.BusinessLogicException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
     private final AccountDao accountDao;
-    private final CustomerRest customerRest;
+    private final CustomerRestAdapter customerRest;
     private final MovementDao movementDao;
 
-    public AccountServiceImpl(AccountDao accountDao, CustomerRest customerRest, MovementDao movementDao) {
+    public AccountServiceImpl(AccountDao accountDao, CustomerRestAdapter customerRest, MovementDao movementDao) {
         this.accountDao = accountDao;
         this.customerRest = customerRest;
         this.movementDao = movementDao;
@@ -32,7 +31,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDto save(AccountDto accountDto) {
-        CustomerDto customerDto;
+        Customer customerDto;
         Long id = accountDto.getCustomer().getId();
         if (id != null) {
             customerDto = customerRest.findById(id);
@@ -50,7 +49,7 @@ public class AccountServiceImpl implements AccountService {
         accountEntity.setStatus(accountDto.getStatus()); //TODO: This should be generated, by default is true
         accountEntity.setType(accountDto.getType());
         accountEntity.setCustomerId(customerDto.getId());
-        accountEntity.setBalance(accountDto.getAvailableBalance());
+        accountEntity.setBalance(accountDto.getInitBalance());
         accountEntity = accountDao.save(accountEntity);
         accountDto.setId(accountEntity.getId());
 
@@ -59,7 +58,7 @@ public class AccountServiceImpl implements AccountService {
         movementEntity.setType("APERTURA");
         movementEntity.setBalance(accountEntity.getInitBalance());
         movementEntity.setAmount(accountEntity.getInitBalance());
-        movementEntity.setDate(new Date());
+        movementEntity.setDate(LocalDateTime.now());
         movementDao.save(movementEntity);
 
         return accountDto;
@@ -95,7 +94,7 @@ public class AccountServiceImpl implements AccountService {
 
         AccountEntity accountDb = accountDbOptional.get();
         //cuentaDb.setSaldo(cuenta.getSaldoDisponible());
-        accountDb.setNumber(accountDto.getNumber()); //TODO: Should'n be updated
+        //accountDb.setNumber(accountDto.getNumber()); //TODO: Should'n be updated
         accountDb.setType(accountDto.getType());
         accountDb.setStatus(accountDto.getStatus());
         accountDao.save(accountDb);
@@ -105,7 +104,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountDto> findAll() {
-        return accountDao.findAll().stream().map(AccountEntity::toDto).toList();
+        return accountDao.findByStatusTrue().stream().map(AccountEntity::toDto).toList();
     }
 
     @Override
@@ -118,7 +117,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void delete(Long id) {
-        //TODO: Delete logical database
-        accountDao.deleteById(id);
+        var accountEntity = this.accountDao.findById(id).orElseThrow(
+                () -> new BusinessLogicException("No existe la cuenta con el id proporcionado: " + id, "101")
+        );
+        accountEntity.setStatus(false);
+        accountDao.save(accountEntity);
     }
 }

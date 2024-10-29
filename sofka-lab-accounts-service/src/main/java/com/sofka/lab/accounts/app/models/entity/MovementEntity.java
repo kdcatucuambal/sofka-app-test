@@ -1,10 +1,13 @@
 package com.sofka.lab.accounts.app.models.entity;
 
 
+
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+
 
 @Entity
 @Table(name = "tbl_movements")
@@ -27,7 +30,7 @@ public class MovementEntity {
 
 
     @Column(name = "mov_date", nullable = false)
-    private Date date;
+    private LocalDateTime date;
 
     @ManyToOne
     @JoinColumn(name = "acc_id", nullable = false)
@@ -58,14 +61,6 @@ public class MovementEntity {
         this.balance = balance;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public String getType() {
         return type;
     }
@@ -80,5 +75,13 @@ public class MovementEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 }

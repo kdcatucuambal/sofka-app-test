@@ -1,5 +1,8 @@
 package com.sofka.lab.accounts.app.clients;
 
+import com.sofka.bank.objects.CustomerGETByCodeRs;
+import com.sofka.bank.objects.CustomerGETByIdentificationRs;
+import com.sofka.bank.objects.CustomerPSTRs;
 import com.sofka.lab.common.dtos.CustomerDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,9 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface CustomerRest {
 
     @GetMapping("/customers/{id}")
-    CustomerDto findById(@PathVariable Long id);
+    CustomerGETByCodeRs findById(@PathVariable Long id);
 
     @GetMapping("/customers/by-identification/{customerIdentification}")
-    CustomerDto findByIdentification(@PathVariable String customerIdentification);
+    CustomerGETByIdentificationRs findByIdentification(@PathVariable String customerIdentification);
 
 }

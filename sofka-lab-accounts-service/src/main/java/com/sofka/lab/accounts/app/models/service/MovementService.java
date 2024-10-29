@@ -4,6 +4,7 @@ import com.sofka.lab.accounts.app.models.dtos.MovementDto;
 import com.sofka.lab.accounts.app.models.entity.MovementEntity;
 import com.sofka.lab.common.dtos.AccountReportDto;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,6 @@ public interface MovementService {
 
     MovementEntity findById(Long id);
 
-    List<AccountReportDto> getAccountReportByCustomerIdentification(String identification, Date startDate, Date endDate);
+    List<AccountReportDto> getAccountReportByCustomerIdentification(String identification, LocalDateTime startDate, LocalDateTime endDate);
 
 }

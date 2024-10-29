@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/customers-v2")
+@RequestMapping("/customers")
 public class CustomerV2Controlller {
 
     private final CustomerHandlerService customerService;

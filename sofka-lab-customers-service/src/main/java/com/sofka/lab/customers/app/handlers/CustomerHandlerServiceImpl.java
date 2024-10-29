@@ -34,9 +34,7 @@ public class CustomerHandlerServiceImpl implements CustomerHandlerService {
                     .build();
             customers.add(customer);
         });
-        CustomerGETAllRs customerGETAllRs = new CustomerGETAllRs();
-        customerGETAllRs.setCustomers(customers);
-        return customerGETAllRs;
+        return new CustomerGETAllRs(customers);
     }
 
     @Override
@@ -54,6 +52,7 @@ public class CustomerHandlerServiceImpl implements CustomerHandlerService {
         customerEntity.setPhone(customerRq.getPhone());
 
         var customerDto = this.customerService.save(customerEntity);
+
         var customerPSTRs = new CustomerPSTRs();
         var customer = Customer.builder().id(customerDto.getId()).build();
         customerPSTRs.setCustomer(customer);
