@@ -43,12 +43,10 @@ public class MovementServiceImpl implements MovementService {
         if (accountDto == null) {
             throw new BusinessLogicException("Cuenta no encontrada para la transacción.", "200");
         }
-
         BigDecimal balance = accountDto.getAvailableBalance().add(movement.getAmount());
         if (balance.compareTo(BigDecimal.ZERO) < 0) {
             throw new BusinessLogicException("El saldo es insuficiente para la transacción.", "201");
         }
-        //AccountService.updateSaldo(numeroCuenta, saldo);
         movement.setBalance(movement.getBalance());
         movement.setBalance(balance);
         accountDto.setAvailableBalance(balance);

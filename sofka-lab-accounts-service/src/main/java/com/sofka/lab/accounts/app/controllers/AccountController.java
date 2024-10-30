@@ -1,54 +1,53 @@
 package com.sofka.lab.accounts.app.controllers;
 
-import com.sofka.lab.accounts.app.models.dtos.AccountDto;
-import com.sofka.lab.accounts.app.models.service.AccountService;
+import com.sofka.bank.objects.*;
+import com.sofka.lab.accounts.app.handlers.AccountHandlerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
 
-    private final AccountService accountService;
+    private final AccountHandlerService accountService;
 
-    public AccountController(AccountService accountService) {
+    public AccountController(AccountHandlerService accountService) {
         this.accountService = accountService;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AccountDto save(@RequestBody AccountDto accountDto) {
-        return accountService.save(accountDto);
+    public AccountPSTRs accountPST(@RequestBody AccountPSTRq accountPSTRq) {
+        return accountService.execAccountPST(accountPSTRq);
     }
 
     @GetMapping
-    public List<AccountDto> findAll() {
-        return accountService.findAll();
+    public AccountGETAllRs accountGETAll() {
+        return accountService.execAccountGETAll();
     }
 
     @GetMapping("/{id}")
-    public AccountDto findById(@PathVariable Long id) {
-        return accountService.findById(id);
+    public AccountGETByCodeRs accountGETByCode(@PathVariable Long id) {
+        return accountService.execAccountGETByCodeRs(id);
     }
 
     @GetMapping("/by-account-number/{accountNumber}")
-    public AccountDto findByAccountNumber(@PathVariable String accountNumber) {
-        return accountService.findByNumber(accountNumber);
+    public AccountGETByAccountNumberRs accountGETByAccountNumber(@PathVariable String accountNumber) {
+        return accountService.execAccountGETByAccountNumber(accountNumber);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public AccountDto update(@RequestBody AccountDto accountDto, @PathVariable Long id) {
-        accountDto.setId(id);
-        return accountService.update(accountDto);
+    public AccountPTCRs accountPTC(@RequestBody AccountPTCRq accountPTCRq, @PathVariable Long id) {
+        accountPTCRq.getAccount().setId(id);
+        return accountService.execAccountPTC(accountPTCRq);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        accountService.delete(id);
+    public AccountDELRs delete(@PathVariable Long id) {
+        return this.accountService.execAccountDEL(id);
     }
+
 
 }
