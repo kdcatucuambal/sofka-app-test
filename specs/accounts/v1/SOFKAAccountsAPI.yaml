@@ -1,0 +1,416 @@
+openapi: 3.0.1
+info:
+  title: dev1 - SOFKA Accounts Management API
+  description: "Este es el API del sistema para la administración de cuentas de los clientes. Puedes conseguir mas información en nuestro sitio web: [http://www.sofkacloud.com](http://www.sofkacloud.com)."
+  termsOfService: https://sofkacloud.com.co/terms
+  contact:
+    name: Kevin Catucuamba
+    url: https://kdcatucuamba.com
+    email: kevin.catucuamba@sofka.com.co
+  license:
+    name: MIT License
+    url: https://sofkacloud.com.co/license/mit
+  version: "1.0"
+servers:
+  - url: http://localhost:8090/sofka/api/v1
+    description: Server URL in Development environment
+  - url: http://localhost:8090/sofka/api/v1
+    description: Server URL in Production environment
+
+tags:
+  - name: Accounts
+    description: "Administración de las cuentas de ahorro / corriente de los clientes."
+
+paths:
+  /accounts:
+    get:
+      tags:
+        - Accounts
+      summary: "Consulta la información general de todas las cuentas."
+      description: "Retorna la información de todas las cuentas activas, no se aplica ningún otro filtro."
+      operationId: AccountGETAll
+      responses:
+        200:
+          description: "Se ha realizado la consulta de las cuentas de los clientes."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountGETAllRs"
+    post:
+      tags:
+        - Accounts
+      summary: "Crea una nueva cuenta para un cliente."
+      description: "Realiza la creación de una nueva cuenta para un cliente."
+      operationId: AccountPST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountPSTRq"
+        required: true
+      responses:
+        201:
+          description: "Cuenta creada exitosamente."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountPSTRs"
+
+  /accounts/by-account-number/{accountNumber}:
+    get:
+      tags:
+        - Accounts
+      summary: "Consulta la información de una cuenta por el número de cuenta."
+      description: "Retorna la información de una cuenta activa por el número de cuenta."
+      operationId: AccountGETByAccountNumber
+      parameters:
+        - name: accountNumber
+          in: path
+          description: "Número de cuenta."
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "Consulta exitosa."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountGETByAccountNumberRs"
+
+  /accounts/{id}:
+    get:
+      tags:
+        - Accounts
+      operationId: AccountGETByCode
+      summary: "Consulta la información de una cuenta por el código interno del sistema."
+      description: "Retorna la información de una cuenta activa por su código interno."
+      parameters:
+        - name: id
+          in: path
+          description: "Código interno de la cuenta."
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountGETByCodeRs"
+    delete:
+      tags:
+        - Accounts
+      summary: "Elimina una cuenta por el código interno."
+      description: "Realiza la eliminación lógica de una cuenta por el código interno del sistema."
+      operationId: AccountDEL
+      parameters:
+        - name: id
+          in: path
+          description: "Código interno de la cuenta."
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        201:
+          description: "Se ha eliminado exitosamente."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountDELRs"
+    patch:
+      tags:
+        - Accounts
+      summary: "Actualiza una cuenta por el código interno."
+      description: "Realiza la actualización de una cuenta por el código interno del sistema."
+      operationId: AccountPTC
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "Código interno de la cuenta."
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountPTCRq"
+        required: true
+      responses:
+        201:
+          description: "Cuenta actualizada exitosamente."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountPTCRs"
+
+components:
+  schemas:
+    AccountGETAllRs:
+      type: object
+      description: "Retorna una lista de las cuentas registradas en el sistema."
+      required:
+        - accounts
+      properties:
+        accounts:
+          type: array
+          items:
+            allOf:
+              - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Account"
+              - type: object
+            required:
+              - id
+              - number
+              - initBalance
+              - balance
+              - type
+              - status
+              - customer
+            properties:
+              id:
+                type: integer
+                description: "Código interno de la cuenta."
+                format: int64
+              number:
+                type: string
+                description: "Número de cuenta."
+              type:
+                type: string
+                description: "Tipo de cuenta. Ahorros | Corriente."
+              initBalance:
+                type: number
+                description: "Saldo inicial de la cuenta."
+              balance:
+                type: number
+                description: "Saldo actual de la cuenta."
+              status:
+                type: boolean
+                description: "Estado de la cuenta. True: activa, False: inactiva."
+              customer:
+                type: object
+                description: "Cliente asociado a la cuenta."
+                required:
+                  - id
+                properties:
+                  id:
+                    type: integer
+                    description: "Código interno del cliente."
+                    format: int64
+                  identification:
+                    type: string
+                    description: "Número de identificación del cliente."
+
+    AccountGETByAccountNumberRs:
+      type: object
+      description: "Respuesta del la consulta de una cuenta por el número de cuenta."
+      required:
+        - account
+      properties:
+        account:
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Account"
+          required:
+            - id
+            - number
+            - initBalance
+            - balance
+            - type
+            - status
+            - customer
+          properties:
+            id:
+              type: integer
+              description: "Código interno de la cuenta."
+              format: int64
+            number:
+              type: string
+              description: "Número de cuenta."
+            type:
+              type: string
+              description: "Tipo de cuenta. Ahorros | Corriente."
+            initBalance:
+              type: number
+              description: "Saldo inicial de la cuenta."
+            balance:
+              type: number
+              description: "Saldo actual de la cuenta."
+            status:
+              type: boolean
+              description: "Estado de la cuenta. True: activa, False: inactiva."
+            customer:
+              type: object
+              description: "Cliente asociado a la cuenta."
+              required:
+                - id
+              properties:
+                id:
+                  type: integer
+                  description: "Código interno del cliente."
+                  format: int64
+                identification:
+                  type: string
+                  description: "Número de identificación del cliente."
+
+    AccountGETByCodeRs:
+      type: object
+      description: "Respuesta del la consulta de una cuenta por el código interno del sistema."
+      required:
+        - account
+      properties:
+        account:
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Account"
+          required:
+            - id
+            - number
+            - initBalance
+            - balance
+            - type
+            - status
+            - customer
+          properties:
+            id:
+              type: integer
+              description: "Código interno de la cuenta."
+              format: int64
+            number:
+              type: string
+              description: "Número de cuenta."
+            type:
+              type: string
+              description: "Tipo de cuenta. Ahorros | Corriente."
+            initBalance:
+              type: number
+              description: "Saldo inicial de la cuenta."
+            balance:
+              type: number
+              description: "Saldo actual de la cuenta."
+            status:
+              type: boolean
+              description: "Estado de la cuenta. True: activa, False: inactiva."
+            customer:
+              type: object
+              description: "Cliente asociado a la cuenta."
+              required:
+                - id
+              properties:
+                id:
+                  type: integer
+                  description: "Código interno del cliente."
+                  format: int64
+                identification:
+                  type: string
+                  description: "Número de identificación del cliente."
+    
+    AccountPSTRs:
+      type: object
+      description: "Retorna el código interno de la cuenta creada."
+      required:
+        - account
+      properties:
+        account:
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Account"
+          required:
+            - id
+          properties:
+            id:
+              type: integer
+              description: "Código interno de la cuenta"
+              format: int64
+              nullable: true
+
+    AccountPSTRq:
+      type: object
+      description: "Datos necesarios para la creación de una cuenta."
+      required:
+        - account
+      properties:
+        account:
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Account"
+          required:
+            - customer
+            - initBalance
+            - type
+          properties:
+            customer:
+              type: object
+              description: "Cliente asociado a la cuenta."
+              required:
+                - id
+              properties:
+                id:
+                  type: integer
+                  description: "Código interno del cliente."
+                  format: int64
+                # identification:
+                #   type: string
+                #   description: "Número de identificación del cliente." #TODO: Allow send identification or customer id
+            type:
+              type: string
+              description: "Tipo de cuenta. Ahorros | Corriente."
+            initBalance:
+              type: number
+              description: "Saldo inicial de la cuenta."
+
+    AccountPTCRq:
+      type: object
+      description: "Datos necesarios para la actualización de una cuenta."
+      required:
+        - account
+      properties:
+        account:
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Account"
+          required:
+            - type
+            - status
+          properties:
+            type:
+              type: string
+              description: "Tipo de cuenta. Ahorros | Corriente."
+            status:
+              type: boolean
+              description: "Estado de la cuenta. True: activa, False: inactiva."
+
+    AccountPTCRs:
+      type: object
+      description: "Retorna el código interno de la cuenta actualizada."
+      required:
+        - account
+      properties:
+        account:
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Account"
+          required:
+            - id
+          properties:
+            id:
+              type: integer
+              description: "Código interno de la cuenta."
+              format: int64
+              nullable: true
+
+    AccountDELRs:
+      type: object
+      description: "Retorna el código interno de la cuenta eliminada lógicamente del sistema."
+      required:
+        - account
+      properties:
+        account:
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Account"
+          required:
+            - id
+          properties:
+            id:
+              type: integer
+              description: "Código interno de la cuenta."
+              format: int64
+              nullable: true

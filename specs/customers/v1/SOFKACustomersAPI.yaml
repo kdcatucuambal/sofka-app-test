@@ -1,0 +1,433 @@
+openapi: 3.0.1
+info:
+  title: dev1 - SOFKA Customers Management API
+  description: "Este es el API del sistema para la administración de clientes. Puedes conseguir mas información en nuestro sitio web: [http://www.sofkacloud.com](http://www.sofkacloud.com)."
+  termsOfService: https://sofkacloud.com.co/terms
+  contact:
+    name: Kevin Catucuamba
+    url: https://kdcatucuamba.com
+    email: kevin.catucuamba@sofka.com.co
+  license:
+    name: MIT License
+    url: https://sofkacloud.com.co/license/mit
+  version: "1.0"
+servers:
+  - url: http://localhost:8090/sofka/api/v1
+    description: Server URL in Development environment
+  - url: http://localhost:8090/sofka/api/v1
+    description: Server URL in Production environment
+
+tags:
+  - name: Customers
+    description: "Administración de clientes y prospectos."
+
+paths:
+  /customers:
+    get:
+      tags:
+        - Customers
+      summary: "Consulta la información de todos los clientes."
+      description: "Retorna la información de todos los clientes activos, no se aplica ningún otro filtro."
+      operationId: CustomerGETAll
+      responses:
+        200:
+          description: "Se ha realizado la consulta de los clientes."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerGETAllRs"
+    post:
+      tags:
+        - Customers
+      summary: "Crea un nuevo cliente."
+      description: "Realiza la creación de un nuevo cliente en el sistema y retorna el código interno del cliente creado."
+      operationId: CustomerPST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomerPSTRq"
+        required: true
+      responses:
+        201:
+          description: "Cliente creado exitosamente."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerPSTRs"
+
+  /customers/by-identification/{customerIdentification}:
+    get:
+      tags:
+        - Customers
+      summary: "Consulta la información de un cliente por su identificación."
+      description: "Retorna la información de un cliente activo por su identificación."
+      operationId: CustomerGETByIdentification
+      parameters:
+        - name: customerIdentification
+          in: path
+          description: "Número de identificación del cliente."
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "Consulta exitosa."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerGETByIdentificationRs"
+
+  /customers/{id}:
+    get:
+      tags:
+        - Customers
+      operationId: CustomerGETByCode
+      summary: "Consulta la información de un cliente por el código interno del sistema."
+      description: "Retorna la información de un cliente activo por su código interno."
+      parameters:
+        - name: id
+          in: path
+          description: "Código interno del cliente."
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerGETByCodeRs"
+    delete:
+      tags:
+        - Customers
+      summary: "Elimina un cliente por el código interno."
+      description: "Realiza la eliminación lógica de un cliente por el código interno del sistema."
+      operationId: CustomerDEL
+      parameters:
+        - name: id
+          in: path
+          description: "Código interno del cliente."
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        201:
+          description: "Se ha eliminado exitosamente."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerDELRs"
+    patch:
+      tags:
+        - Customers
+      summary: "Actualiza un cliente por el código interno."
+      description: "Realiza la actualización de un cliente por el código interno del sistema."
+      operationId: CustomerPTC
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "Código interno del cliente."
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomerPTCRq"
+        required: true
+      responses:
+        201:
+          description: "Cliente actualizado exitosamente."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerPTCRs"
+
+components:
+  schemas:
+    CustomerGETAllRs:
+      type: object
+      description: "Retorna una lista de los clientes registrados en el sistema."
+      required:
+        - customers
+      properties:
+        customers:
+          type: array
+          items:
+            allOf:
+              - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Customer"
+              - type: object
+            required:
+              - id
+              - name
+              - identification
+            properties:
+              id:
+                type: integer
+                description: "Código interno del cliente."
+                format: int64
+                nullable: true
+              name:
+                type: string
+                description: "Nombre y apellido del cliente."
+                nullable: true
+              genre:
+                type: string
+                description: "Género del cliente."
+                nullable: true
+              age:
+                type: integer
+                description: "Edad del cliente."
+                nullable: true
+              identification:
+                type: string
+                description: "Número de identificación del cliente (cédula)."
+                nullable: true
+              address:
+                type: string
+                description: "Dirección de residencia del cliente."
+                nullable: true
+              phone:
+                type: string
+                description: "Número de teléfono del cliente."
+                nullable: true
+              status:
+                type: boolean
+                description: "Estado del cliente. True: activo, False: inactivo."
+                nullable: true
+
+    CustomerGETByIdentificationRs:
+      type: object
+      description: "Respuesta del la consulta de un cliente por su identificación (número de cédula)"
+      required:
+        - customer
+      properties:
+        customer:
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Customer"
+          required:
+            - id
+            - name
+            - identification
+          properties:
+            id:
+              type: integer
+              description: "Código interno del cliente."
+              format: int64
+              nullable: true
+            name:
+              type: string
+              description: "Nombre y apellido del cliente."
+              nullable: true
+            genre:
+              type: string
+              description: "Género del cliente."
+              nullable: true
+            age:
+              type: integer
+              description: "Edad del cliente."
+              nullable: true
+            identification:
+              type: string
+              description: "Número de identificación del cliente (cédula)."
+              nullable: true
+            address:
+              type: string
+              description: "Dirección de residencia del cliente."
+              nullable: true
+            phone:
+              type: string
+              description: "Número de teléfono del cliente."
+              nullable: true
+            status:
+              type: boolean
+              description: "Estado del cliente. True: activo, False: inactivo."
+              nullable: true            
+
+    CustomerGETByCodeRs:
+      type: object
+      description: "Respuesta del la consulta de un cliente por el código interno del sistema."
+      required:
+        - customer
+      properties:
+        customer:
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Customer"
+          required:
+            - id
+            - name
+            - identification
+          properties:
+            id:
+              type: integer
+              description: "Código interno del cliente."
+              format: int64
+              nullable: true
+            name:
+              type: string
+              description: "Nombre y apellido del cliente."
+              nullable: true
+            genre:
+              type: string
+              description: "Género del cliente."
+              nullable: true
+            age:
+              type: integer
+              description: "Edad del cliente."
+              nullable: true
+            identification:
+              type: string
+              description: "Número de identificación del cliente (cédula)."
+              nullable: true
+            address:
+              type: string
+              description: "Dirección de residencia del cliente."
+              nullable: true
+            phone:
+              type: string
+              description: "Número de teléfono del cliente."
+              nullable: true
+            status:
+              type: boolean
+              description: "Estado del cliente. True: activo, False: inactivo."
+              nullable: true 
+
+    CustomerPSTRs:
+      type: object
+      description: "Retorna el código interno del cliente creado."
+      required:
+        - customer
+      properties:
+        customer:
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Customer"
+          required:
+            - id
+          properties:
+            id:
+              type: integer
+              description: "Código interno del cliente."
+              format: int64
+              nullable: true
+
+    CustomerPSTRq:
+      type: object
+      description: "Datos necesarios para la creación de un nuevo cliente."
+      required:
+        - customer
+      properties:
+        customer:
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Customer"
+          required:
+            - name
+            - identification
+            - phone
+            - password
+            - age
+            - status #TODO: Shouldn't be required
+            - genre
+            - address
+          properties:
+            name:
+              type: string
+              description: "Nombre y apellido del cliente."
+            genre:
+              type: string
+              description: "Género del cliente."
+            age:
+              type: integer
+              description: "Edad del cliente."
+            identification:
+              type: string
+              description: "Número de identificación del cliente (cédula)."
+            address:
+              type: string
+              description: "Dirección de residencia del cliente."
+            phone:
+              type: string
+              description: "Número de teléfono del cliente."
+            password:
+              type: string
+              description: "Contraseña de acceso al sistema."
+            status:
+              type: boolean
+              description: "Estado del cliente. True: activo, False: inactivo."
+
+    CustomerPTCRq:
+      type: object
+      description: "Datos necesarios para la actualización de un cliente."
+      required:
+        - customer
+      properties:
+        customer:
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Customer"
+          required:
+            - name
+            - phone
+            - age
+            - status #TODO: Shouldn't be required
+            - genre
+            - address
+          properties:
+            name:
+              type: string
+              description: "Nombre y apellido del cliente."
+            genre:
+              type: string
+              description: "Género del cliente."
+            age:
+              type: integer
+              description: "Edad del cliente."
+            address:
+              type: string
+              description: "Dirección de residencia del cliente."
+            phone:
+              type: string
+              description: "Número de teléfono del cliente."
+            status:
+              type: boolean
+              description: "Estado del cliente. True: activo, False: inactivo."
+
+    CustomerPTCRs:
+      type: object
+      description: "Retorna el código interno del cliente actualizado."
+      required:
+        - customer
+      properties:
+        customer:
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Customer"
+          required:
+            - id
+          properties:
+            id:
+              type: integer
+              description: "Código interno del cliente."
+              format: int64
+              nullable: true
+
+    CustomerDELRs:
+      type: object
+      description: "Retorna el código interno del cliente eliminado lógicamente del sistema."
+      required:
+        - customer
+      properties:
+        customer:
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Customer"
+          required:
+            - id
+          properties:
+            id:
+              type: integer
+              description: "Código interno del cliente."
+              format: int64
+              nullable: true

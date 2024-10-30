@@ -1,0 +1,419 @@
+openapi: 3.0.1
+info:
+  title: dev1 - SOFKA Account transactions Management API
+  description: "Este es el API del sistema para la administración de transacciones de saldo en cuentas de los clientes. Puedes conseguir mas información en nuestro sitio web: [http://www.sofkacloud.com](http://www.sofkacloud.com)."
+  termsOfService: https://sofkacloud.com.co/terms
+  contact:
+    name: Kevin Catucuamba
+    url: https://kdcatucuamba.com
+    email: kevin.catucuamba@sofka.com.co
+  license:
+    name: MIT License
+    url: https://sofkacloud.com.co/license/mit
+  version: "1.0"
+servers:
+  - url: http://localhost:8090/sofka/api/v1
+    description: Server URL in Development environment
+  - url: http://localhost:8090/sofka/api/v1
+    description: Server URL in Production environment
+
+tags:
+  - name: Transactions
+    description: "Administración de transacciones de cuentas de los clientes."
+
+paths:
+  /transactions:
+    get:
+      tags:
+        - Transactions
+      summary: "Consulta la información general de todas las transacciones."
+      description: "Retorna la información de todas las transacciones, no se aplica ningún otro filtro." #TODO: Pagination
+      operationId: TransactionGETAll
+      responses:
+        200:
+          description: "Se ha realizado la consulta de los transacciones."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionGETAllRs"
+    post:
+      tags:
+        - Transactions
+      summary: "Crea una transacción para una cuenta."
+      description: "Realiza la creación de una transacción para una cuenta de un cliente."
+      operationId: TransactionPST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransactionPSTRq"
+        required: true
+      responses:
+        201:
+          description: "Transacción creada exitosamente."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionPSTRs"
+
+  /transactions/by-account-number/{accountNumber}:
+    get:
+      tags:
+        - Transactions
+      summary: "Consulta todas las transacciones por el número de cuenta."
+      description: "Retorna la información de las transacciones de la cuenta."
+      operationId: TransactionGETByAccountNumber
+      parameters:
+        - name: accountNumber
+          in: path
+          description: "Número de cuenta."
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "Consulta exitosa."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionGETByAccountNumberRs"
+
+  /transactions/{id}:
+    get:
+      tags:
+        - Transactions
+      operationId: TransactionGETByCode
+      summary: "Consulta la información de una transacción por el código interno."
+      description: "Retorna la información de una transacción específica por el código interno."
+      parameters:
+        - name: id
+          in: path
+          description: "Código interno del transacción."
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionGETByCodeRs"
+
+  /transactions/report/by-customer-identification/{customerIdentification}:
+    get:
+      tags:
+        - Transactions
+      operationId: TransactionReportGETByCustomerIdentification
+      summary: "Consulta las transacciones de un cliente por su identificación."
+      description: "Retorna la información de los transacciones de un cliente por su identificación. Dado un rango de fechas."
+      parameters:
+        - name: customerIdentification
+          in: path
+          description: "Número de identificación del cliente."
+          required: true
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          description: "Fecha de inicio del rango de consulta."
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: endDate
+          in: query
+          description: "Fecha de fin del rango de consulta."
+          required: true
+          schema:
+            type: string
+            format: date-time
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionReportGETByCustomerIdentificationRs"
+
+components:
+  schemas:
+    TransactionGETAllRs:
+      type: object
+      description: "Retorna todos los movimientos de las cuentas de los clientes."
+      required:
+        - transactions
+      properties:
+        transactions:
+          type: array
+          items:
+            allOf:
+              - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Transaction"
+              - type: object
+            required:
+              - id
+              - date
+              - type
+              - amount
+              - balance
+              - account
+            properties:
+              id:
+                type: integer
+                description: "Código interno de la transacción."
+                format: int64
+              date:
+                type: string
+                description: "Fecha de la transacción."
+                format: date-time
+              type:
+                type: string
+                description: "Tipo de transacción. Débito | Crédito."
+              amount:
+                type: number
+                description: "Valor de la transacción."
+              balance:
+                type: number
+                description: "Saldo de la cuenta después de la transacción."
+              account:
+                type: object
+                description: "Cuenta asociada a la transacción."
+                required:
+                  - id
+                properties:
+                  id:
+                    type: integer
+                    description: "Código interno de la cuenta."
+                    format: int64
+                  number:
+                    type: string
+                    description: "Número de cuenta."
+                    nullable: true
+
+    TransactionGETByAccountNumberRs:
+      type: object
+      description: "Respuesta del la consulta de las transacciones de una cuenta."
+      required:
+        - transactions
+      properties:
+        transactions:
+          type: array
+          items:
+            allOf:
+              - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Transaction"
+              - type: object
+            required:
+              - id
+              - date
+              - type
+              - amount
+              - balance
+              - account
+            properties:
+              id:
+                type: integer
+                description: "Código interno de la transacción."
+                format: int64
+              date:
+                type: string
+                description: "Fecha de la transacción."
+                format: date-time
+              type:
+                type: string
+                description: "Tipo de transacción. Débito | Crédito."
+              amount:
+                type: number
+                description: "Valor de la transacción."
+              balance:
+                type: number
+                description: "Saldo de la cuenta después de la transacción."
+              # account:
+              #   type: object
+              #   description: "Cuenta asociada a la transacción."
+              #   required:
+              #     - id
+              #   properties:
+              #     id:
+              #       type: integer
+              #       description: "Código interno de la cuenta."
+              #       format: int64
+              #     identification:
+              #       type: string
+              #       description: "Número de identificación del cliente."
+
+    TransactionGETByCodeRs:
+      type: object
+      description: "Respuesta del la consulta de una transacción por el código interno del sistema."
+      required:
+        - transaction
+      properties:
+        transaction:
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Transaction"
+          required:
+            - id
+            - date
+            - type
+            - amount
+            - balance
+            - account
+          properties:
+            id:
+              type: integer
+              description: "Código interno de la transacción."
+              format: int64
+            date:
+              type: string
+              description: "Fecha de la transacción."
+              format: date-time
+            type:
+              type: string
+              description: "Tipo de transacción. Débito | Crédito."
+            amount:
+              type: number
+              description: "Valor de la transacción."
+            balance:
+              type: number
+              description: "Saldo de la cuenta después de la transacción."
+            account:
+              type: object
+              description: "Cuenta asociada a la transacción."
+              required:
+                - id
+              properties:
+                id:
+                  type: integer
+                  description: "Código interno de la cuenta."
+                  format: int64
+                number:
+                  type: string
+                  description: "Número de cuenta."
+                  nullable: true
+
+    TransactionPSTRs:
+      type: object
+      description: "Retorna el código interno de la transacción creada."
+      required:
+        - transaction
+      properties:
+        transaction:
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Transaction"
+          required:
+            - id
+          properties:
+            id:
+              type: integer
+              description: "Código interno de la transacción."
+
+    TransactionPSTRq:
+      type: object
+      description: "Datos necesarios para la creación de una transacción."
+      required:
+        - transaction
+      properties:
+        transaction:
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Transaction"
+          required:
+            - type
+            - amount
+            - account
+          properties:
+            type:
+              type: string
+              description: "Tipo de transacción. Débito | Crédito."
+            amount:
+              type: number
+              description: "Valor de la transacción."
+            account:
+              type: object
+              description: "Cuenta asociada a la transacción. Se especifica el código interno o el número de cuenta."
+              required:
+                - id
+                - number
+              properties:
+                id:
+                  type: integer
+                  description: "Código interno de la cuenta."
+                  format: int64
+                  nullable: true
+                number:
+                  type: string
+                  description: "Número de cuenta."
+                  nullable: true
+
+    TransactionReportGETByCustomerIdentificationRs:
+      type: object
+      description: "Respuesta de la consulta de los movimientos de un cliente por su identificación."
+      required:
+        - customer
+        - transactions
+      properties:
+        customer:
+          type: object
+          allOf:
+            - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Customer"
+          required:
+            - id
+            - identification
+            - name
+          properties:
+            id:
+              type: integer
+              description: "Código interno del cliente."
+              format: int64
+            identification:
+              type: string
+              description: "Número de identificación del cliente."
+            name:
+              type: string
+              description: "Nombre del cliente."
+        transactions:
+          type: array
+          items:
+            allOf:
+              - $ref: "SOFKADomains-v0-0-1.yaml#/components/schemas/Transaction"
+              - type: object
+            required:
+              - id
+              - date
+              - type
+              - amount
+              - balance
+              - account
+            properties:
+              id:
+                type: integer
+                description: "Código interno de la transacción."
+                format: int64
+              date:
+                type: string
+                description: "Fecha de la transacción."
+                format: date-time
+              type:
+                type: string
+                description: "Tipo de transacción. Débito | Crédito."
+              amount:
+                type: number
+                description: "Valor de la transacción."
+              balance:
+                type: number
+                description: "Saldo de la cuenta después de la transacción."
+              account:
+                type: object
+                description: "Cuenta asociada a la transacción."
+                required:
+                  - id
+                properties:
+                  id:
+                    type: integer
+                    description: "Código interno de la cuenta."
+                    format: int64
+                  number:
+                    type: string
+                    description: "Número de cuenta."
+                    nullable: true
+  
+

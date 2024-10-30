@@ -1,0 +1,91 @@
+openapi: 3.0.1
+info:
+  description: "This is the definition for general components API, Labs version"
+  version: "1.0.0"
+  title: "General Components Labs API"
+
+components:
+  schemas:
+    Customer:
+      type: object
+      description: "Entidad para manejar la información de los clientes y prospectos. "
+      properties:
+        id:
+          type: integer
+          description: "Código interno del cliente."
+          format: int64
+        name:
+          type: string
+          description: "Nombre y apellido del cliente."
+        genre:
+          type: string
+          description: "Género del cliente."
+        age:
+          type: integer
+          description: "Edad del cliente."
+        identification:
+          type: string
+          description: "Número de identificación del cliente (cédula)."
+        address:
+          type: string
+          description: "Dirección de residencia del cliente."
+        phone:
+          type: string
+          description: "Número de teléfono del cliente."
+        password:
+          type: string
+          description: "Contraseña de acceso al sistema del cliente."
+        status:
+          type: boolean
+          description: "Estado del cliente. True: activo, False: inactivo."
+
+    Account:
+      type: object
+      description: "Entidad para manejar la información de las cuentas de los clientes. "
+      properties:
+        id:
+          type: integer
+          description: "Código interno de la cuenta."
+          format: int64
+        number:
+          type: string
+          description: "Número de cuenta."
+        type: #TODO: Enum
+          type: string
+          description: "Tipo de cuenta. Ahorros | Corriente."
+        initBalance:
+          type: number
+          description: "Saldo inicial de la cuenta."
+        balance:
+          type: number
+          description: "Saldo actual de la cuenta."
+        status:
+          type: boolean
+          description: "Estado de la cuenta. True: activa, False: inactiva."
+        customer:
+          description: "Cliente asociado a la cuenta."
+          $ref: "#/components/schemas/Customer"
+
+    Transaction:
+      type: object
+      description: "Entidad para manejar la información de transacciones de las cuentas de los clientes."
+      properties:
+        id:
+          type: integer
+          description: "Código interno de la transacción."
+        type:
+          type: string
+          description: "Tipo de transacción. Débito | Crédito." #TODO: Enum, mejorar descripción
+        amount:
+          type: number
+          description: "Valor de la transacción."
+        balance:
+          type: number
+          description: "Saldo de la cuenta después de la transacción."
+        date:
+          type: string
+          format: date-time
+          description: "Fecha y hora de la transacción."
+        account:
+          description: "Cuenta asociada a la transacción."
+          $ref: "#/components/schemas/Account"
