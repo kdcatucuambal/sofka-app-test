@@ -6,6 +6,7 @@ import com.sofka.lab.customers.app.models.dao.CustomerDao;
 import com.sofka.lab.customers.app.models.entity.CustomerEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,11 +22,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CustomerDto> findAll() {
         return customerDao.findAllDto();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CustomerDto findById(Long id) {
         if (customerDao.findById(id).isPresent()) {
             return customerDao.findByIdDto(id);
@@ -34,6 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public CustomerDto save(CustomerEntity customer) {
         if (customerDao.existsByIdentification(customer.getIdentification())) {
             throw new BusinessLogicException("El prospecto no puede ser creado: " + customer.getIdentification(), "301");
@@ -44,6 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public CustomerDto update(CustomerDto customer) {
         this.customerDao.findById(customer.getId()).ifPresent(customer1 -> {
             customer1.setName(customer.getName());
@@ -58,6 +63,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         var customer = this.customerDao
                 .findById(id)
@@ -67,6 +73,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CustomerDto findByIdentification(String identification) {
         return customerDao.findByIdentificationDto(identification);
     }

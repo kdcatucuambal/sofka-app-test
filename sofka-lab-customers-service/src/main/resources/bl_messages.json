@@ -1,0 +1,14 @@
+{
+  "100": {
+    "messageEs": "El valor de la cuenta es incorrecto.",
+    "httpError": 404
+  },
+  "101": {
+    "messageEs": "Otro error.",
+    "httpError": 404
+  },
+  "102": {
+    "messageEs": "Error al insertar el usuario.",
+    "httpError": 404
+  }
+}

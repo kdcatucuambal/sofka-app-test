@@ -13,6 +13,7 @@ import com.sofka.lab.common.dtos.AccountReportDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -37,6 +38,7 @@ public class MovementServiceImpl implements MovementService {
 
 
     @Override
+    @Transactional
     public MovementEntity save(MovementEntity movement) {
         String accountNumber = movement.getAccount().getNumber();
         AccountDto accountDto = accountService.findByNumber(accountNumber);
@@ -59,22 +61,27 @@ public class MovementServiceImpl implements MovementService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public List<MovementEntity> findAll() {
         return movementDao.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MovementDto> findByAccountNumber(String accountNumber) {
         return movementDao.findByAccountNumber(accountNumber);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public MovementEntity findById(Long id) {
         return movementDao.findById(id).orElse(null);
     }
 
     @Override
-    public List<AccountReportDto> getAccountReportByCustomerIdentification(String customerId, LocalDateTime startDate, LocalDateTime endDate)  {
+    @Transactional(readOnly = true)
+    public List<AccountReportDto> getAccountReportByCustomerIdentification(
+            String customerId, LocalDateTime startDate, LocalDateTime endDate) {
         logger.info("startDates=>: {}", startDate);
         logger.info("endDates=>: {}", endDate);
         Customer customerDto = customerRest.findByIdentification(customerId);
@@ -82,7 +89,6 @@ public class MovementServiceImpl implements MovementService {
             throw new BusinessLogicException("Cliente no encontrado para generar el reporte.", "202");
         }
         List<AccountReportDto> reporteCuentas = movementDao.report(customerDto.getId(), startDate, endDate);
-//        List<ReporteCuentasDto> reporteCuentas = MovementDao.report(clienteDto.getId());
         reporteCuentas.forEach(r -> r.setCustomer(customerDto.getName()));
         return reporteCuentas;
     }

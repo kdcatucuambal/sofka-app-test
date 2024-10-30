@@ -1,7 +1,9 @@
 package com.sofka.lab.customers.app.configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sofka.lab.common.exceptions.models.BusinessToHttpErrorImpl;
 import com.sofka.lab.common.exceptions.models.interfaces.BusinessToHttpError;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -17,5 +19,7 @@ public class CustomersConfiguration {
         businessToHttpErrorMapping.addNewMapping("300", HttpStatus.NOT_FOUND);
         return businessToHttpErrorMapping;
     }
+
+
 
 }

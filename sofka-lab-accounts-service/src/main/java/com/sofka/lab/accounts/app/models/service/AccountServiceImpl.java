@@ -9,6 +9,7 @@ import com.sofka.lab.accounts.app.models.entity.AccountEntity;
 import com.sofka.lab.accounts.app.models.entity.MovementEntity;
 import com.sofka.lab.common.exceptions.BusinessLogicException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -30,6 +31,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
+    @Transactional
     public AccountDto save(AccountDto accountDto) {
         Customer customerDto;
         Long id = accountDto.getCustomer().getId();
@@ -65,6 +67,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public AccountDto findById(Long id) {
         AccountEntity cuenta = accountDao.findById(id).orElse(null);
         if (cuenta == null) {
@@ -75,6 +78,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public AccountDto findByNumber(String accountNumber) {
         AccountEntity cuenta = accountDao.findByNumber(accountNumber);
         if (cuenta == null) {
@@ -85,6 +89,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public AccountDto update(AccountDto accountDto) {
         Optional<AccountEntity> accountDbOptional = accountDao.findById(accountDto.getId());
 
@@ -103,11 +108,13 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public List<AccountDto> findAll() {
         return accountDao.findByStatusTrue().stream().map(AccountEntity::toDto).toList();
     }
 
     @Override
+    @Transactional
     public void updateBalance(String number, BigDecimal balance) {
         AccountEntity account = this.accountDao.findByNumber(number);
         account.setBalance(balance);
@@ -116,6 +123,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
+    @Transactional
     public void delete(Long id) {
         var accountEntity = this.accountDao.findById(id).orElseThrow(
                 () -> new BusinessLogicException("No existe la cuenta con el id proporcionado: " + id, "101")

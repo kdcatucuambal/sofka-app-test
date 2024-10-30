@@ -1,55 +1,58 @@
 package com.sofka.lab.customers.app.controllers;
 
-import com.sofka.lab.common.dtos.CustomerDto;
-import com.sofka.lab.customers.app.models.entity.CustomerEntity;
-import com.sofka.lab.customers.app.models.services.CustomerService;
+import com.sofka.bank.objects.*;
+import com.sofka.lab.customers.app.extras.MessageService;
+import com.sofka.lab.customers.app.handlers.CustomerHandlerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/customers-deprecated")
+@RequestMapping("/customers")
 public class CustomerController {
 
-    private final CustomerService customerService;
+    private final CustomerHandlerService customerService;
 
-    public CustomerController(CustomerService customerService) {
+    private final MessageService messageService;
+
+
+    public CustomerController(CustomerHandlerService customerService, MessageService messageService) {
         this.customerService = customerService;
+        this.messageService = messageService;
     }
 
     @GetMapping
-    public List<CustomerDto> findAll() {
-        return customerService.findAll();
+    public CustomerGETAllRs customerGETAll() {
+        System.out.println(this.messageService.getMessages());
+        return this.customerService.execCustomerGETAll();
     }
 
     @GetMapping("/{id}")
-    public CustomerDto findById(@PathVariable Long id) {
-        return customerService.findById(id);
+    public CustomerGETByCodeRs customerGETByCode(@PathVariable Long id) {
+        return customerService.execCustomerGETByCode(id);
     }
 
     @GetMapping("/by-identification/{customerIdentification}")
-    public CustomerDto findByIdentification(@PathVariable String customerIdentification ) {
-        return customerService.findByIdentification(customerIdentification);
+    public CustomerGETByIdentificationRs customerGETByIdentification(@PathVariable String customerIdentification) {
+        return customerService.execCustomerGETByIdentification(customerIdentification);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomerDto save(@RequestBody CustomerEntity customer) {
-        return customerService.save(customer);
+    public CustomerPSTRs customerPST(@RequestBody CustomerPSTRq customer) {
+        return customerService.execCustomerPST(customer);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        customerService.delete(id);
+    public CustomerDELRs customerDEL(@PathVariable Long id) {
+        return this.customerService.execCustomerDEL(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomerDto update(@RequestBody CustomerDto cliente, @PathVariable Long id) {
-        cliente.setId(id);
-        return customerService.update(cliente);
+    public CustomerPTCRs customerPTC(@RequestBody CustomerPTCRq customerPTCRq, @PathVariable Long id) {
+        customerPTCRq.getCustomer().setId(id);
+        return customerService.execCustomerPTC(customerPTCRq);
     }
+
 
 }
