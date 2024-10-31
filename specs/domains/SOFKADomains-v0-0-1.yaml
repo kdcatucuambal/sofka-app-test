@@ -19,7 +19,11 @@ components:
           description: "Nombre y apellido del cliente."
         genre:
           type: string
-          description: "Género del cliente."
+          description: >
+            'Género del cliente:'
+              * M: Masculino
+              * F: Femenino
+          enum: [M, F]
         age:
           type: integer
           description: "Edad del cliente."
@@ -50,9 +54,13 @@ components:
         number:
           type: string
           description: "Número de cuenta."
-        type: #TODO: Enum
+        type:
           type: string
-          description: "Tipo de cuenta. Ahorros | Corriente."
+          description: >
+            'Tipo de cuenta:'
+              * AHO: Ahorros
+              * CTE: Corriente
+          enum: [AHO, CTE]
         initBalance:
           type: number
           description: "Saldo inicial de la cuenta."
@@ -75,7 +83,11 @@ components:
           description: "Código interno de la transacción."
         type:
           type: string
-          description: "Tipo de transacción. Débito | Crédito." #TODO: Enum, mejorar descripción
+          description: >
+            'Tipo de transacción:'
+              * DBT: Débito
+              * CRE: Crédito
+          enum: [DBT, CRE]
         amount:
           type: number
           description: "Valor de la transacción."

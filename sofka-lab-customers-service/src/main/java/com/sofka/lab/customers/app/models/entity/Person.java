@@ -17,19 +17,19 @@ public abstract class Person implements Serializable {
     @Column(name = "per_name", nullable = false)
     private String name;
 
-    @Column(name = "per_genre", nullable = false)
+    @Column(name = "per_genre", nullable = false, length = 1)
     private String genre;
 
     @Column(name = "per_age", nullable = false)
     private Integer age;
 
-    @Column(name = "per_identification", nullable = false, unique = true)
+    @Column(name = "per_identification", nullable = false, unique = true, length = 13)
     private String identification;
 
     @Column(name = "per_address", nullable = false)
     private String address;
 
-    @Column(name = "per_phone", nullable = false)
+    @Column(name = "per_phone", nullable = false, length = 15)
     private String phone;
 
     public String getAddress() {

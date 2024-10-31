@@ -1,0 +1,17 @@
+[
+  {
+    "id": 100,
+    "message": "El cliente asociado no existe.",
+    "httpStatus": 404
+  },
+  {
+    "id": 101,
+    "message": "No existe la cuenta con el id proprocionado.",
+    "httpStatus": 404
+  },
+  {
+    "id": 102,
+    "message": "No existe la cuenta con el númerp proprocionado.",
+    "httpStatus": 404
+  }
+]

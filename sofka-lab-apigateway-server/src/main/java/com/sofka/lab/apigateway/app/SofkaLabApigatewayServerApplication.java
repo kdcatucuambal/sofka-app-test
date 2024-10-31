@@ -12,4 +12,5 @@ public class SofkaLabApigatewayServerApplication {
         SpringApplication.run(SofkaLabApigatewayServerApplication.class, args);
     }
 
+
 }

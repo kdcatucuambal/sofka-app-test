@@ -18,7 +18,7 @@ public class MovementEntity {
     @Column(name = "mov_id", nullable = false)
     private Long id;
 
-    @Column(name = "mov_type", nullable = false)
+    @Column(name = "mov_type", nullable = false, length = 3)
     private String type;
 
 

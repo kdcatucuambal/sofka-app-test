@@ -1,14 +1,14 @@
-package com.sofka.lab.accounts.app.models.service;
+package com.sofka.lab.accounts.app.models.service.movements;
 
 import com.sofka.bank.objects.Customer;
-import com.sofka.lab.accounts.app.clients.CustomerRest;
 import com.sofka.lab.accounts.app.clients.CustomerRestAdapter;
 import com.sofka.lab.accounts.app.models.dao.MovementDao;
 import com.sofka.lab.accounts.app.models.dtos.AccountDto;
 import com.sofka.lab.accounts.app.models.dtos.MovementDto;
 import com.sofka.lab.accounts.app.models.entity.MovementEntity;
+import com.sofka.lab.accounts.app.models.service.accounts.AccountService;
+import com.sofka.lab.accounts.app.models.service.movements.strategies.TransactionStrategy;
 import com.sofka.lab.common.exceptions.BusinessLogicException;
-import com.sofka.lab.common.dtos.CustomerDto;
 import com.sofka.lab.common.dtos.AccountReportDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class MovementServiceImpl implements MovementService {
@@ -30,33 +30,44 @@ public class MovementServiceImpl implements MovementService {
     private final AccountService accountService;
     private final CustomerRestAdapter customerRest;
 
-    public MovementServiceImpl(MovementDao movementDao, AccountService accountService, CustomerRestAdapter customerRest) {
+    private final Map<String, TransactionStrategy> trnStrategies;
+
+    public MovementServiceImpl(MovementDao movementDao, AccountService accountService, CustomerRestAdapter customerRest,
+                               List<TransactionStrategy> strategyList) {
         this.movementDao = movementDao;
         this.accountService = accountService;
         this.customerRest = customerRest;
+        System.out.println("strategyList: " + strategyList);
+        System.out.println("strategyList.size(): " + strategyList.size());
+        this.trnStrategies = strategyList.stream()
+                .collect(Collectors.toMap(
+                        TransactionStrategy::getType,
+                        strategy -> strategy
+                ));
     }
 
 
     @Override
     @Transactional
     public MovementEntity save(MovementEntity movement) {
+
+        if (movement.getAmount() != null && movement.getAmount().compareTo(BigDecimal.valueOf(0.0)) < 0) {
+            throw new BusinessLogicException("El monto de la transacción es incorrecta.", "202");
+        }
         String accountNumber = movement.getAccount().getNumber();
-        AccountDto accountDto = accountService.findByNumber(accountNumber);
+        AccountDto accountDto = null;
+        if (accountNumber != null) {
+            accountDto = accountService.findByNumber(accountNumber);
+        } else {
+            accountDto = accountService.findById(movement.getAccount().getId());
+        }
         if (accountDto == null) {
             throw new BusinessLogicException("Cuenta no encontrada para la transacción.", "200");
         }
-        BigDecimal balance = accountDto.getAvailableBalance().add(movement.getAmount());
-        if (balance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new BusinessLogicException("El saldo es insuficiente para la transacción.", "201");
-        }
-        movement.setBalance(movement.getBalance());
-        movement.setBalance(balance);
-        accountDto.setAvailableBalance(balance);
-        movement.setAccount(accountDto.toEntity());
-        movement.setDate(LocalDateTime.now());
-        movement.setType(movement.getAmount().compareTo(BigDecimal.ZERO) > 0 ? "DEPOSITO" : "RETIRO");
-        accountService.updateBalance(accountNumber, balance);
-        return movementDao.save(movement);
+        TransactionStrategy strategy = trnStrategies.get(movement.getType());
+        MovementEntity movementEntity = strategy.process(movement, accountDto);
+        accountService.updateBalance(accountNumber, accountDto.getAvailableBalance());
+        return movementDao.save(movementEntity);
     }
 
 
@@ -82,8 +93,6 @@ public class MovementServiceImpl implements MovementService {
     @Transactional(readOnly = true)
     public List<AccountReportDto> getAccountReportByCustomerIdentification(
             String customerId, LocalDateTime startDate, LocalDateTime endDate) {
-        logger.info("startDates=>: {}", startDate);
-        logger.info("endDates=>: {}", endDate);
         Customer customerDto = customerRest.findByIdentification(customerId);
         if (customerDto == null) {
             throw new BusinessLogicException("Cliente no encontrado para generar el reporte.", "202");

@@ -1,8 +1,8 @@
 package com.sofka.lab.customers.app.handlers;
 
 import com.sofka.bank.objects.*;
-import com.sofka.lab.common.dtos.CustomerDto;
 import com.sofka.lab.customers.app.models.entity.CustomerEntity;
+import com.sofka.lab.customers.app.models.entity.dtos.CustomerDto;
 import com.sofka.lab.customers.app.models.services.CustomerService;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +29,7 @@ public class CustomerHandlerServiceImpl implements CustomerHandlerService {
                     .status(customerDto.getStatus())
                     .phone(customerDto.getPhone())
                     .address(customerDto.getAddress())
-                    .genre(customerDto.getGenre())
+                    .genre(Customer.GenreEnum.valueOf(customerDto.getGenre()))
                     .identification(customerDto.getIdentification())
                     .build();
             customers.add(customer);
@@ -46,13 +46,13 @@ public class CustomerHandlerServiceImpl implements CustomerHandlerService {
         customerEntity.setStatus(customerRq.getStatus());
         customerEntity.setAddress(customerRq.getAddress());
         customerEntity.setAge(customerRq.getAge());
-        customerEntity.setGenre(customerRq.getGenre());
+        customerEntity.setGenre(customerRq.getGenre().getValue());
         customerEntity.setIdentification(customerRq.getIdentification());
         customerEntity.setName(customerRq.getName());
         customerEntity.setPhone(customerRq.getPhone());
 
         var customerDto = this.customerService.save(customerEntity);
-
+        System.out.println("CUSTOMER_DTO: " + customerDto.toString());
         var customerPSTRs = new CustomerPSTRs();
         var customer = Customer.builder().id(customerDto.getId()).build();
         customerPSTRs.setCustomer(customer);
@@ -62,15 +62,15 @@ public class CustomerHandlerServiceImpl implements CustomerHandlerService {
     @Override
     public CustomerPTCRs execCustomerPTC(CustomerPTCRq customerPTCRq) {
         var customerRq = customerPTCRq.getCustomer();
-        CustomerDto customerDto = new CustomerDto();
-        customerDto.setId(customerRq.getId());
-        customerDto.setName(customerRq.getName());
-        customerDto.setAge(customerRq.getAge());
-        customerDto.setStatus(customerRq.getStatus());
-        customerDto.setPhone(customerRq.getPhone());
-        customerDto.setAddress(customerRq.getAddress());
-        customerDto.setGenre(customerRq.getGenre());
-        //customerDto.setIdentification(customerRq.getIdentification());
+        CustomerDto customerDto = CustomerDto.builder()
+                .id(customerRq.getId())
+                .name(customerRq.getName())
+                .age(customerRq.getAge())
+                .status(customerRq.getStatus())
+                .phone(customerRq.getPhone())
+                .address(customerRq.getAddress())
+                .genre(customerRq.getGenre().getValue())
+                .build();
         this.customerService.update(customerDto);
         return new CustomerPTCRs(Customer.builder().id(customerDto.getId()).build());
     }
@@ -102,7 +102,7 @@ public class CustomerHandlerServiceImpl implements CustomerHandlerService {
                 .status(customerDto.getStatus())
                 .phone(customerDto.getPhone())
                 .address(customerDto.getAddress())
-                .genre(customerDto.getGenre())
+                .genre(Customer.GenreEnum.valueOf(customerDto.getGenre()))
                 .identification(customerDto.getIdentification())
                 .build();
     }

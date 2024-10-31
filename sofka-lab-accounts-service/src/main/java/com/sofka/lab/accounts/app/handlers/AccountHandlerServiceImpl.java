@@ -1,10 +1,15 @@
 package com.sofka.lab.accounts.app.handlers;
 
 import com.sofka.bank.objects.*;
+import com.sofka.lab.accounts.app.handlers.validators.AccountValidator;
 import com.sofka.lab.accounts.app.models.dtos.AccountDto;
-import com.sofka.lab.accounts.app.models.service.AccountService;
+import com.sofka.lab.accounts.app.models.service.accounts.AccountService;
 import com.sofka.lab.common.dtos.CustomerDto;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 
 import java.util.ArrayList;
 
@@ -45,13 +50,15 @@ public class AccountHandlerServiceImpl implements AccountHandlerService {
         customerDto.setId(accountRq.getCustomer().getId());
         accountDto.setCustomer(customerDto);
         accountDto.setNumber(accountRq.getNumber()); //TODO: Number should be generated
-        accountDto.setType(accountRq.getType());
+        accountDto.setType(accountRq.getType().getValue());
         accountDto.setStatus(accountRq.getStatus());
         accountDto.setInitBalance(accountRq.getInitBalance());
         accountDto.setAvailableBalance(accountRq.getBalance());
         accountDto = this.accountService.save(accountDto);
         return new AccountPSTRs(Account.builder().id(accountDto.getId()).build());
     }
+
+
 
     @Override
     public AccountDELRs execAccountDEL(Long code) {
@@ -63,7 +70,7 @@ public class AccountHandlerServiceImpl implements AccountHandlerService {
     public AccountPTCRs execAccountPTC(AccountPTCRq accountPTCRq) {
         var accountRq = accountPTCRq.getAccount();
         var accountDto = new AccountDto();
-        accountDto.setType(accountRq.getType());
+        accountDto.setType(accountRq.getType().getValue());
         accountDto.setStatus(accountRq.getStatus());
         accountDto.setId(accountRq.getId());
         accountDto = this.accountService.update(accountDto);
@@ -77,7 +84,7 @@ public class AccountHandlerServiceImpl implements AccountHandlerService {
                 .balance(accountDto.getAvailableBalance())
                 .number(accountDto.getNumber())
                 .status(accountDto.getStatus())
-                .type(accountDto.getType())
+                .type(Account.TypeEnum.valueOf(accountDto.getType()))
                 .initBalance(accountDto.getInitBalance())
                 .customer(customer)
                 .build();

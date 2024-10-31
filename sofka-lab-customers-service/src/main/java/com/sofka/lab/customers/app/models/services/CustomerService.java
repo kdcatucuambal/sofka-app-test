@@ -1,7 +1,7 @@
 package com.sofka.lab.customers.app.models.services;
 
-import com.sofka.lab.common.dtos.CustomerDto;
 import com.sofka.lab.customers.app.models.entity.CustomerEntity;
+import com.sofka.lab.customers.app.models.entity.dtos.CustomerDto;
 
 import java.util.List;
 

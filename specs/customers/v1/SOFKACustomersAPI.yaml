@@ -179,7 +179,11 @@ components:
                 nullable: true
               genre:
                 type: string
-                description: "Género del cliente."
+                description: >
+                  'Género del cliente:'
+                    * M: Masculino
+                    * F: Femenino
+                enum: [M, F]
                 nullable: true
               age:
                 type: integer
@@ -227,7 +231,11 @@ components:
               nullable: true
             genre:
               type: string
-              description: "Género del cliente."
+              description: >
+                'Género del cliente:'
+                  * M: Masculino
+                  * F: Femenino
+              enum: [M, F]
               nullable: true
             age:
               type: integer
@@ -275,7 +283,11 @@ components:
               nullable: true
             genre:
               type: string
-              description: "Género del cliente."
+              description: >
+                'Género del cliente:'
+                  * M: Masculino
+                  * F: Femenino
+              enum: [M, F]
               nullable: true
             age:
               type: integer
@@ -340,7 +352,11 @@ components:
               description: "Nombre y apellido del cliente."
             genre:
               type: string
-              description: "Género del cliente."
+              description: >
+                'Género del cliente:'
+                  * M: Masculino
+                  * F: Femenino
+              enum: [M, F]
             age:
               type: integer
               description: "Edad del cliente."
@@ -382,7 +398,11 @@ components:
               description: "Nombre y apellido del cliente."
             genre:
               type: string
-              description: "Género del cliente."
+              description: >
+                'Género del cliente:'
+                  * M: Masculino
+                  * F: Femenino
+              enum: [M, F]
             age:
               type: integer
               description: "Edad del cliente."

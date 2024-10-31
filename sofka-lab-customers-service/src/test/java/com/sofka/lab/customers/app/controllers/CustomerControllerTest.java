@@ -56,7 +56,7 @@ public class CustomerControllerTest {
                 .identification("123456789")
                 .address("Calle 123")
                 .id(1L)
-                .genre("Masculino")
+                .genre(Customer.GenreEnum.valueOf("M"))
                 .phone("1234567890")
                 .status(true).build();
         var customer2 = Customer.builder()
@@ -65,7 +65,7 @@ public class CustomerControllerTest {
                 .age(25)
                 .identification("123456789")
                 .address("Calle 123")
-                .genre("Masculino")
+                .genre(Customer.GenreEnum.valueOf("M"))
                 .phone("123456789x")
                 .status(true).build();
         CustomerGETAllRs customerGETAllRs = new CustomerGETAllRs();
@@ -88,7 +88,7 @@ public class CustomerControllerTest {
                 .identification("123456789")
                 .address("Calle 123")
                 .id(1L)
-                .genre("Masculino")
+                .genre(Customer.GenreEnum.valueOf("M"))
                 .phone("1234567890")
                 .status(true).build();
         customerGETByCodeRs.setCustomer(customer);

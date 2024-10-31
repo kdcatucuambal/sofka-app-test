@@ -140,7 +140,7 @@ components:
             properties:
               id:
                 type: integer
-                description: "Código interno del cliente.s"
+                description: "Código interno del cliente."
                 format: int64
                 nullable: true
               name:
@@ -149,7 +149,11 @@ components:
                 nullable: true
               genre:
                 type: string
-                description: "Género del cliente."
+                description: >
+                  'Género del cliente:'
+                    * M: Masculino
+                    * F: Femenino
+                enum: [M, F]
                 nullable: true
               age:
                 type: integer
@@ -188,7 +192,7 @@ components:
           properties:
             id:
               type: integer
-              description: "Código interno del cliente.s"
+              description: "Código interno del cliente."
               format: int64
               nullable: true
             name:
@@ -197,7 +201,11 @@ components:
               nullable: true
             genre:
               type: string
-              description: "Género del cliente."
+              description: >
+                'Género del cliente:'
+                  * M: Masculino
+                  * F: Femenino
+              enum: [M, F]
               nullable: true
             age:
               type: integer
@@ -218,7 +226,7 @@ components:
             status:
               type: boolean
               description: "Estado del cliente. True: activo, False: inactivo."
-              nullable: true            
+              nullable: true
 
     CustomerGETByCodeRs:
       type: object
@@ -236,7 +244,7 @@ components:
           properties:
             id:
               type: integer
-              description: "Código interno del cliente.s"
+              description: "Código interno del cliente."
               format: int64
               nullable: true
             name:
@@ -245,7 +253,11 @@ components:
               nullable: true
             genre:
               type: string
-              description: "Género del cliente."
+              description: >
+                'Género del cliente:'
+                  * M: Masculino
+                  * F: Femenino
+              enum: [M, F]
               nullable: true
             age:
               type: integer
@@ -266,7 +278,7 @@ components:
             status:
               type: boolean
               description: "Estado del cliente. True: activo, False: inactivo."
-              nullable: true 
+              nullable: true
 
     CustomerPSTRs:
       type: object
@@ -282,7 +294,7 @@ components:
           properties:
             id:
               type: integer
-              description: "Código interno del cliente.s"
+              description: "Código interno del cliente."
               format: int64
               nullable: true
 
@@ -310,7 +322,11 @@ components:
               description: "Nombre y apellido del cliente."
             genre:
               type: string
-              description: "Género del cliente."
+              description: >
+                'Género del cliente:'
+                  * M: Masculino
+                  * F: Femenino
+              enum: [M, F]
             age:
               type: integer
               description: "Edad del cliente."
@@ -352,7 +368,11 @@ components:
               description: "Nombre y apellido del cliente."
             genre:
               type: string
-              description: "Género del cliente."
+              description: >
+                'Género del cliente:'
+                  * M: Masculino
+                  * F: Femenino
+              enum: [M, F]
             age:
               type: integer
               description: "Edad del cliente."
@@ -380,7 +400,7 @@ components:
           properties:
             id:
               type: integer
-              description: "Código interno del cliente.s"
+              description: "Código interno del cliente."
               format: int64
               nullable: true
 
@@ -398,9 +418,10 @@ components:
           properties:
             id:
               type: integer
-              description: "Código interno del cliente.s"
+              description: "Código interno del cliente."
               format: int64
               nullable: true
+
     # DTOS: API ACCOUNTS
     
     AccountGETAllRs:
@@ -433,7 +454,11 @@ components:
                 description: "Número de cuenta."
               type:
                 type: string
-                description: "Tipo de cuenta. Ahorros | Corriente."
+                description: >
+                  'Tipo de cuenta:'
+                    * AHO: Ahorros
+                    * CTE: Corriente
+                enum: [AHO, CTE]
               initBalance:
                 type: number
                 description: "Saldo inicial de la cuenta."
@@ -484,7 +509,11 @@ components:
               description: "Número de cuenta."
             type:
               type: string
-              description: "Tipo de cuenta. Ahorros | Corriente."
+              description: >
+                'Tipo de cuenta:'
+                  * AHO: Ahorros
+                  * CTE: Corriente
+              enum: [AHO, CTE]
             initBalance:
               type: number
               description: "Saldo inicial de la cuenta."
@@ -535,7 +564,11 @@ components:
               description: "Número de cuenta."
             type:
               type: string
-              description: "Tipo de cuenta. Ahorros | Corriente."
+              description: >
+                'Tipo de cuenta:'
+                  * AHO: Ahorros
+                  * CTE: Corriente
+              enum: [AHO, CTE]
             initBalance:
               type: number
               description: "Saldo inicial de la cuenta."
@@ -558,7 +591,7 @@ components:
                 identification:
                   type: string
                   description: "Número de identificación del cliente."
-    
+
     AccountPSTRs:
       type: object
       description: "Retorna el código interno de la cuenta creada."
@@ -606,7 +639,11 @@ components:
                 #   description: "Número de identificación del cliente." #TODO: Allow send identification or customer id
             type:
               type: string
-              description: "Tipo de cuenta. Ahorros | Corriente."
+              description: >
+                'Tipo de cuenta:'
+                  * AHO: Ahorros
+                  * CTE: Corriente
+              enum: [AHO, CTE]
             initBalance:
               type: number
               description: "Saldo inicial de la cuenta."
@@ -626,7 +663,11 @@ components:
           properties:
             type:
               type: string
-              description: "Tipo de cuenta. Ahorros | Corriente."
+              description: >
+                'Tipo de cuenta:'
+                  * AHO: Ahorros
+                  * CTE: Corriente
+              enum: [AHO, CTE]
             status:
               type: boolean
               description: "Estado de la cuenta. True: activa, False: inactiva."
@@ -651,7 +692,7 @@ components:
 
     AccountDELRs:
       type: object
-      description: "Retorna el código interno de la cuenta eliminado lógicamente del sistema."
+      description: "Retorna el código interno de la cuenta eliminada lógicamente del sistema."
       required:
         - account
       properties:
@@ -698,7 +739,11 @@ components:
                 format: date-time
               type:
                 type: string
-                description: "Tipo de transacción. Débito | Crédito."
+                description: >
+                  'Tipo de transacción:'
+                    * D: Débito
+                    * C: Crédito
+                enum: [DBT, CRE]
               amount:
                 type: number
                 description: "Valor de la transacción."
@@ -750,26 +795,17 @@ components:
                 format: date-time
               type:
                 type: string
-                description: "Tipo de transacción. Débito | Crédito."
+                description: >
+                  'Tipo de transacción:'
+                    * D: Débito
+                    * C: Crédito
+                enum: [DBT, CRE]
               amount:
                 type: number
                 description: "Valor de la transacción."
               balance:
                 type: number
                 description: "Saldo de la cuenta después de la transacción."
-              # account:
-              #   type: object
-              #   description: "Cuenta asociada a la transacción."
-              #   required:
-              #     - id
-              #   properties:
-              #     id:
-              #       type: integer
-              #       description: "Código interno de la cuenta."
-              #       format: int64
-              #     identification:
-              #       type: string
-              #       description: "Número de identificación del cliente."
 
     TransactionGETByCodeRs:
       type: object
@@ -798,7 +834,11 @@ components:
               format: date-time
             type:
               type: string
-              description: "Tipo de transacción. Débito | Crédito."
+              description: >
+                'Tipo de transacción:'
+                  * D: Débito
+                  * C: Crédito
+              enum: [DBT, CRE]
             amount:
               type: number
               description: "Valor de la transacción."
@@ -852,10 +892,19 @@ components:
           properties:
             type:
               type: string
-              description: "Tipo de transacción. Débito | Crédito."
+              description: >
+                'Tipo de transacción:'
+                  * D: Débito
+                  * C: Crédito
+              enum: [DBT, CRE]
             amount:
               type: number
-              description: "Valor de la transacción."
+              description: >
+                Valor de la transacción:
+                  * Débitos: El rango para retiros es de $1 a $5,000.
+                  * Créditos: EL rango para depósitos es de $1 a $10,000.
+              minimum: 0.50
+              maximum: 10000
             account:
               type: object
               description: "Cuenta asociada a la transacción. Se especifica el código interno o el número de cuenta."
@@ -923,7 +972,11 @@ components:
                 format: date-time
               type:
                 type: string
-                description: "Tipo de transacción. Débito | Crédito."
+                description: >
+                  'Tipo de transacción:'
+                    * D: Débito
+                    * C: Crédito
+                enum: [DBT, CRE]
               amount:
                 type: number
                 description: "Valor de la transacción."
@@ -944,4 +997,4 @@ components:
                     type: string
                     description: "Número de cuenta."
                     nullable: true
-  
+

@@ -2,10 +2,7 @@ package com.sofka.lab.accounts.app.models.dtos;
 
 import com.sofka.lab.accounts.app.models.entity.AccountEntity;
 import com.sofka.lab.common.dtos.CustomerDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 

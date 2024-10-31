@@ -1,9 +1,9 @@
 package com.sofka.lab.customers.app.models.services;
 
-import com.sofka.lab.common.dtos.CustomerDto;
 import com.sofka.lab.common.exceptions.BusinessLogicException;
 import com.sofka.lab.customers.app.models.dao.CustomerDao;
 import com.sofka.lab.customers.app.models.entity.CustomerEntity;
+import com.sofka.lab.customers.app.models.entity.dtos.CustomerDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,14 +24,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional(readOnly = true)
     public List<CustomerDto> findAll() {
-        return customerDao.findAllDto();
+        return customerDao.findDtoAll();
     }
 
     @Override
     @Transactional(readOnly = true)
     public CustomerDto findById(Long id) {
         if (customerDao.findById(id).isPresent()) {
-            return customerDao.findByIdDto(id);
+            return customerDao.findDtoById(id);
         }
         throw new BusinessLogicException("El customer con el ID proporcionado no existe:  " + id, "300");
     }
@@ -43,8 +43,9 @@ public class CustomerServiceImpl implements CustomerService {
             throw new BusinessLogicException("El prospecto no puede ser creado: " + customer.getIdentification(), "301");
         }
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
-        customerDao.save(customer);
-        return customer.toDto();
+        var customerSaved = customerDao.save(customer);
+        System.out.println(customerSaved);
+        return customerDao.findDtoById(customerSaved.getId());
     }
 
     @Override
@@ -75,6 +76,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional(readOnly = true)
     public CustomerDto findByIdentification(String identification) {
-        return customerDao.findByIdentificationDto(identification);
+        return customerDao.findDtoByIdentification(identification);
     }
 }

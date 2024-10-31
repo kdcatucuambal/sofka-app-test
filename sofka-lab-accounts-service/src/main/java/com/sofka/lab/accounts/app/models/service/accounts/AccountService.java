@@ -1,4 +1,4 @@
-package com.sofka.lab.accounts.app.models.service;
+package com.sofka.lab.accounts.app.models.service.accounts;
 
 import com.sofka.lab.accounts.app.models.dtos.AccountDto;
 

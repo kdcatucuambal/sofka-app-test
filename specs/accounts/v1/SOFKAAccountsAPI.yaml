@@ -181,7 +181,11 @@ components:
                 description: "Número de cuenta."
               type:
                 type: string
-                description: "Tipo de cuenta. Ahorros | Corriente."
+                description: >
+                  'Tipo de cuenta:'
+                    * AHO: Ahorros
+                    * CTE: Corriente
+                enum: [AHO, CTE]
               initBalance:
                 type: number
                 description: "Saldo inicial de la cuenta."
@@ -232,7 +236,11 @@ components:
               description: "Número de cuenta."
             type:
               type: string
-              description: "Tipo de cuenta. Ahorros | Corriente."
+              description: >
+                'Tipo de cuenta:'
+                  * AHO: Ahorros
+                  * CTE: Corriente
+              enum: [AHO, CTE]
             initBalance:
               type: number
               description: "Saldo inicial de la cuenta."
@@ -283,7 +291,11 @@ components:
               description: "Número de cuenta."
             type:
               type: string
-              description: "Tipo de cuenta. Ahorros | Corriente."
+              description: >
+                'Tipo de cuenta:'
+                  * AHO: Ahorros
+                  * CTE: Corriente
+              enum: [AHO, CTE]
             initBalance:
               type: number
               description: "Saldo inicial de la cuenta."
@@ -354,7 +366,11 @@ components:
                 #   description: "Número de identificación del cliente." #TODO: Allow send identification or customer id
             type:
               type: string
-              description: "Tipo de cuenta. Ahorros | Corriente."
+              description: >
+                'Tipo de cuenta:'
+                  * AHO: Ahorros
+                  * CTE: Corriente
+              enum: [AHO, CTE]
             initBalance:
               type: number
               description: "Saldo inicial de la cuenta."
@@ -374,7 +390,11 @@ components:
           properties:
             type:
               type: string
-              description: "Tipo de cuenta. Ahorros | Corriente."
+              description: >
+                'Tipo de cuenta:'
+                  * AHO: Ahorros
+                  * CTE: Corriente
+              enum: [AHO, CTE]
             status:
               type: boolean
               description: "Estado de la cuenta. True: activa, False: inactiva."

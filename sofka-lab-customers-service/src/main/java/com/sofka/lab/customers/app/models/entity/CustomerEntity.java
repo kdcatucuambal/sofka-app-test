@@ -19,18 +19,18 @@ public class CustomerEntity extends Person implements Serializable {
     @Column(name = "cli_estado", nullable = false)
     private Boolean status;
 
-    public CustomerDto toDto() {
-        return new CustomerDto(
-                this.getId(),
-                this.getIdentification(),
-                this.getName(),
-                this.getGenre(),
-                this.getAge(),
-                this.getAddress(),
-                this.getPhone(),
-                this.getStatus()
-        );
-    }
+//    public CustomerDto toDto() {
+//        return new CustomerDto(
+//                this.getId(),
+//                this.getIdentification(),
+//                this.getName(),
+//                this.getGenre(),
+//                this.getAge(),
+//                this.getAddress(),
+//                this.getPhone(),
+//                this.getStatus()
+//        );
+//    }
 
     public String getPassword() {
         return password;
@@ -46,6 +46,14 @@ public class CustomerEntity extends Person implements Serializable {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerEntity{" +
+                "password='" + password + '\'' +
+                ", status=" + status +
+                '}';
     }
 
     @Serial

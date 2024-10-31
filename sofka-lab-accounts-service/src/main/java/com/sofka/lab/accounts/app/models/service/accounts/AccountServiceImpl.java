@@ -1,6 +1,7 @@
-package com.sofka.lab.accounts.app.models.service;
+package com.sofka.lab.accounts.app.models.service.accounts;
 
 import com.sofka.bank.objects.Customer;
+import com.sofka.bank.objects.Transaction;
 import com.sofka.lab.accounts.app.clients.CustomerRestAdapter;
 import com.sofka.lab.accounts.app.models.dao.AccountDao;
 import com.sofka.lab.accounts.app.models.dao.MovementDao;
@@ -13,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,7 +57,7 @@ public class AccountServiceImpl implements AccountService {
 
         MovementEntity movementEntity = new MovementEntity();
         movementEntity.setAccount(accountEntity);
-        movementEntity.setType("APERTURA");
+        movementEntity.setType(Transaction.TypeEnum.CRE.getValue());
         movementEntity.setBalance(accountEntity.getInitBalance());
         movementEntity.setAmount(accountEntity.getInitBalance());
         movementEntity.setDate(LocalDateTime.now());

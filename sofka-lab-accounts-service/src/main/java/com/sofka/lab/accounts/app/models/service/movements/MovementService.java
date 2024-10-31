@@ -1,4 +1,4 @@
-package com.sofka.lab.accounts.app.models.service;
+package com.sofka.lab.accounts.app.models.service.movements;
 
 import com.sofka.lab.accounts.app.models.dtos.MovementDto;
 import com.sofka.lab.accounts.app.models.entity.MovementEntity;
@@ -10,9 +10,7 @@ import java.util.List;
 
 public interface MovementService {
 
-
     MovementEntity save(MovementEntity movement);
-
     List<MovementEntity> findAll();
 
     List<MovementDto> findByAccountNumber(String accountNumber);
