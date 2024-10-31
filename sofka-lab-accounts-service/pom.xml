@@ -85,8 +85,8 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.kc.labs.objects</groupId>
-            <artifactId>kc-labs-domains</artifactId>
+            <groupId>com.sofka.bank.objects</groupId>
+            <artifactId>sofka-bank-domains</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
