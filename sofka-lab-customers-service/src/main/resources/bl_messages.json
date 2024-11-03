@@ -1,14 +1,12 @@
 {
-  "100": {
-    "messageEs": "El valor de la cuenta es incorrecto.",
+  "300": {
+    "code": 300,
+    "messageEs": "El cliente con el id proporcionado no existe.",
     "httpError": 404
   },
-  "101": {
-    "messageEs": "Otro error.",
-    "httpError": 404
-  },
-  "102": {
-    "messageEs": "Error al insertar el usuario.",
-    "httpError": 404
+  "301": {
+    "code": 301,
+    "messageEs": "La cédula del cliente tiene errores.",
+    "httpError": 409
   }
 }

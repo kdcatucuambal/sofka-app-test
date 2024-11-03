@@ -1,4 +1,4 @@
-package com.sofka.lab.accounts.app.handlers.validators;
+package com.sofka.lab.accounts.app.controllers.adapters.validators;
 
 import com.sofka.bank.objects.Account;
 import com.sofka.bank.objects.AccountPSTRq;

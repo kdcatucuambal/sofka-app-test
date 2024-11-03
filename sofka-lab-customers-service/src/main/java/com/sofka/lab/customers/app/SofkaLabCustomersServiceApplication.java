@@ -1,8 +1,5 @@
 package com.sofka.lab.customers.app;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sofka.lab.customers.app.extras.MessageService;
-import com.sofka.lab.customers.app.extras.MessageServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -27,24 +24,22 @@ public class SofkaLabCustomersServiceApplication {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public MessageService messageService(ObjectMapper objectMapper) {
-        return new MessageServiceImpl(objectMapper);
-    }
 
-    @Bean
-    public WebMvcConfigurer webMvcConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:4010")
-                        .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
-                        .allowedHeaders("x-api-key", "Content-Type", "Authorization")
-                        .allowCredentials(true);
-            }
-        };
-    }
+
+//    @Bean
+//    public WebMvcConfigurer webMvcConfigurer() {
+//        return new WebMvcConfigurer() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//                registry.addMapping("/**")
+//                        .allowedOrigins("http://localhost:4010", "http://localhost:5173/")
+//                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+//                        .allowedHeaders("*")
+//                        .allowCredentials(true)
+//                        .maxAge(3600);
+//            }
+//        };
+//    }
 
 
 }

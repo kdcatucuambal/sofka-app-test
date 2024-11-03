@@ -157,6 +157,7 @@ components:
               - type
               - amount
               - balance
+              - description
               - account
             properties:
               id:
@@ -180,6 +181,9 @@ components:
               balance:
                 type: number
                 description: "Saldo de la cuenta después de la transacción."
+              description:
+                type: string
+                description: "Descripción de la transacción."
               account:
                 type: object
                 description: "Cuenta asociada a la transacción."
@@ -214,6 +218,7 @@ components:
               - amount
               - balance
               - account
+              - description
             properties:
               id:
                 type: integer
@@ -236,6 +241,9 @@ components:
               balance:
                 type: number
                 description: "Saldo de la cuenta después de la transacción."
+              description:
+                type: string
+                description: "Descripción de la transacción."
 
     TransactionGETByCodeRs:
       type: object
@@ -252,6 +260,7 @@ components:
             - type
             - amount
             - balance
+            - description
             - account
           properties:
             id:
@@ -275,6 +284,9 @@ components:
             balance:
               type: number
               description: "Saldo de la cuenta después de la transacción."
+            description:
+              type: string
+              description: "Descripción de la transacción."
             account:
               type: object
               description: "Cuenta asociada a la transacción."
@@ -390,6 +402,7 @@ components:
               - type
               - amount
               - balance
+              - description
               - account
             properties:
               id:
@@ -413,6 +426,9 @@ components:
               balance:
                 type: number
                 description: "Saldo de la cuenta después de la transacción."
+              description:
+                type: string
+                description: "Descripción de la transacción."
               account:
                 type: object
                 description: "Cuenta asociada a la transacción."

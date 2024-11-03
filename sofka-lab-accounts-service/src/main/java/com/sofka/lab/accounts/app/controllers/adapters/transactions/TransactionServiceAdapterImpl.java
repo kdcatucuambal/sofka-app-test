@@ -1,20 +1,22 @@
-package com.sofka.lab.accounts.app.handlers;
+package com.sofka.lab.accounts.app.controllers.adapters.transactions;
 
 import com.sofka.bank.objects.*;
 import com.sofka.lab.accounts.app.models.entity.AccountEntity;
 import com.sofka.lab.accounts.app.models.entity.MovementEntity;
 import com.sofka.lab.accounts.app.models.service.movements.MovementService;
+import com.sofka.lab.accounts.app.utils.Constants;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Component
-public class TransactionHandlerServiceImpl implements TransactionHandlerService {
+public class TransactionServiceAdapterImpl implements TransactionServiceAdapter {
 
     private final MovementService movementService;
 
-    public TransactionHandlerServiceImpl(MovementService movementService) {
+    public TransactionServiceAdapterImpl(MovementService movementService) {
         this.movementService = movementService;
     }
 
@@ -50,6 +52,8 @@ public class TransactionHandlerServiceImpl implements TransactionHandlerService 
                     .amount(movement.getAmount())
                     .date(movement.getDate())
                     .type(Transaction.TypeEnum.valueOf(movement.getType()))
+                    .description(getTransactionDescription(Transaction.TypeEnum
+                            .valueOf(movement.getType()), movement.getAmount()))
                     .build();
             transactions.add(transaction);
         });
@@ -72,8 +76,10 @@ public class TransactionHandlerServiceImpl implements TransactionHandlerService 
                     var transaction = Transaction.builder()
                             .type(Transaction.TypeEnum.valueOf(accountReportDto.getType()))
                             .balance(accountReportDto.getAvailableBalance())
-                            .date(accountReportDto.getDate()) //TODO: Pendiente
+                            .date(accountReportDto.getDate())
                             .account(Account.builder().number(accountReportDto.getAccountNumber()).build())
+                            .description(getTransactionDescription(Transaction.TypeEnum
+                                    .valueOf(accountReportDto.getType()), accountReportDto.getMovement()))
                             .amount(accountReportDto.getMovement())
                             .build();
                     trGETByCustomerIdentification.getTransactions().add(transaction);
@@ -87,14 +93,23 @@ public class TransactionHandlerServiceImpl implements TransactionHandlerService 
 
     private Transaction mapTransaction(MovementEntity movement) {
         var account = Account.builder().id(movement.getAccount().getId()).build();
+        var trnType = Transaction.TypeEnum.valueOf(movement.getType());
         return Transaction.builder()
                 .account(account)
                 .id(movement.getId().intValue())
                 .balance(movement.getBalance())
                 .amount(movement.getAmount())
-                .date(null) //TODO Check date converstions
-                .type(Transaction.TypeEnum.valueOf(movement.getType()))
+                .date(movement.getDate())
+                .description(getTransactionDescription(trnType, movement.getAmount()))
+                .type(trnType)
                 .build();
     }
+
+    private String getTransactionDescription(Transaction.TypeEnum type, BigDecimal amount) {
+        return type.equals(Transaction.TypeEnum.CRE)
+                ? Constants.CREDIT_TEXT.concat(amount.toPlainString())
+                : Constants.DEBIT_TEXT.concat(amount.toPlainString());
+    }
+
 
 }

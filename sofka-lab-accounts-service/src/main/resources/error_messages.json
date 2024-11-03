@@ -1,0 +1,42 @@
+{
+  "1000": {
+    "code": 1000,
+    "messageES": "El cliente asociado no existe.",
+    "httpErrorCode": 404
+  },
+  "1001": {
+    "code": 1001,
+    "messageES": "No existe la cuenta con el id proprocionado.",
+    "httpErrorCode": 404
+  },
+  "1002": {
+    "code": 1002,
+    "messageES": "No existe la cuenta con el número propcionado.",
+    "httpErrorCode": 404
+  },
+  "1003": {
+    "code": 1003,
+    "messageES": "Para la apertura de una cuenta corriente (AHO) el saldo inicial mínimo es de $10.00.",
+    "httpErrorCode": 409
+  },
+  "2000": {
+    "code": 2000,
+    "messageES": "Cuenta no encotrada para la transacción.",
+    "httpErrorCode": 404
+  },
+  "2001": {
+    "code": 2001,
+    "messageES": "El saldo es insuficiente para la transacción.",
+    "httpErrorCode": 409
+  },
+  "2002": {
+    "code": 2002,
+    "messageES": "Cliente no encontrado para generar el reporte.",
+    "httpErrorCode": 404
+  },
+  "2003": {
+    "code": 2003,
+    "messageES": "El movimiento para el id proporcionado no existe.",
+    "httpErrorCode": 404
+  }
+}

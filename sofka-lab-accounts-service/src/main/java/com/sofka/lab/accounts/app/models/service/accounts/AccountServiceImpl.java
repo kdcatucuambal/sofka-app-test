@@ -8,7 +8,11 @@ import com.sofka.lab.accounts.app.models.dao.MovementDao;
 import com.sofka.lab.accounts.app.models.dtos.AccountDto;
 import com.sofka.lab.accounts.app.models.entity.AccountEntity;
 import com.sofka.lab.accounts.app.models.entity.MovementEntity;
+import com.sofka.lab.accounts.app.models.service.accounts.methods.AccountCreator;
+import com.sofka.lab.accounts.app.models.service.accounts.methods.AccountFactory;
+import com.sofka.lab.common.dtos.CustomerDto;
 import com.sofka.lab.common.exceptions.BusinessLogicException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,43 +22,34 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class AccountServiceImpl implements AccountService {
     private final AccountDao accountDao;
     private final CustomerRestAdapter customerRest;
     private final MovementDao movementDao;
+    private final AccountFactory accountFactory;
 
-    public AccountServiceImpl(AccountDao accountDao, CustomerRestAdapter customerRest, MovementDao movementDao) {
+    public AccountServiceImpl(AccountDao accountDao, CustomerRestAdapter customerRest, MovementDao movementDao,
+                              AccountFactory accountFactory) {
         this.accountDao = accountDao;
         this.customerRest = customerRest;
         this.movementDao = movementDao;
+        this.accountFactory = accountFactory;
     }
 
 
     @Override
     @Transactional
     public AccountDto save(AccountDto accountDto) {
-        Customer customerDto;
-        Long id = accountDto.getCustomer().getId();
-        if (id != null) {
-            customerDto = customerRest.findById(id);
-        } else {
-            customerDto = customerRest.findByIdentification(accountDto.getCustomer().getIdentification());
-        }
-
+        Customer customerDto = getCustomer(accountDto.getCustomer());
+        log.info("Customer found: {}", customerDto);
         if (customerDto == null) {
-            throw new BusinessLogicException("El cliente asociado no existe.", "100");
+            throw new BusinessLogicException(1000);
         }
-
-        AccountEntity accountEntity = new AccountEntity();
-        accountEntity.setNumber(accountDto.getNumber());//TODO: This should be generated
-        accountEntity.setInitBalance(accountDto.getInitBalance());
-        accountEntity.setStatus(accountDto.getStatus()); //TODO: This should be generated, by default is true
-        accountEntity.setType(accountDto.getType());
-        accountEntity.setCustomerId(customerDto.getId());
-        accountEntity.setBalance(accountDto.getInitBalance());
-        accountEntity = accountDao.save(accountEntity);
-        accountDto.setId(accountEntity.getId());
-
+        accountDto.getCustomer().setId(customerDto.getId());
+        log.info("Creating account: {}", accountDto);
+        AccountEntity accountEntity = accountFactory.getCreatorAccount(accountDto.getType()).createAccount(accountDto);
+        accountDao.save(accountEntity);
         MovementEntity movementEntity = new MovementEntity();
         movementEntity.setAccount(accountEntity);
         movementEntity.setType(Transaction.TypeEnum.CRE.getValue());
@@ -62,8 +57,15 @@ public class AccountServiceImpl implements AccountService {
         movementEntity.setAmount(accountEntity.getInitBalance());
         movementEntity.setDate(LocalDateTime.now());
         movementDao.save(movementEntity);
-
+        accountDto.setId(accountEntity.getId());
         return accountDto;
+    }
+
+
+    private Customer getCustomer(CustomerDto customerDto) {
+        return customerDto.getId() != null
+                ? customerRest.findById(customerDto.getId())
+                : customerRest.findByIdentification(customerDto.getIdentification());
     }
 
     @Override
@@ -71,7 +73,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto findById(Long id) {
         AccountEntity cuenta = accountDao.findById(id).orElse(null);
         if (cuenta == null) {
-            throw new BusinessLogicException("No existe la cuenta con el id proporcionado: " + id, "101");
+            throw new BusinessLogicException(1001);
         }
         return cuenta.toDto();
     }
@@ -82,8 +84,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto findByNumber(String accountNumber) {
         AccountEntity cuenta = accountDao.findByNumber(accountNumber);
         if (cuenta == null) {
-            throw new BusinessLogicException("No existe la cuenta con el número proporcionado: "
-                    + accountNumber, "102");
+            throw new BusinessLogicException(1002);
         }
         return cuenta.toDto();
     }
@@ -94,7 +95,7 @@ public class AccountServiceImpl implements AccountService {
         Optional<AccountEntity> accountDbOptional = accountDao.findById(accountDto.getId());
 
         if (accountDbOptional.isEmpty()) {
-            throw new BusinessLogicException("No existe la cuenta con el id proporcionado: " + accountDto.getId(), "101");
+            throw new BusinessLogicException(1001);
         }
 
         AccountEntity accountDb = accountDbOptional.get();
@@ -126,7 +127,7 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     public void delete(Long id) {
         var accountEntity = this.accountDao.findById(id).orElseThrow(
-                () -> new BusinessLogicException("No existe la cuenta con el id proporcionado: " + id, "101")
+                () -> new BusinessLogicException(1001)
         );
         accountEntity.setStatus(false);
         accountDao.save(accountEntity);

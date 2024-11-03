@@ -14,9 +14,14 @@ public class BusinessLogicException extends RuntimeException {
         this.businessCode = businessCode;
     }
 
-    public BusinessLogicException(String code){
+    public BusinessLogicException(String code) {
         super(code);
         this.businessCode = code;
+    }
+
+    public BusinessLogicException(Integer code) {
+        super("Businness error code: " + code.toString());
+        this.businessCode = code.toString();
     }
 
 }

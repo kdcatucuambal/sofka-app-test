@@ -1,0 +1,12 @@
+{
+  "3000": {
+    "code": 3000,
+    "messageES": "El cliente con el id proporcionado no existe.",
+    "httpErrorCode": 404
+  },
+  "3001": {
+    "code": 3001,
+    "messageES": "La cédula del cliente tiene errores.",
+    "httpErrorCode": 409
+  }
+}

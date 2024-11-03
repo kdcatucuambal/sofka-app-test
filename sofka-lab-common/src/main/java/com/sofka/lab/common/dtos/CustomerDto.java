@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @ToString
+@Deprecated
 public class CustomerDto {
     private Long id;
     private String identification;

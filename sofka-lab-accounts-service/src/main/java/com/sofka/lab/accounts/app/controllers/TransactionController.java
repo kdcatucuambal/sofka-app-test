@@ -1,7 +1,7 @@
 package com.sofka.lab.accounts.app.controllers;
 
 import com.sofka.bank.objects.*;
-import com.sofka.lab.accounts.app.handlers.TransactionHandlerService;
+import com.sofka.lab.accounts.app.controllers.adapters.transactions.TransactionServiceAdapter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @RequestMapping("/transactions")
 public class TransactionController {
 
-    private final TransactionHandlerService transactionService;
+    private final TransactionServiceAdapter transactionService;
 
-    public TransactionController(TransactionHandlerService transactionService) {
+    public TransactionController(TransactionServiceAdapter transactionService) {
         this.transactionService = transactionService;
     }
 

@@ -1,4 +1,4 @@
-package com.sofka.lab.customers.app.handlers;
+package com.sofka.lab.customers.app.controllers.adapters;
 
 import com.sofka.bank.objects.*;
 import com.sofka.lab.customers.app.models.entity.CustomerEntity;
@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CustomerHandlerServiceImpl implements CustomerHandlerService {
+public class CustomerServiceAdapterImpl implements CustomerServiceAdapter {
+
 
     private final CustomerService customerService;
 
-    public CustomerHandlerServiceImpl(CustomerService customerService) {
+    public CustomerServiceAdapterImpl(CustomerService customerService) {
         this.customerService = customerService;
     }
 

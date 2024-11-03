@@ -1,8 +1,9 @@
-package com.sofka.lab.accounts.app.handlers;
+package com.sofka.lab.accounts.app.controllers.adapters.accounts;
 
 import com.sofka.bank.objects.*;
 
-public interface AccountHandlerService {
+public interface AccountServiceAdapter {
+
     AccountGETAllRs execAccountGETAll();
 
     AccountGETByAccountNumberRs execAccountGETByAccountNumber(String accountNumber);

@@ -13,6 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @ToString
+@Deprecated
 public class AccountReportDto {
 
     private String customer;

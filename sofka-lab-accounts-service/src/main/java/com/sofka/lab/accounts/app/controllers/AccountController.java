@@ -1,8 +1,8 @@
 package com.sofka.lab.accounts.app.controllers;
 
 import com.sofka.bank.objects.*;
-import com.sofka.lab.accounts.app.handlers.AccountHandlerService;
-import com.sofka.lab.accounts.app.handlers.validators.AccountValidator;
+import com.sofka.lab.accounts.app.controllers.adapters.accounts.AccountServiceAdapter;
+import com.sofka.lab.accounts.app.controllers.adapters.validators.AccountValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -13,13 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/accounts")
 public class AccountController {
 
-    private final AccountHandlerService accountService;
+    private final AccountServiceAdapter accountService;
     private final AccountValidator accountValidator;
+    
 
-
-
-
-    public AccountController(AccountHandlerService accountService, AccountValidator accountValidator) {
+    public AccountController(AccountServiceAdapter accountService, AccountValidator accountValidator) {
         this.accountService = accountService;
         this.accountValidator = accountValidator;
     }
@@ -32,7 +30,6 @@ public class AccountController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AccountPSTRs accountPST(@RequestBody AccountPSTRq accountPSTRq, BindingResult result) {
-        System.out.println(result.getTarget().getClass().toString());
         accountValidator.validate(accountPSTRq, result);
         System.out.println("I'M ERROR: " + result.hasErrors());
         if (result.hasErrors()) {

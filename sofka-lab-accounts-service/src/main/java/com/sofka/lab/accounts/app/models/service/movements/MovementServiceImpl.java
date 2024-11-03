@@ -37,8 +37,6 @@ public class MovementServiceImpl implements MovementService {
         this.movementDao = movementDao;
         this.accountService = accountService;
         this.customerRest = customerRest;
-        System.out.println("strategyList: " + strategyList);
-        System.out.println("strategyList.size(): " + strategyList.size());
         this.trnStrategies = strategyList.stream()
                 .collect(Collectors.toMap(
                         TransactionStrategy::getType,
@@ -52,7 +50,7 @@ public class MovementServiceImpl implements MovementService {
     public MovementEntity save(MovementEntity movement) {
 
         if (movement.getAmount() != null && movement.getAmount().compareTo(BigDecimal.valueOf(0.0)) < 0) {
-            throw new BusinessLogicException("El monto de la transacción es incorrecta.", "202");
+            throw new BusinessLogicException(2002);
         }
         String accountNumber = movement.getAccount().getNumber();
         AccountDto accountDto = null;
@@ -61,9 +59,11 @@ public class MovementServiceImpl implements MovementService {
         } else {
             accountDto = accountService.findById(movement.getAccount().getId());
         }
+
         if (accountDto == null) {
-            throw new BusinessLogicException("Cuenta no encontrada para la transacción.", "200");
+            throw new BusinessLogicException(2000);
         }
+
         TransactionStrategy strategy = trnStrategies.get(movement.getType());
         MovementEntity movementEntity = strategy.process(movement, accountDto);
         accountService.updateBalance(accountNumber, accountDto.getAvailableBalance());
@@ -86,7 +86,7 @@ public class MovementServiceImpl implements MovementService {
     @Override
     @Transactional(readOnly = true)
     public MovementEntity findById(Long id) {
-        return movementDao.findById(id).orElse(null);
+        return movementDao.findById(id).orElseThrow(() -> new BusinessLogicException(2003));
     }
 
     @Override
@@ -95,7 +95,7 @@ public class MovementServiceImpl implements MovementService {
             String customerId, LocalDateTime startDate, LocalDateTime endDate) {
         Customer customerDto = customerRest.findByIdentification(customerId);
         if (customerDto == null) {
-            throw new BusinessLogicException("Cliente no encontrado para generar el reporte.", "202");
+            throw new BusinessLogicException(2002);
         }
         List<AccountReportDto> reporteCuentas = movementDao.report(customerDto.getId(), startDate, endDate);
         reporteCuentas.forEach(r -> r.setCustomer(customerDto.getName()));

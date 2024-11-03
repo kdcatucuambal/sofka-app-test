@@ -1,8 +1,7 @@
 package com.sofka.lab.customers.app.controllers;
 
 import com.sofka.bank.objects.*;
-import com.sofka.lab.customers.app.extras.MessageService;
-import com.sofka.lab.customers.app.handlers.CustomerHandlerService;
+import com.sofka.lab.customers.app.controllers.adapters.CustomerServiceAdapter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,19 +9,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/customers")
 public class CustomerController {
 
-    private final CustomerHandlerService customerService;
-
-    private final MessageService messageService;
+    private final CustomerServiceAdapter customerService;
 
 
-    public CustomerController(CustomerHandlerService customerService, MessageService messageService) {
+
+    public CustomerController(CustomerServiceAdapter customerService) {
         this.customerService = customerService;
-        this.messageService = messageService;
     }
 
     @GetMapping
     public CustomerGETAllRs customerGETAll() {
-        System.out.println(this.messageService.getMessages());
         return this.customerService.execCustomerGETAll();
     }
 

@@ -5,12 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sofka.bank.objects.Customer;
 import com.sofka.bank.objects.CustomerGETAllRs;
 import com.sofka.bank.objects.CustomerGETByCodeRs;
-import com.sofka.lab.common.dtos.CustomerDto;
-import com.sofka.lab.customers.app.handlers.CustomerHandlerServiceImpl;
+import com.sofka.lab.customers.app.controllers.adapters.CustomerServiceAdapterImpl;
 import com.sofka.lab.customers.app.models.dao.CustomerDao;
-import com.sofka.lab.customers.app.models.entity.CustomerEntity;
 import com.sofka.lab.customers.app.models.services.CustomerServiceImpl;
-import jakarta.ws.rs.core.MediaType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -20,8 +17,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -36,7 +31,7 @@ public class CustomerControllerTest {
     private CustomerServiceImpl customerService;
 
     @MockBean
-    private CustomerHandlerServiceImpl customerHandlerService;
+    private CustomerServiceAdapterImpl customerHandlerService;
 
     private ObjectMapper objectMapper;
 

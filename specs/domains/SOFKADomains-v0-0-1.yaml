@@ -101,3 +101,6 @@ components:
         account:
           description: "Cuenta asociada a la transacción."
           $ref: "#/components/schemas/Account"
+        description: #virtual field
+          type: string
+          description: "Descripción de la transacción."

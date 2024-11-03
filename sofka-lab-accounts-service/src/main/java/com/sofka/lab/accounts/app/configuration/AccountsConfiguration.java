@@ -20,28 +20,10 @@ import java.time.format.DateTimeFormatter;
 
 @Configuration
 public class AccountsConfiguration {
-    private static final String dateFormat = "yyyy/MM/dd";
-    private static final String dateTimeFormat = "yyyy/MM/dd HH:mm:ss";
+    private static final String dateFormat = "yyyy-MM-dd";
+    private static final String dateTimeFormat = "yyyy-MM-dd'T'HH:mm:ss";
 
-    /**
-     * THis method is used to create a new instance of BusinessToHttpFacade,
-     * and map the business error codes to http status
-     *
-     * @return BusinessToHttpFacade
-     */
-    @Bean
-    @Primary
-    public BusinessToHttpError httpCodeMapping() {
-        var businessToHttpErrorMapping = new BusinessToHttpErrorImpl();
 
-        businessToHttpErrorMapping.addNewMapping("100", HttpStatus.NOT_FOUND);
-        businessToHttpErrorMapping.addNewMapping("101", HttpStatus.NOT_FOUND);
-        businessToHttpErrorMapping.addNewMapping("102", HttpStatus.NOT_FOUND);
-
-        businessToHttpErrorMapping.addNewMapping("200", HttpStatus.NOT_FOUND);
-        businessToHttpErrorMapping.addNewMapping("202", HttpStatus.NOT_FOUND);
-        return businessToHttpErrorMapping;
-    }
 
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {

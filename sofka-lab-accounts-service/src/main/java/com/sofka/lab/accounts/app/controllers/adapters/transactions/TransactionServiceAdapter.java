@@ -1,11 +1,10 @@
-package com.sofka.lab.accounts.app.handlers;
+package com.sofka.lab.accounts.app.controllers.adapters.transactions;
 
 import com.sofka.bank.objects.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
-public interface TransactionHandlerService {
+public interface TransactionServiceAdapter {
 
     TransactionGETAllRs execTransactionGETAll();
 

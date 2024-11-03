@@ -1,23 +1,19 @@
-package com.sofka.lab.accounts.app.handlers;
+package com.sofka.lab.accounts.app.controllers.adapters.accounts;
 
 import com.sofka.bank.objects.*;
-import com.sofka.lab.accounts.app.handlers.validators.AccountValidator;
 import com.sofka.lab.accounts.app.models.dtos.AccountDto;
 import com.sofka.lab.accounts.app.models.service.accounts.AccountService;
 import com.sofka.lab.common.dtos.CustomerDto;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 
 import java.util.ArrayList;
 
 @Component
-public class AccountHandlerServiceImpl implements AccountHandlerService {
+public class AccountServiceAdapterImpl implements AccountServiceAdapter {
+
     private final AccountService accountService;
 
-    public AccountHandlerServiceImpl(AccountService accountService) {
+    public AccountServiceAdapterImpl(AccountService accountService) {
         this.accountService = accountService;
     }
 
@@ -78,7 +74,7 @@ public class AccountHandlerServiceImpl implements AccountHandlerService {
     }
 
     private Account mapAccount(AccountDto accountDto) {
-        var customer = Customer.builder().id(accountDto.getId()).build();
+        var customer = Customer.builder().id(accountDto.getCustomer().getId()).build();
         return Account.builder()
                 .id(accountDto.getId())
                 .balance(accountDto.getAvailableBalance())
@@ -89,5 +85,6 @@ public class AccountHandlerServiceImpl implements AccountHandlerService {
                 .customer(customer)
                 .build();
     }
+
 
 }

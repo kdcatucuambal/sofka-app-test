@@ -1,8 +1,9 @@
-package com.sofka.lab.customers.app.handlers;
+package com.sofka.lab.customers.app.controllers.adapters;
 
 import com.sofka.bank.objects.*;
 
-public interface CustomerHandlerService {
+public interface CustomerServiceAdapter {
+
     CustomerGETAllRs execCustomerGETAll();
 
     CustomerPSTRs execCustomerPST(CustomerPSTRq customerPSTRs);
@@ -14,4 +15,5 @@ public interface CustomerHandlerService {
     CustomerGETByCodeRs execCustomerGETByCode(Long code);
 
     CustomerDELRs execCustomerDEL(Long code);
+
 }

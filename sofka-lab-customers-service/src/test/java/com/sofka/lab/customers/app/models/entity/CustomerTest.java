@@ -3,7 +3,8 @@ package com.sofka.lab.customers.app.models.entity;
 
 
 import com.sofka.lab.customers.app.models.dao.CustomerDao;
-import com.sofka.lab.customers.app.models.entity.dtos.CustomerDtoImpl;
+//import com.sofka.lab.customers.app.models.entity.dtos.CustomerDtoImpl;
+import com.sofka.lab.customers.app.models.entity.dtos.CustomerDto;
 import com.sofka.lab.customers.app.models.services.CustomerServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,7 +38,7 @@ public class CustomerTest {
         customer.setPhone("1234567890");
         customer.setStatus(true);
 
-        CustomerDto clienteDto = CustomerDtoImpl.builder()
+        CustomerDto clienteDto = CustomerDto.builder()
                 .name("Juan")
                 .age(25)
                 .identification("123456789")

@@ -13,7 +13,6 @@ import java.util.List;
 public class AccountEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "acc_id", nullable = false)
     private Long id;
 
