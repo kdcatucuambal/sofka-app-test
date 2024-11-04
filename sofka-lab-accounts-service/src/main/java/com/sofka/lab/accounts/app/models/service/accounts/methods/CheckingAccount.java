@@ -38,17 +38,6 @@ public class CheckingAccount implements AccountCreator {
         log.info("[End] Checking account created successfully");
         return accountMapper.toEntity(accountDto);
 
-
-//        AccountEntity accountEntity = new AccountEntity();
-//        accountEntity.setId(id);
-//        accountEntity.setNumber(accountNumber);
-//        accountEntity.setInitBalance(accountDto.getInitBalance());
-//        accountEntity.setStatus(true);
-//        accountEntity.setType(accountDto.getType());
-//        accountEntity.setCustomerId(accountDto.getCustomerDto().getId());
-//        accountEntity.setBalance(accountDto.getInitBalance());
-//        return accountEntity;
-
     }
 
 

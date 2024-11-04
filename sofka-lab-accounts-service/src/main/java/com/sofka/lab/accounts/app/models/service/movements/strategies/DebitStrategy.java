@@ -3,7 +3,6 @@ package com.sofka.lab.accounts.app.models.service.movements.strategies;
 import com.sofka.lab.accounts.app.models.dtos.AccountDto;
 import com.sofka.lab.accounts.app.models.entities.TransactionEntity;
 import com.sofka.lab.accounts.app.models.service.accounts.mappers.AccountMapper;
-import com.sofka.lab.accounts.app.models.service.movements.mappers.TransactionMapper;
 import com.sofka.lab.common.exceptions.BusinessLogicException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,21 +14,19 @@ import java.time.LocalDateTime;
 @Slf4j
 public class DebitStrategy implements TransactionStrategy {
 
-
-    private final TransactionMapper transactionMapper;
     private final AccountMapper accountMapper;
 
     private final String type = "DBT";
 
-    public DebitStrategy(TransactionMapper transactionMapper, AccountMapper accountMapper) {
-        this.transactionMapper = transactionMapper;
+    public DebitStrategy(AccountMapper accountMapper) {
         this.accountMapper = accountMapper;
     }
 
     @Override
     public TransactionEntity process(TransactionEntity movement, AccountDto account) {
         log.info("Processing deposit movement: {}", movement.getAmount() + " to account: " + account.getNumber());
-        if (movement.getAmount().compareTo(BigDecimal.valueOf(1.0)) < 0 || movement.getAmount().compareTo(BigDecimal.valueOf(5000.0)) > 0) {
+        if (movement.getAmount().compareTo(BigDecimal.valueOf(1.0)) < 0 ||
+                movement.getAmount().compareTo(BigDecimal.valueOf(5000.0)) > 0) {
             log.error("The transaction amount is incorrect.");
             throw new BusinessLogicException("El monto mínimo para debitar es de $1 y el máximo es de $5,000.", "202");
         }

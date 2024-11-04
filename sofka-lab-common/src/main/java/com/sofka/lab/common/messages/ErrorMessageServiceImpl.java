@@ -16,7 +16,6 @@ public class ErrorMessageServiceImpl implements ErrorMessageService {
     private Map<String, ErrorMessageDto> messages;
 
     public ErrorMessageServiceImpl(ObjectMapper objectMapper) {
-        System.out.println("ErrorMessageServiceImpl constructor");
         Resource resource = new ClassPathResource("error_messages.json");
         this.objectMapper = objectMapper;
         readValueJson(resource);

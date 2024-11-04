@@ -21,7 +21,6 @@ public class AccountValidatorImpl implements AccountValidator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        System.out.println("AccountValidator.validate started");
         Account account = null;
 
         if (target instanceof AccountPTCRq) {
@@ -45,13 +44,11 @@ public class AccountValidatorImpl implements AccountValidator {
         }
 
         if (account.getInitBalance().compareTo(BigDecimal.ZERO) < 0) {
-            System.out.println("AccountValidator.validate init balance error");
             errors.rejectValue("account", "account", "El saldo inicial no puede ser negativo");
             return;
         }
 
         if (account.getNumber().isEmpty() || account.getNumber().length() < 10) {
-            System.out.println("AccountValidator.validate account number error");
             errors.rejectValue("account", "account", "El número de cuenta debe tener al menos 10 caracteres");
             return;
         }

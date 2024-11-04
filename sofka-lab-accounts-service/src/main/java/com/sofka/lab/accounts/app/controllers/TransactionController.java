@@ -46,9 +46,6 @@ public class TransactionController {
     accountReport(@PathVariable String customerIdentification,
                   @RequestParam LocalDateTime startDate,
                   @RequestParam LocalDateTime endDate) {
-        System.out.println("customerIdentification = " + customerIdentification);
-        System.out.println("startDate = " + startDate);
-        System.out.println("endDate = " + endDate.toString());
         return this.transactionService
                 .execTransReportGetByCustomerIdentification(customerIdentification, startDate, endDate);
     }

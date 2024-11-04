@@ -27,9 +27,7 @@ public class TransactionServiceAdapterImpl implements TransactionServiceAdapter 
     @Override
     public TransactionGETAllRs execTransactionGETAll() {
         var transactions = new ArrayList<Transaction>();
-        Consumer<TransactionEntity> consumer = movement -> {
-            transactions.add(transactionMapper.toTransaction(movement));
-        };
+        Consumer<TransactionEntity> consumer = movement -> transactions.add(transactionMapper.toTransaction(movement));
         this.movementService.findAll().forEach(consumer);
         return TransactionGETAllRs.builder().transactions(transactions).build();
     }
@@ -48,9 +46,8 @@ public class TransactionServiceAdapterImpl implements TransactionServiceAdapter 
     @Override
     public TransactionGETByAccountNumberRs execTransactionGETByAccountNumber(String accountNumber) {
         var transactions = new ArrayList<Transaction>();
-        this.movementService.findByAccountNumber(accountNumber).forEach(movement -> {
-            transactions.add(transactionMapper.toTransaction(movement));
-        });
+        this.movementService.findByAccountNumber(accountNumber)
+                .forEach(movement -> transactions.add(transactionMapper.toTransaction(movement)));
         return TransactionGETByAccountNumberRs.builder().transactions(transactions).build();
     }
 

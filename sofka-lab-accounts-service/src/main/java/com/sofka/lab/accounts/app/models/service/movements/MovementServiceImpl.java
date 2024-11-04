@@ -9,11 +9,9 @@ import com.sofka.lab.accounts.app.models.dtos.TransactionDto;
 import com.sofka.lab.accounts.app.models.entities.AccountEntity;
 import com.sofka.lab.accounts.app.models.entities.TransactionEntity;
 import com.sofka.lab.accounts.app.models.service.accounts.AccountService;
-import com.sofka.lab.accounts.app.models.service.movements.mappers.TransactionMapper;
 import com.sofka.lab.accounts.app.models.service.movements.strategies.TransactionStrategy;
 import com.sofka.lab.common.exceptions.BusinessLogicException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +24,6 @@ import java.util.stream.Collectors;
 @Service
 public class MovementServiceImpl implements MovementService {
 
-    private static final Logger logger = LoggerFactory.getLogger(MovementServiceImpl.class);
 
     private final MovementDao movementDao;
     private final AccountService accountService;
@@ -37,7 +34,6 @@ public class MovementServiceImpl implements MovementService {
     public MovementServiceImpl(MovementDao movementDao,
                                AccountService accountService,
                                CustomerRestAdapter customerRest,
-                               TransactionMapper transactionMapper,
                                List<TransactionStrategy> strategyList) {
         this.movementDao = movementDao;
         this.accountService = accountService;

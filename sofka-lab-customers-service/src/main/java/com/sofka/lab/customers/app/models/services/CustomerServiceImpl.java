@@ -5,6 +5,7 @@ import com.sofka.lab.customers.app.models.dao.CustomerDao;
 import com.sofka.lab.customers.app.models.entity.CustomerEntity;
 import com.sofka.lab.customers.app.models.entity.dtos.CustomerDto;
 import com.sofka.lab.customers.app.models.entity.dtos.CustomerMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class CustomerServiceImpl implements CustomerService {
 
 
-    private final Logger logger = org.slf4j.LoggerFactory.getLogger(CustomerServiceImpl.class);
     private final CustomerDao customerDao;
     private final PasswordEncoder passwordEncoder;
     private final CustomerMapper customerMapper;
@@ -57,13 +58,11 @@ public class CustomerServiceImpl implements CustomerService {
         var customerSaved = this.customerDao
                 .findById(customerDto.getId())
                 .map(customerEntity -> {
-                    System.out.println("element idenification = " + customerEntity.getIdentification());
                     customerMapper.updateEntityFromDto(customerDto, customerEntity);
-                    System.out.println("element kc = " + customerEntity);
                     return customerDao.save(customerEntity);
                 })
                 .orElseThrow(() -> new BusinessLogicException(3000));
-        logger.info("Customer updated: {}", customerSaved.getId());
+        log.info("Customer updated: {}", customerSaved.getId());
         return customerDto;
     }
 

@@ -20,7 +20,7 @@ public class BusinessLogicException extends RuntimeException {
     }
 
     public BusinessLogicException(Integer code) {
-        super("Businness error code: " + code.toString());
+        super("Business error code: " + code.toString());
         this.businessCode = code.toString();
     }
 

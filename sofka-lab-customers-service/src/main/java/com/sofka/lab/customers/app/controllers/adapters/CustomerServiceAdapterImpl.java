@@ -1,12 +1,10 @@
 package com.sofka.lab.customers.app.controllers.adapters;
 
 import com.sofka.bank.objects.*;
-import com.sofka.lab.customers.app.models.entity.CustomerEntity;
 import com.sofka.lab.customers.app.models.entity.dtos.CustomerDto;
 import com.sofka.lab.customers.app.models.services.CustomerService;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
