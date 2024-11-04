@@ -81,6 +81,7 @@ components:
         id:
           type: integer
           description: "Código interno de la transacción."
+          format: int64
         type:
           type: string
           description: >

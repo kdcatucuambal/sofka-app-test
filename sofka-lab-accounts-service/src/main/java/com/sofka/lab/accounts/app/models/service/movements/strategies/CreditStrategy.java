@@ -1,10 +1,10 @@
 package com.sofka.lab.accounts.app.models.service.movements.strategies;
 
 import com.sofka.lab.accounts.app.models.dtos.AccountDto;
-import com.sofka.lab.accounts.app.models.entity.MovementEntity;
+import com.sofka.lab.accounts.app.models.entities.TransactionEntity;
+import com.sofka.lab.accounts.app.models.service.accounts.mappers.AccountMapper;
 import com.sofka.lab.common.exceptions.BusinessLogicException;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,10 +14,17 @@ import java.time.LocalDateTime;
 @Slf4j
 public class CreditStrategy implements TransactionStrategy {
 
+
+    private final AccountMapper accountMapper;
+
     private final String type = "CRE";
 
+    public CreditStrategy(AccountMapper accountMapper) {
+        this.accountMapper = accountMapper;
+    }
+
     @Override
-    public MovementEntity process(MovementEntity movement, AccountDto account) {
+    public TransactionEntity process(TransactionEntity movement, AccountDto account) {
         log.info("Processing credit movement: {}", movement.getAmount() + " to account: " + account.getNumber());
         if (movement.getAmount().compareTo(BigDecimal.valueOf(0.5)) < 0
                 || movement.getAmount().compareTo(BigDecimal.valueOf(10000.0)) > 0) {
@@ -29,7 +36,7 @@ public class CreditStrategy implements TransactionStrategy {
         movement.setType(this.getType());
         movement.setDate(LocalDateTime.now());
         account.setAvailableBalance(newBalance);
-        movement.setAccount(account.toEntity());
+        movement.setAccount(accountMapper.toEntity(account));
         log.info("Credit movement processed successfully");
         return movement;
     }

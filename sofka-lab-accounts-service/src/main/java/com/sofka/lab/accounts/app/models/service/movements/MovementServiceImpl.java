@@ -4,9 +4,11 @@ import com.sofka.bank.objects.Customer;
 import com.sofka.lab.accounts.app.clients.CustomerRestAdapter;
 import com.sofka.lab.accounts.app.models.dao.MovementDao;
 import com.sofka.lab.accounts.app.models.dtos.AccountDto;
-import com.sofka.lab.accounts.app.models.dtos.MovementDto;
-import com.sofka.lab.accounts.app.models.entity.MovementEntity;
+import com.sofka.lab.accounts.app.models.dtos.TransactionDto;
+import com.sofka.lab.accounts.app.models.entities.AccountEntity;
+import com.sofka.lab.accounts.app.models.entities.TransactionEntity;
 import com.sofka.lab.accounts.app.models.service.accounts.AccountService;
+import com.sofka.lab.accounts.app.models.service.movements.mappers.TransactionMapper;
 import com.sofka.lab.accounts.app.models.service.movements.strategies.TransactionStrategy;
 import com.sofka.lab.common.exceptions.BusinessLogicException;
 import com.sofka.lab.common.dtos.AccountReportDto;
@@ -32,7 +34,10 @@ public class MovementServiceImpl implements MovementService {
 
     private final Map<String, TransactionStrategy> trnStrategies;
 
-    public MovementServiceImpl(MovementDao movementDao, AccountService accountService, CustomerRestAdapter customerRest,
+    public MovementServiceImpl(MovementDao movementDao,
+                               AccountService accountService,
+                               CustomerRestAdapter customerRest,
+                               TransactionMapper transactionMapper,
                                List<TransactionStrategy> strategyList) {
         this.movementDao = movementDao;
         this.accountService = accountService;
@@ -47,45 +52,33 @@ public class MovementServiceImpl implements MovementService {
 
     @Override
     @Transactional
-    public MovementEntity save(MovementEntity movement) {
-
-        if (movement.getAmount() != null && movement.getAmount().compareTo(BigDecimal.valueOf(0.0)) < 0) {
-            throw new BusinessLogicException(2002);
-        }
-        String accountNumber = movement.getAccount().getNumber();
-        AccountDto accountDto = null;
-        if (accountNumber != null) {
-            accountDto = accountService.findByNumber(accountNumber);
-        } else {
-            accountDto = accountService.findById(movement.getAccount().getId());
-        }
-
-        if (accountDto == null) {
-            throw new BusinessLogicException(2000);
-        }
-
-        TransactionStrategy strategy = trnStrategies.get(movement.getType());
-        MovementEntity movementEntity = strategy.process(movement, accountDto);
-        accountService.updateBalance(accountNumber, accountDto.getAvailableBalance());
+    public TransactionEntity save(TransactionEntity movement) {
+        if (movement.getAmount() != null
+                && movement.getAmount().compareTo(BigDecimal.valueOf(0.0)) < 0) throw new BusinessLogicException(2002);
+        var accountDto = getAccount(movement.getAccount());
+        if (accountDto == null) throw new BusinessLogicException(2000);
+        var strategy = trnStrategies.get(movement.getType());
+        var movementEntity = strategy.process(movement, accountDto);
+        accountService.updateBalance(accountDto.getNumber(), accountDto.getAvailableBalance());
         return movementDao.save(movementEntity);
     }
 
 
     @Override
     @Transactional(readOnly = true)
-    public List<MovementEntity> findAll() {
+    public List<TransactionEntity> findAll() {
         return movementDao.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<MovementDto> findByAccountNumber(String accountNumber) {
+    public List<TransactionDto> findByAccountNumber(String accountNumber) {
         return movementDao.findByAccountNumber(accountNumber);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public MovementEntity findById(Long id) {
+    public TransactionEntity findById(Long id) {
         return movementDao.findById(id).orElseThrow(() -> new BusinessLogicException(2003));
     }
 
@@ -94,12 +87,16 @@ public class MovementServiceImpl implements MovementService {
     public List<AccountReportDto> getAccountReportByCustomerIdentification(
             String customerId, LocalDateTime startDate, LocalDateTime endDate) {
         Customer customerDto = customerRest.findByIdentification(customerId);
-        if (customerDto == null) {
-            throw new BusinessLogicException(2002);
-        }
+        if (customerDto == null) throw new BusinessLogicException(2002);
         List<AccountReportDto> reporteCuentas = movementDao.report(customerDto.getId(), startDate, endDate);
         reporteCuentas.forEach(r -> r.setCustomer(customerDto.getName()));
         return reporteCuentas;
+    }
+
+    private AccountDto getAccount(AccountEntity accountEntity) {
+        return accountEntity.getNumber() != null ?
+                accountService.findByNumber(accountEntity.getNumber()) :
+                accountService.findById(accountEntity.getId());
     }
 
 

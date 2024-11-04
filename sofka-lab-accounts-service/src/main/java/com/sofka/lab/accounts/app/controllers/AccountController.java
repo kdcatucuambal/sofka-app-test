@@ -3,6 +3,7 @@ package com.sofka.lab.accounts.app.controllers;
 import com.sofka.bank.objects.*;
 import com.sofka.lab.accounts.app.controllers.adapters.accounts.AccountServiceAdapter;
 import com.sofka.lab.accounts.app.controllers.adapters.validators.AccountValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/accounts")
+@Slf4j
 public class AccountController {
 
     private final AccountServiceAdapter accountService;
@@ -31,11 +33,8 @@ public class AccountController {
     @ResponseStatus(HttpStatus.CREATED)
     public AccountPSTRs accountPST(@RequestBody AccountPSTRq accountPSTRq, BindingResult result) {
         accountValidator.validate(accountPSTRq, result);
-        System.out.println("I'M ERROR: " + result.hasErrors());
         if (result.hasErrors()) {
-            result.getAllErrors().forEach(error -> {
-                System.out.println("ERROR: " + error.getDefaultMessage());
-            });
+            log.error("Error in accountPST: {}", result.getAllErrors());
         }
         return accountService.execAccountPST(accountPSTRq);
     }

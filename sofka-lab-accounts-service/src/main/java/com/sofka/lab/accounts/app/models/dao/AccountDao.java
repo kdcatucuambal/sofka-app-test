@@ -1,6 +1,6 @@
 package com.sofka.lab.accounts.app.models.dao;
 
-import com.sofka.lab.accounts.app.models.entity.AccountEntity;
+import com.sofka.lab.accounts.app.models.entities.AccountEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

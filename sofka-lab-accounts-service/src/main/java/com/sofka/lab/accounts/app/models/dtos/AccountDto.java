@@ -1,7 +1,6 @@
 package com.sofka.lab.accounts.app.models.dtos;
 
-import com.sofka.lab.accounts.app.models.entity.AccountEntity;
-import com.sofka.lab.common.dtos.CustomerDto;
+import com.sofka.lab.accounts.app.models.entities.AccountEntity;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -14,19 +13,19 @@ public class AccountDto {
 
     private Long id;
     private String number;
+    private String type;
     private BigDecimal initBalance;
     private BigDecimal availableBalance;
-    private String type;
     private Boolean status;
-    private CustomerDto customer;
+    private CustomerDto customerDto;
 
     public AccountDto() {}
 
 
-    public AccountDto(BigDecimal availableBalance, CustomerDto customer, Long id, String number,
+    public AccountDto(BigDecimal availableBalance, CustomerDto customerId, Long id, String number,
                       BigDecimal initBalance, Boolean status, String type) {
         this.availableBalance = availableBalance;
-        this.customer = customer;
+        this.customerDto = customerId;
         this.id = id;
         this.number = number;
         this.initBalance = initBalance;
@@ -34,11 +33,11 @@ public class AccountDto {
         this.type = type;
     }
 
-    public AccountEntity toEntity() {
-        AccountEntity account = new AccountEntity();
-        account.setId(id);
-        return account;
-    }
+//    public AccountEntity toEntity() {
+//        AccountEntity account = new AccountEntity();
+//        account.setId(id);
+//        return account;
+//    }
 
 
 }

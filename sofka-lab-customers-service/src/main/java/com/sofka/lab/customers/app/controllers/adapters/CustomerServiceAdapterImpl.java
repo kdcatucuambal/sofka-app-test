@@ -8,85 +8,55 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CustomerServiceAdapterImpl implements CustomerServiceAdapter {
 
 
     private final CustomerService customerService;
+    private final CustomerControllerMapper customerMapper;
 
-    public CustomerServiceAdapterImpl(CustomerService customerService) {
+    public CustomerServiceAdapterImpl(CustomerService customerService, CustomerControllerMapper customerMapper) {
         this.customerService = customerService;
+        this.customerMapper = customerMapper;
     }
 
     @Override
     public CustomerGETAllRs execCustomerGETAll() {
-        List<Customer> customers = new ArrayList<>();
-        customerService.findAll().forEach(customerDto -> {
-            Customer customer = Customer.builder()
-                    .id(customerDto.getId())
-                    .name(customerDto.getName())
-                    .age(customerDto.getAge())
-                    .status(customerDto.getStatus())
-                    .phone(customerDto.getPhone())
-                    .address(customerDto.getAddress())
-                    .genre(Customer.GenreEnum.valueOf(customerDto.getGenre()))
-                    .identification(customerDto.getIdentification())
-                    .build();
-            customers.add(customer);
-        });
+        List<Customer> customers = customerService.findAll()
+                .stream()
+                .map(customerMapper::toCustomer)
+                .collect(Collectors.toList());
         return new CustomerGETAllRs(customers);
     }
 
     @Override
     public CustomerPSTRs execCustomerPST(CustomerPSTRq customerPSTRq) {
         var customerRq = customerPSTRq.getCustomer();
-        var customerEntity = new CustomerEntity();
-
-        customerEntity.setPassword(customerRq.getPassword());
-        customerEntity.setStatus(customerRq.getStatus());
-        customerEntity.setAddress(customerRq.getAddress());
-        customerEntity.setAge(customerRq.getAge());
-        customerEntity.setGenre(customerRq.getGenre().getValue());
-        customerEntity.setIdentification(customerRq.getIdentification());
-        customerEntity.setName(customerRq.getName());
-        customerEntity.setPhone(customerRq.getPhone());
-
-        var customerDto = this.customerService.save(customerEntity);
-        System.out.println("CUSTOMER_DTO: " + customerDto.toString());
-        var customerPSTRs = new CustomerPSTRs();
+        var customerDto = this.customerService.save(customerMapper.toCustomerEntity(customerRq));
         var customer = Customer.builder().id(customerDto.getId()).build();
-        customerPSTRs.setCustomer(customer);
-        return customerPSTRs;
+        return new CustomerPSTRs(customer);
     }
 
     @Override
     public CustomerPTCRs execCustomerPTC(CustomerPTCRq customerPTCRq) {
         var customerRq = customerPTCRq.getCustomer();
-        CustomerDto customerDto = CustomerDto.builder()
-                .id(customerRq.getId())
-                .name(customerRq.getName())
-                .age(customerRq.getAge())
-                .status(customerRq.getStatus())
-                .phone(customerRq.getPhone())
-                .address(customerRq.getAddress())
-                .genre(customerRq.getGenre().getValue())
-                .build();
-        this.customerService.update(customerDto);
-        return new CustomerPTCRs(Customer.builder().id(customerDto.getId()).build());
+        var customerUpdated = this.customerService.update(customerMapper.toCustomerDto(customerRq));
+        return new CustomerPTCRs(Customer.builder().id(customerUpdated.getId()).build());
     }
 
     @Override
     public CustomerGETByIdentificationRs execCustomerGETByIdentification(String identification) {
         CustomerDto customerDto = this.customerService.findByIdentification(identification);
-        return new CustomerGETByIdentificationRs(mapCustomer(customerDto));
+        return new CustomerGETByIdentificationRs(customerMapper.toCustomer(customerDto));
     }
 
 
     @Override
     public CustomerGETByCodeRs execCustomerGETByCode(Long code) {
         CustomerDto customerDto = this.customerService.findById(code);
-        return new CustomerGETByCodeRs(mapCustomer(customerDto));
+        return new CustomerGETByCodeRs(customerMapper.toCustomer(customerDto));
     }
 
     @Override
@@ -95,16 +65,4 @@ public class CustomerServiceAdapterImpl implements CustomerServiceAdapter {
         return new CustomerDELRs(Customer.builder().id(code).build());
     }
 
-    private Customer mapCustomer(CustomerDto customerDto) {
-        return Customer.builder()
-                .id(customerDto.getId())
-                .name(customerDto.getName())
-                .age(customerDto.getAge())
-                .status(customerDto.getStatus())
-                .phone(customerDto.getPhone())
-                .address(customerDto.getAddress())
-                .genre(Customer.GenreEnum.valueOf(customerDto.getGenre()))
-                .identification(customerDto.getIdentification())
-                .build();
-    }
 }

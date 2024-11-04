@@ -17,7 +17,8 @@ public class CustomerDto {
     private String phone;
     private Boolean status;
 
-    public CustomerDto(Long id, String name, String genre, Integer age, String identification, String address, String phone, Boolean status) {
+    public CustomerDto(Long id, String name, String genre, Integer age, String identification, String address,
+                       String phone, Boolean status) {
         this.id = id;
         this.name = name;
         this.genre = genre;

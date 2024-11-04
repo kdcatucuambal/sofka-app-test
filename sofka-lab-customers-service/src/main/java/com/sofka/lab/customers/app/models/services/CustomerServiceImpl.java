@@ -4,6 +4,7 @@ import com.sofka.lab.common.exceptions.BusinessLogicException;
 import com.sofka.lab.customers.app.models.dao.CustomerDao;
 import com.sofka.lab.customers.app.models.entity.CustomerEntity;
 import com.sofka.lab.customers.app.models.entity.dtos.CustomerDto;
+import com.sofka.lab.customers.app.models.entity.dtos.CustomerMapper;
 import org.slf4j.Logger;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,12 @@ public class CustomerServiceImpl implements CustomerService {
     private final Logger logger = org.slf4j.LoggerFactory.getLogger(CustomerServiceImpl.class);
     private final CustomerDao customerDao;
     private final PasswordEncoder passwordEncoder;
+    private final CustomerMapper customerMapper;
 
-    public CustomerServiceImpl(CustomerDao customerDao, PasswordEncoder passwordEncoder) {
+    public CustomerServiceImpl(CustomerDao customerDao, PasswordEncoder passwordEncoder, CustomerMapper customerMapper) {
         this.customerDao = customerDao;
         this.passwordEncoder = passwordEncoder;
+        this.customerMapper = customerMapper;
     }
 
     @Override
@@ -45,27 +48,23 @@ public class CustomerServiceImpl implements CustomerService {
             throw new BusinessLogicException(3001);
         }
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
-        var customerSaved = customerDao.save(customer);
-        System.out.println(customerSaved);
-        return customerDao.findDtoById(customerSaved.getId());
+        return customerMapper.toDto(customerDao.save(customer));
     }
 
     @Override
     @Transactional
-    public CustomerDto update(CustomerDto customer) {
-        var customerSaved = this.customerDao.findById(customer.getId())
-                .map(element -> {
-                            element.setName(customer.getName());
-                            element.setGenre(customer.getGenre());
-                            element.setAge(customer.getAge());
-                            element.setAddress(customer.getAddress());
-                            element.setPhone(customer.getPhone());
-                            element.setStatus(customer.getStatus());
-                            return customerDao.save(element);
-                        }
-                ).orElseThrow(() -> new BusinessLogicException(3000));
+    public CustomerDto update(CustomerDto customerDto) {
+        var customerSaved = this.customerDao
+                .findById(customerDto.getId())
+                .map(customerEntity -> {
+                    System.out.println("element idenification = " + customerEntity.getIdentification());
+                    customerMapper.updateEntityFromDto(customerDto, customerEntity);
+                    System.out.println("element kc = " + customerEntity);
+                    return customerDao.save(customerEntity);
+                })
+                .orElseThrow(() -> new BusinessLogicException(3000));
         logger.info("Customer updated: {}", customerSaved.getId());
-        return customer;
+        return customerDto;
     }
 
     @Override

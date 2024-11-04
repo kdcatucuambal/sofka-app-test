@@ -1,7 +1,9 @@
 package com.sofka.lab.accounts.app.models.service.movements.strategies;
 
 import com.sofka.lab.accounts.app.models.dtos.AccountDto;
-import com.sofka.lab.accounts.app.models.entity.MovementEntity;
+import com.sofka.lab.accounts.app.models.entities.TransactionEntity;
+import com.sofka.lab.accounts.app.models.service.accounts.mappers.AccountMapper;
+import com.sofka.lab.accounts.app.models.service.movements.mappers.TransactionMapper;
 import com.sofka.lab.common.exceptions.BusinessLogicException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,18 @@ import java.time.LocalDateTime;
 public class DebitStrategy implements TransactionStrategy {
 
 
+    private final TransactionMapper transactionMapper;
+    private final AccountMapper accountMapper;
+
     private final String type = "DBT";
 
+    public DebitStrategy(TransactionMapper transactionMapper, AccountMapper accountMapper) {
+        this.transactionMapper = transactionMapper;
+        this.accountMapper = accountMapper;
+    }
+
     @Override
-    public MovementEntity process(MovementEntity movement, AccountDto account) {
+    public TransactionEntity process(TransactionEntity movement, AccountDto account) {
         log.info("Processing deposit movement: {}", movement.getAmount() + " to account: " + account.getNumber());
         if (movement.getAmount().compareTo(BigDecimal.valueOf(1.0)) < 0 || movement.getAmount().compareTo(BigDecimal.valueOf(5000.0)) > 0) {
             log.error("The transaction amount is incorrect.");
@@ -31,9 +41,9 @@ public class DebitStrategy implements TransactionStrategy {
         movement.setBalance(newBalance);
         movement.setType(this.getType());
         movement.setDate(LocalDateTime.now());
-        movement.setAccount(account.toEntity());
         movement.setAmount(movement.getAmount().negate());
         account.setAvailableBalance(newBalance);
+        movement.setAccount(accountMapper.toEntity(account));
         log.info("Deposit movement processed successfully");
         return movement;
     }
