@@ -46,6 +46,7 @@ public class AccountServiceImpl implements AccountService {
         Customer customerDto = getCustomer(accountDto.getCustomerDto());
         if (customerDto == null) throw new BusinessLogicException(1000);
         accountDto.getCustomerDto().setId(customerDto.getId());
+        accountDto.setAvailableBalance(accountDto.getInitBalance());
         AccountEntity accountEntity = accountFactory
                 .getCreatorAccount(accountDto.getType())
                 .createAccount(accountDto);

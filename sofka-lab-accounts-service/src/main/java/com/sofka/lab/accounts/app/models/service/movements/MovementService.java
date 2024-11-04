@@ -1,8 +1,8 @@
 package com.sofka.lab.accounts.app.models.service.movements;
 
+import com.sofka.lab.accounts.app.models.dtos.AccountReportDto;
 import com.sofka.lab.accounts.app.models.dtos.TransactionDto;
 import com.sofka.lab.accounts.app.models.entities.TransactionEntity;
-import com.sofka.lab.common.dtos.AccountReportDto;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,8 +1,8 @@
 package com.sofka.lab.accounts.app.models.dao;
 
+import com.sofka.lab.accounts.app.models.dtos.AccountReportDto;
 import com.sofka.lab.accounts.app.models.dtos.TransactionDto;
 import com.sofka.lab.accounts.app.models.entities.TransactionEntity;
-import com.sofka.lab.common.dtos.AccountReportDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,7 +18,7 @@ public interface MovementDao extends JpaRepository<TransactionEntity, Long> {
     List<TransactionDto> findByAccountNumber(String number);
 
 
-    @Query("SELECT NEW com.sofka.lab.common.dtos.AccountReportDto(m.date, c.number, m.type, c.initBalance, c.status," +
+    @Query("SELECT NEW com.sofka.lab.accounts.app.models.dtos.AccountReportDto(m.id, m.date, c.number, m.type, c.initBalance, c.status," +
             " m.amount, m.balance) FROM AccountEntity c " +
             "JOIN TransactionEntity m ON c.id = m.account.id " +
             "WHERE c.customerId = :customerId " +

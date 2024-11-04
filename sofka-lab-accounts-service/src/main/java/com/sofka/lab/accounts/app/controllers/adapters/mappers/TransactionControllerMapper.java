@@ -2,11 +2,11 @@ package com.sofka.lab.accounts.app.controllers.adapters.mappers;
 
 import com.sofka.bank.objects.Account;
 import com.sofka.bank.objects.Transaction;
+import com.sofka.lab.accounts.app.models.dtos.AccountReportDto;
 import com.sofka.lab.accounts.app.models.dtos.TransactionDto;
 import com.sofka.lab.accounts.app.models.entities.AccountEntity;
 import com.sofka.lab.accounts.app.models.entities.TransactionEntity;
 import com.sofka.lab.accounts.app.utils.Constants;
-import com.sofka.lab.common.dtos.AccountReportDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -42,7 +42,8 @@ public interface TransactionControllerMapper {
 
     default AccountEntity toAccountEntityFromTransaction(Transaction transaction) {
         return AccountEntity.builder()
-                .number(transaction.getAccount().getNumber())
+                .id(transaction.getAccount().getId() != null ? transaction.getAccount().getId() : null)
+                .number(transaction.getAccount().getNumber() != null ? transaction.getAccount().getNumber() : null)
                 .build();
     }
 

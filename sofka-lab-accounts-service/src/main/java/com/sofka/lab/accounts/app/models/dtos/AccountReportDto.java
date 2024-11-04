@@ -1,11 +1,9 @@
-package com.sofka.lab.common.dtos;
+package com.sofka.lab.accounts.app.models.dtos;
 
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -13,9 +11,9 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @ToString
-@Deprecated
 public class AccountReportDto {
 
+    private Long id;
     private String customer;
     private LocalDateTime date;
     private String accountNumber;
@@ -25,8 +23,9 @@ public class AccountReportDto {
     private BigDecimal movement;
     private BigDecimal availableBalance;
 
-    public AccountReportDto(LocalDateTime date, String accountNumber, String type, BigDecimal
+    public AccountReportDto(Long id, LocalDateTime date, String accountNumber, String type, BigDecimal
             initialBalance, Boolean status, BigDecimal movement, BigDecimal availableBalance) {
+        this.id = id;
         this.date = date;
         this.accountNumber = accountNumber;
         this.type = type;
