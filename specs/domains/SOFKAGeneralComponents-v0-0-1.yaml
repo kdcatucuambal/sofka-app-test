@@ -19,6 +19,30 @@ components:
         message:
           type: string
           description: "The success message"
+    
+    ErrorResponseDetail:
+      type: object
+      description: "Mensaje del error de respuesta."
+      properties:
+        message:
+          type: string
+          description: "Mensaje general del error."
+        details:
+          type: array
+          description: "Detalles específicos del error."
+          items:
+            $ref: "#/components/schemas/Error"
+
+    Error:
+      type: object
+      description: "Error específico de la aplicación."
+      properties:
+        code:
+          type: string
+          description: "Código de error específico."
+        message:
+          type: string
+          description: "Mensaje de error específico."  
 
   parameters:
     x-request-id:

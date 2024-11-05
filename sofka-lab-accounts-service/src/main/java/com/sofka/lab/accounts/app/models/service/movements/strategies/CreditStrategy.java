@@ -29,7 +29,7 @@ public class CreditStrategy implements TransactionStrategy {
         if (movement.getAmount().compareTo(BigDecimal.valueOf(0.5)) < 0
                 || movement.getAmount().compareTo(BigDecimal.valueOf(10000.0)) > 0) {
             log.error("The transaction amount is incorrect.");
-            throw new BusinessLogicException("El monto mínimo para acreditar es de $0,50 y el máximo es de $10,000.", "202");
+            throw new BusinessLogicException(2005);
         }
         BigDecimal newBalance = account.getAvailableBalance().add(movement.getAmount());
         movement.setBalance(newBalance);

@@ -36,6 +36,34 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomerGETAllRs"
+        404:
+          description: >
+            El recurso solicitado no fue encontrado:
+              * 3000: El cliente con el id proporcionado no existe.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Recursos no encontrado."
+                details:
+                  - code: "3000"
+                    message: "El cliente con el id proporcionado no existe."
+        
+        409:
+          description: >
+            La operación presentó un error durante la ejecución:
+              * 3001: Lá cedula del cliente tiene errores.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Error en la operación."
+                details:
+                  - code: "3001"
+                    message: "La cedula del cliente tiene errores."
+    
     post:
       tags:
         - Customers
@@ -55,6 +83,33 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomerPSTRs"
+        404:
+          description: >
+            El recurso solicitado no fue encontrado:
+              * 3000: El cliente con el id proporcionado no existe.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Recursos no encontrado."
+                details:
+                  - code: "3000"
+                    message: "El cliente con el id proporcionado no existe."
+        
+        409:
+          description: >
+            La operación presentó un error durante la ejecución:
+              * 3001: Lá cedula del cliente tiene errores.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Error en la operación."
+                details:
+                  - code: "3001"
+                    message: "La cedula del cliente tiene errores."
 
   /customers/by-identification/{customerIdentification}:
     get:
@@ -77,6 +132,33 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomerGETByIdentificationRs"
+        404:
+          description: >
+            El recurso solicitado no fue encontrado:
+              * 3000: El cliente con el id proporcionado no existe.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Recursos no encontrado."
+                details:
+                  - code: "3000"
+                    message: "El cliente con el id proporcionado no existe."
+        
+        409:
+          description: >
+            La operación presentó un error durante la ejecución:
+              * 3001: Lá cedula del cliente tiene errores.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Error en la operación."
+                details:
+                  - code: "3001"
+                    message: "La cedula del cliente tiene errores."
 
   /customers/{id}:
     get:
@@ -100,6 +182,33 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomerGETByCodeRs"
+        404:
+          description: >
+            El recurso solicitado no fue encontrado:
+              * 3000: El cliente con el id proporcionado no existe.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Recursos no encontrado."
+                details:
+                  - code: "3000"
+                    message: "El cliente con el id proporcionado no existe."
+        
+        409:
+          description: >
+            La operación presentó un error durante la ejecución:
+              * 3001: Lá cedula del cliente tiene errores.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Error en la operación."
+                details:
+                  - code: "3001"
+                    message: "La cedula del cliente tiene errores."
     delete:
       tags:
         - Customers
@@ -116,11 +225,38 @@ paths:
             format: int64
       responses:
         201:
-          description: "Se ha eliminado exitosamente."
+          description: "Se ha eliminado exitosamente el cliente."
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomerDELRs"
+        404:
+          description: >
+            El recurso solicitado no fue encontrado:
+              * 3000: El cliente con el id proporcionado no existe.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Recursos no encontrado."
+                details:
+                  - code: "3000"
+                    message: "El cliente con el id proporcionado no existe."
+        
+        409:
+          description: >
+            La operación presentó un error durante la ejecución:
+              * 3001: Lá cedula del cliente tiene errores.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Error en la operación."
+                details:
+                  - code: "3001"
+                    message: "La cedula del cliente tiene errores."
     patch:
       tags:
         - Customers
@@ -148,6 +284,33 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomerPTCRs"
+        404:
+          description: >
+            El recurso solicitado no fue encontrado:
+              * 3000: El cliente con el id proporcionado no existe.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Recursos no encontrado."
+                details:
+                  - code: "3000"
+                    message: "El cliente con el id proporcionado no existe."
+        
+        409:
+          description: >
+            La operación presentó un error durante la ejecución:
+              * 3001: Lá cedula del cliente tiene errores.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Error en la operación."
+                details:
+                  - code: "3001"
+                    message: "La cedula del cliente tiene errores."
 
 components:
   schemas:

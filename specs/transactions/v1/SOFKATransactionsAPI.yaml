@@ -36,6 +36,37 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TransactionGETAllRs"
+        404:
+          description: >
+            El recurso solicitado no fue encontrado:
+              * 2000: Cuenta no encontrada para la transacción.
+              * 2002: Cliente no encontrado para generar el reporte.
+              * 2003: El movimiento para el id proporcionado no existe.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Recursos no encontrado."
+                details:
+                  - code: "3000"
+                    message: "El cliente con el id proporcionado no existe."
+        
+        409:
+          description: >
+            La operación presentó un error durante la ejecución:
+              * 2001: El saldo es insuficiente para la transacción.
+              * 2004: El monto mínimo para debitar es de $1 y el máximo es de $5,000.
+              * 2005: El monto mínimo para acreditar es de $0,50 y el máximo es de $10,000.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Error en la operación."
+                details:
+                  - code: "1003"
+                    message: "Ocurrió un error."
     post:
       tags:
         - Transactions
@@ -55,6 +86,37 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TransactionPSTRs"
+        404:
+          description: >
+            El recurso solicitado no fue encontrado:
+              * 2000: Cuenta no encontrada para la transacción.
+              * 2002: Cliente no encontrado para generar el reporte.
+              * 2003: El movimiento para el id proporcionado no existe.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Recursos no encontrado."
+                details:
+                  - code: "3000"
+                    message: "El cliente con el id proporcionado no existe."
+        
+        409:
+          description: >
+            La operación presentó un error durante la ejecución:
+              * 2001: El saldo es insuficiente para la transacción.
+              * 2004: El monto mínimo para debitar es de $1 y el máximo es de $5,000.
+              * 2005: El monto mínimo para acreditar es de $0,50 y el máximo es de $10,000.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Error en la operación."
+                details:
+                  - code: "1003"
+                    message: "Ocurrió un error."
 
   /transactions/by-account-number/{accountNumber}:
     get:
@@ -77,6 +139,37 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TransactionGETByAccountNumberRs"
+        404:
+          description: >
+            El recurso solicitado no fue encontrado:
+              * 2000: Cuenta no encontrada para la transacción.
+              * 2002: Cliente no encontrado para generar el reporte.
+              * 2003: El movimiento para el id proporcionado no existe.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Recursos no encontrado."
+                details:
+                  - code: "3000"
+                    message: "El cliente con el id proporcionado no existe."
+        
+        409:
+          description: >
+            La operación presentó un error durante la ejecución:
+              * 2001: El saldo es insuficiente para la transacción.
+              * 2004: El monto mínimo para debitar es de $1 y el máximo es de $5,000.
+              * 2005: El monto mínimo para acreditar es de $0,50 y el máximo es de $10,000.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Error en la operación."
+                details:
+                  - code: "1003"
+                    message: "Ocurrió un error."
 
   /transactions/{id}:
     get:
@@ -100,6 +193,37 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TransactionGETByCodeRs"
+        404:
+          description: >
+            El recurso solicitado no fue encontrado:
+              * 2000: Cuenta no encontrada para la transacción.
+              * 2002: Cliente no encontrado para generar el reporte.
+              * 2003: El movimiento para el id proporcionado no existe.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Recursos no encontrado."
+                details:
+                  - code: "3000"
+                    message: "El cliente con el id proporcionado no existe."
+        
+        409:
+          description: >
+            La operación presentó un error durante la ejecución:
+              * 2001: El saldo es insuficiente para la transacción.
+              * 2004: El monto mínimo para debitar es de $1 y el máximo es de $5,000.
+              * 2005: El monto mínimo para acreditar es de $0,50 y el máximo es de $10,000.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Error en la operación."
+                details:
+                  - code: "1003"
+                    message: "Ocurrió un error."
 
   /transactions/report/by-customer-identification/{customerIdentification}:
     get:
@@ -136,6 +260,37 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TransactionReportGETByCustomerIdentificationRs"
+        404:
+          description: >
+            El recurso solicitado no fue encontrado:
+              * 2000: Cuenta no encontrada para la transacción.
+              * 2002: Cliente no encontrado para generar el reporte.
+              * 2003: El movimiento para el id proporcionado no existe.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Recursos no encontrado."
+                details:
+                  - code: "3000"
+                    message: "El cliente con el id proporcionado no existe."
+        
+        409:
+          description: >
+            La operación presentó un error durante la ejecución:
+              * 2001: El saldo es insuficiente para la transacción.
+              * 2004: El monto mínimo para debitar es de $1 y el máximo es de $5,000.
+              * 2005: El monto mínimo para acreditar es de $0,50 y el máximo es de $10,000.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Error en la operación."
+                details:
+                  - code: "1003"
+                    message: "Ocurrió un error."
 
 components:
   schemas:

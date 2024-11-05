@@ -36,6 +36,35 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AccountGETAllRs"
+        404:
+          description: >
+            El recurso solicitado no fue encontrado:
+              * 1000: El cliente asociado no existe.
+              * 1001: No existe la cuenta con el id proprocionado.
+              * 1002: No existe la cuenta con el número propcionado.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Recursos no encontrado."
+                details:
+                  - code: "3000"
+                    message: "El cliente con el id proporcionado no existe."
+        
+        409:
+          description: >
+            La operación presentó un error durante la ejecución:
+              * 1003: Para la apertura de una cuenta corriente el saldo inicial mínimo es de $10.00.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Error en la operación."
+                details:
+                  - code: "1003"
+                    message: "Ocurrió un error."
     post:
       tags:
         - Accounts
@@ -55,6 +84,35 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AccountPSTRs"
+        404:
+          description: >
+            El recurso solicitado no fue encontrado:
+              * 1000: El cliente asociado no existe.
+              * 1001: No existe la cuenta con el id proprocionado.
+              * 1002: No existe la cuenta con el número propcionado.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Recursos no encontrado."
+                details:
+                  - code: "3000"
+                    message: "El cliente con el id proporcionado no existe."
+        
+        409:
+          description: >
+            La operación presentó un error durante la ejecución:
+              * 1003: Para la apertura de una cuenta corriente el saldo inicial mínimo es de $10.00.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Error en la operación."
+                details:
+                  - code: "1003"
+                    message: "Ocurrió un error."
 
   /accounts/by-account-number/{accountNumber}:
     get:
@@ -77,6 +135,35 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AccountGETByAccountNumberRs"
+        404:
+          description: >
+            El recurso solicitado no fue encontrado:
+              * 1000: El cliente asociado no existe.
+              * 1001: No existe la cuenta con el id proprocionado.
+              * 1002: No existe la cuenta con el número propcionado.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Recursos no encontrado."
+                details:
+                  - code: "3000"
+                    message: "El cliente con el id proporcionado no existe."
+        
+        409:
+          description: >
+            La operación presentó un error durante la ejecución:
+              * 1003: Para la apertura de una cuenta corriente el saldo inicial mínimo es de $10.00.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Error en la operación."
+                details:
+                  - code: "1003"
+                    message: "Ocurrió un error."
 
   /accounts/{id}:
     get:
@@ -100,6 +187,36 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AccountGETByCodeRs"
+        404:
+          description: >
+            El recurso solicitado no fue encontrado:
+              * 1000: El cliente asociado no existe.
+              * 1001: No existe la cuenta con el id proprocionado.
+              * 1002: No existe la cuenta con el número propcionado.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Recursos no encontrado."
+                details:
+                  - code: "3000"
+                    message: "El cliente con el id proporcionado no existe."
+        
+        409:
+          description: >
+            La operación presentó un error durante la ejecución:
+              * 1003: Para la apertura de una cuenta corriente el saldo inicial mínimo es de $10.00.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Error en la operación."
+                details:
+                  - code: "1003"
+                    message: "Ocurrió un error."
+
     delete:
       tags:
         - Accounts
@@ -121,6 +238,36 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AccountDELRs"
+        404:
+          description: >
+            El recurso solicitado no fue encontrado:
+              * 1000: El cliente asociado no existe.
+              * 1001: No existe la cuenta con el id proprocionado.
+              * 1002: No existe la cuenta con el número propcionado.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Recursos no encontrado."
+                details:
+                  - code: "3000"
+                    message: "El cliente con el id proporcionado no existe."
+        
+        409:
+          description: >
+            La operación presentó un error durante la ejecución:
+              * 1003: Para la apertura de una cuenta corriente el saldo inicial mínimo es de $10.00.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Error en la operación."
+                details:
+                  - code: "1003"
+                    message: "Ocurrió un error."
+
     patch:
       tags:
         - Accounts
@@ -148,6 +295,35 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AccountPTCRs"
+        404:
+          description: >
+            El recurso solicitado no fue encontrado:
+              * 1000: El cliente asociado no existe.
+              * 1001: No existe la cuenta con el id proprocionado.
+              * 1002: No existe la cuenta con el número propcionado.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Recursos no encontrado."
+                details:
+                  - code: "3000"
+                    message: "El cliente con el id proporcionado no existe."
+        
+        409:
+          description: >
+            La operación presentó un error durante la ejecución:
+              * 1003: Para la apertura de una cuenta corriente el saldo inicial mínimo es de $10.00.
+          content:
+            application/json:
+              schema:
+                $ref: "SOFKAGeneralComponents-v0-0-1.yaml#/components/schemas/ErrorResponseDetail"
+              example:
+                message: "Error en la operación."
+                details:
+                  - code: "1003"
+                    message: "Ocurrió un error."
 
 components:
   schemas:

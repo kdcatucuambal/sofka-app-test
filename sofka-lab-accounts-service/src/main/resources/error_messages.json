@@ -6,12 +6,12 @@
   },
   "1001": {
     "code": 1001,
-    "messageES": "No existe la cuenta con el id proprocionado.",
+    "messageES": "No existe la cuenta con el id proporcionado.",
     "httpErrorCode": 404
   },
   "1002": {
     "code": 1002,
-    "messageES": "No existe la cuenta con el número propcionado.",
+    "messageES": "No existe la cuenta con el número proportional.",
     "httpErrorCode": 404
   },
   "1003": {
@@ -21,7 +21,7 @@
   },
   "2000": {
     "code": 2000,
-    "messageES": "Cuenta no encotrada para la transacción.",
+    "messageES": "Cuenta no encontrada para la transacción.",
     "httpErrorCode": 404
   },
   "2001": {
@@ -37,6 +37,16 @@
   "2003": {
     "code": 2003,
     "messageES": "El movimiento para el id proporcionado no existe.",
+    "httpErrorCode": 404
+  },
+  "2004": {
+    "code": 2004,
+    "messageES": "El monto mínimo para debitar es de $1 y el máximo es de $5,000.",
+    "httpErrorCode": 404
+  },
+  "2005": {
+    "code": 2005,
+    "messageES": "El monto mínimo para acreditar es de $0,50 y el máximo es de $10,000.",
     "httpErrorCode": 404
   }
 }

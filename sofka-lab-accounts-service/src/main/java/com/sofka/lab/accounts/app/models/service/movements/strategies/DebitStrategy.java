@@ -28,12 +28,12 @@ public class DebitStrategy implements TransactionStrategy {
         if (movement.getAmount().compareTo(BigDecimal.valueOf(1.0)) < 0 ||
                 movement.getAmount().compareTo(BigDecimal.valueOf(5000.0)) > 0) {
             log.error("The transaction amount is incorrect.");
-            throw new BusinessLogicException("El monto mínimo para debitar es de $1 y el máximo es de $5,000.", "202");
+            throw new BusinessLogicException(2004);
         }
         BigDecimal newBalance = account.getAvailableBalance().subtract(movement.getAmount());
         if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
             log.error("The account does not have enough balance to make the deposit");
-            throw new BusinessLogicException("El saldo es insuficiente para la transacción.", "201");
+            throw new BusinessLogicException(2001);
         }
         movement.setBalance(newBalance);
         movement.setType(this.getType());
