@@ -1,10 +1,10 @@
-package com.sofka.lab.customers.app.models.entity;
+package com.sofka.lab.customers.app.infrastructure.adapters.out.persistence.entity;
+
 
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serial;
-import java.io.Serializable;
 
 @Getter
 @Setter
@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "tbl_persons")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Person implements Serializable {
+public abstract class PersonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "per_id", nullable = false)
@@ -41,4 +41,6 @@ public abstract class Person implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
+
+
 }

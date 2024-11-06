@@ -8,5 +8,10 @@
     "code": 3001,
     "messageES": "La cédula del cliente tiene errores.",
     "httpErrorCode": 409
+  },
+  "3002": {
+    "code": 3002,
+    "messageES": "El cliente ya se encuentra dado de baja.",
+    "httpErrorCode": 409
   }
 }

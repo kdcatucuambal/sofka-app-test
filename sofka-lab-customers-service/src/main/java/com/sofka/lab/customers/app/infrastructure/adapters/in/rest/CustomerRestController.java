@@ -1,53 +1,50 @@
-package com.sofka.lab.customers.app.controllers;
+package com.sofka.lab.customers.app.infrastructure.adapters.in.rest;
+
 
 import com.sofka.bank.objects.*;
-import com.sofka.lab.customers.app.controllers.adapters.CustomerServiceAdapter;
+import com.sofka.lab.customers.app.infrastructure.adapters.in.rest.adapter.CustomerRestAdapter;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+@AllArgsConstructor
 @RestController
-@RequestMapping("/customers")
-public class CustomerController {
-
-    private final CustomerServiceAdapter customerService;
+@RequestMapping(value = "/customers")
+public class CustomerRestController {
 
 
-
-    public CustomerController(CustomerServiceAdapter customerService) {
-        this.customerService = customerService;
-    }
+    private final CustomerRestAdapter customerRestService;
 
     @GetMapping
     public CustomerGETAllRs customerGETAll() {
-        return this.customerService.execCustomerGETAll();
+        return customerRestService.execCustomerGETAll();
     }
 
     @GetMapping("/{id}")
     public CustomerGETByCodeRs customerGETByCode(@PathVariable Long id) {
-        return customerService.execCustomerGETByCode(id);
+        return customerRestService.execCustomerGETByCode(id);
     }
 
     @GetMapping("/by-identification/{customerIdentification}")
     public CustomerGETByIdentificationRs customerGETByIdentification(@PathVariable String customerIdentification) {
-        return customerService.execCustomerGETByIdentification(customerIdentification);
+        return customerRestService.execCustomerGETByIdentification(customerIdentification);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerPSTRs customerPST(@RequestBody CustomerPSTRq customer) {
-        return customerService.execCustomerPST(customer);
+        return customerRestService.execCustomerPST(customer);
     }
 
     @DeleteMapping("/{id}")
     public CustomerDELRs customerDEL(@PathVariable Long id) {
-        return this.customerService.execCustomerDEL(id);
+        return this.customerRestService.execCustomerDEL(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerPTCRs customerPTC(@RequestBody CustomerPTCRq customerPTCRq, @PathVariable Long id) {
-        customerPTCRq.getCustomer().setId(id);
-        return customerService.execCustomerPTC(customerPTCRq);
+        return customerRestService.execCustomerPTC(id, customerPTCRq);
     }
 
 
