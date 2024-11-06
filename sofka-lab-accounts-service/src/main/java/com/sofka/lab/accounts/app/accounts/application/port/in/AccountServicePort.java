@@ -9,12 +9,13 @@ public interface AccountServicePort {
     List<AccountDomain> findAll();
     AccountDomain findById(Long id);
 
-    AccountDomain findByNumber(Long id);
+    AccountDomain findByNumber(String number);
 
     AccountDomain save(AccountDomain accountDomain);
 
-    AccountDomain update(AccountDomain accountDomain);
+    AccountDomain update(Long id, AccountDomain accountDomain);
 
     AccountDomain deleteById(Long id);
+
 
 }

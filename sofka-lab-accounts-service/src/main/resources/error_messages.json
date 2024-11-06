@@ -19,6 +19,11 @@
     "messageES": "Para la apertura de una cuenta corriente (AHO) el saldo inicial mínimo es de $10.00.",
     "httpErrorCode": 409
   },
+  "1004": {
+    "code": 1004,
+    "messageES": "La cuenta se encuentra bloqueada.",
+    "httpErrorCode": 409
+  },
   "2000": {
     "code": 2000,
     "messageES": "Cuenta no encontrada para la transacción.",

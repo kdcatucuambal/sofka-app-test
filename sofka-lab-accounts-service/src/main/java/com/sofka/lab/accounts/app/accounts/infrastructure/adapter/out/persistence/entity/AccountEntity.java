@@ -1,10 +1,21 @@
 package com.sofka.lab.accounts.app.accounts.infrastructure.adapter.out.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
+
+import com.sofka.lab.accounts.app.transactions.infrastructure.adapter.out.persistence.entity.TransactionEntity;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "tbl_accounts")
 public class AccountEntity {
 
     @Id
@@ -29,6 +40,9 @@ public class AccountEntity {
     @Column(name = "cli_id", nullable = false)
     private Long customerId;
 
+    @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<TransactionEntity> movements;
 
 
 }

@@ -8,9 +8,9 @@ import java.util.Optional;
 public interface AccountPersistencePort {
 
     List<AccountDomain> findAll();
-    Optional<AccountDomain> findById();
+    Optional<AccountDomain> findById(Long id);
 
-    Optional<AccountDomain> findByNumber();
+    Optional<AccountDomain> findByNumber(String number);
     AccountDomain save (AccountDomain accountDomain);
 
     AccountDomain update (AccountDomain update);
