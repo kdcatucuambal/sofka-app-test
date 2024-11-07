@@ -44,22 +44,16 @@ public class TransactionPersistenceAdapter implements TransactionPersistentPort 
     }
 
     @Override
-    public List<TransactionDomain> findByIdAccountNumber(String accountNumber) {
+    public List<TransactionDomain> findAllByAccountNumber(String accountNumber) {
         List<TransactionDomain> transactionDomains = new ArrayList<>();
         this.transactionRepository.findAllByAccountNumber(accountNumber)
                 .forEach(transactionEntity -> transactionDomains.add(transactionMapper.toTransactionDomain(transactionEntity)));
         return transactionDomains;
     }
 
-    @Override
-    public void updateAccountBalance(String accountNumber, BigDecimal amount) {
 
-    }
 
-    @Override
-    public Account findCustomerByAccountNumber(String accountNumber) {
-        return null;
-    }
+
 
 
 }

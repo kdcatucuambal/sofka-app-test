@@ -3,11 +3,11 @@ package com.sofka.lab.customers.app.infrastructure.adapters.in.rest;
 
 import com.sofka.bank.objects.*;
 import com.sofka.lab.customers.app.infrastructure.adapters.in.rest.adapter.CustomerRestAdapter;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/customers")
 public class CustomerRestController {

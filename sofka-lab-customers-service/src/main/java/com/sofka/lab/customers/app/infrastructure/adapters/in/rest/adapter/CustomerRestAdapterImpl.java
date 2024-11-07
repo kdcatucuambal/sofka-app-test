@@ -3,10 +3,10 @@ package com.sofka.lab.customers.app.infrastructure.adapters.in.rest.adapter;
 import com.sofka.bank.objects.*;
 import com.sofka.lab.customers.app.application.port.in.CustomerServicePort;
 import com.sofka.lab.customers.app.infrastructure.adapters.in.rest.mapper.CustomerRestMapper;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Component
 public class CustomerRestAdapterImpl implements CustomerRestAdapter {
 

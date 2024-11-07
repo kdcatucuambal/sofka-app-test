@@ -22,5 +22,8 @@ public interface AccountRepository extends CrudRepository<AccountEntity, Long> {
     List<AccountEntity> findAllByStatusTrue();
 
 
+    @Query(value = "SELECT nextval('sofka_accounts.tbl_accounts_acc_id_seq')", nativeQuery = true)
+    Long getSequence();
+
 
 }

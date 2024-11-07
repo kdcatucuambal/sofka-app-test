@@ -1,23 +1,23 @@
-package com.sofka.lab.accounts.app.controllers;
+package com.sofka.lab.accounts.app.transactions.infrastructure.adapter.in.rest;
 
 import com.sofka.bank.objects.*;
-import com.sofka.lab.accounts.app.controllers.adapters.transactions.TransactionServiceAdapter;
+import com.sofka.lab.accounts.app.transactions.infrastructure.adapter.in.rest.adapter.TransactionRestAdapter;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
-
-
+@Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/transactions")
-public class TransactionController {
+public class TransactionRestController {
 
-    private final TransactionServiceAdapter transactionService;
 
-    public TransactionController(TransactionServiceAdapter transactionService) {
-        this.transactionService = transactionService;
-    }
+    private final TransactionRestAdapter transactionService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -49,5 +49,6 @@ public class TransactionController {
         return this.transactionService
                 .execTransReportGetByCustomerIdentification(customerIdentification, startDate, endDate);
     }
+
 
 }

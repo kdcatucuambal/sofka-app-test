@@ -8,14 +8,18 @@ import java.util.Optional;
 public interface AccountPersistencePort {
 
     List<AccountDomain> findAll();
+
     Optional<AccountDomain> findById(Long id);
 
     Optional<AccountDomain> findByNumber(String number);
-    AccountDomain save (AccountDomain accountDomain);
 
-    AccountDomain update (AccountDomain update);
+    AccountDomain save(AccountDomain accountDomain);
+
+    AccountDomain update(AccountDomain update);
 
     void deleteById(Long id);
+
+    Long getSeqForAccount();
 
 
 }

@@ -1,41 +1,24 @@
-package com.sofka.lab.accounts.app.controllers;
+package com.sofka.lab.accounts.app.accounts.infrastructure.adapter.in.rest;
 
 import com.sofka.bank.objects.*;
-import com.sofka.lab.accounts.app.controllers.adapters.accounts.AccountServiceAdapter;
-import com.sofka.lab.accounts.app.controllers.adapters.validators.AccountValidator;
+import com.sofka.lab.accounts.app.accounts.infrastructure.adapter.in.rest.adapter.AccountRestAdapter;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-
+@Slf4j
+@AllArgsConstructor
 @RestController
 @RequestMapping("/accounts")
-@Slf4j
-public class AccountController {
+public class AccountRestController {
 
-    private final AccountServiceAdapter accountService;
-    private final AccountValidator accountValidator;
-    
+    private final AccountRestAdapter accountService;
 
-    public AccountController(AccountServiceAdapter accountService, AccountValidator accountValidator) {
-        this.accountService = accountService;
-        this.accountValidator = accountValidator;
-    }
-
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        binder.addValidators(accountValidator);
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AccountPSTRs accountPST(@RequestBody AccountPSTRq accountPSTRq, BindingResult result) {
-        accountValidator.validate(accountPSTRq, result);
-        if (result.hasErrors()) {
-            log.error("Error in accountPST: {}", result.getAllErrors());
-        }
+    public AccountPSTRs accountPST(@RequestBody AccountPSTRq accountPSTRq) {
         return accountService.execAccountPST(accountPSTRq);
     }
 

@@ -55,4 +55,9 @@ public class AccountPersistenceAdapter implements AccountPersistencePort {
     public void deleteById(Long id) {
         this.accountRepository.updateStatusById(id, Boolean.FALSE);
     }
+
+    @Override
+    public Long getSeqForAccount() {
+        return this.accountRepository.getSequence();
+    }
 }

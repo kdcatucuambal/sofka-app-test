@@ -20,5 +20,6 @@ public class TransactionDomain {
     private BigDecimal balance;
     private LocalDateTime date;
     private Long accountId;
+    private String accountNumber;
 
 }

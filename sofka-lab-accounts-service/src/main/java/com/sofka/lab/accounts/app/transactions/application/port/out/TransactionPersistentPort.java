@@ -16,10 +16,8 @@ public interface TransactionPersistentPort {
 
     TransactionDomain save(TransactionDomain transactionDomain);
 
-    List<TransactionDomain> findByIdAccountNumber(String accountNumber);
+    List<TransactionDomain> findAllByAccountNumber(String accountNumber);
 
-    void updateAccountBalance(String accountNumber, BigDecimal amount);
 
-    Account findCustomerByAccountNumber(String accountNumber);
 
 }

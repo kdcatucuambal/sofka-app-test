@@ -1,8 +1,8 @@
-package com.sofka.lab.accounts.app.controllers.adapters.accounts;
+package com.sofka.lab.accounts.app.accounts.infrastructure.adapter.in.rest.adapter;
 
 import com.sofka.bank.objects.*;
 
-public interface AccountServiceAdapter {
+public interface AccountRestAdapter  {
 
     AccountGETAllRs execAccountGETAll();
 

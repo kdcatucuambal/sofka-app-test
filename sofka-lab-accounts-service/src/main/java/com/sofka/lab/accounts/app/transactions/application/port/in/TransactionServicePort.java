@@ -8,7 +8,7 @@ public interface TransactionServicePort {
 
     List<TransactionDomain> findAll();
 
-    List<TransactionDomain> findByIdAccountNumber(String accountNumber);
+    List<TransactionDomain> findAllByAccountNumber(String accountNumber);
 
     TransactionDomain findById(Long id);
 

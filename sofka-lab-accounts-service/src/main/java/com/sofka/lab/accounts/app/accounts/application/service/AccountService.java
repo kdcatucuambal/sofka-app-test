@@ -4,10 +4,13 @@ import com.sofka.lab.accounts.app.accounts.application.port.in.AccountServicePor
 import com.sofka.lab.accounts.app.accounts.application.port.out.AccountPersistencePort;
 import com.sofka.lab.accounts.app.accounts.application.service.factory.AccountFactory;
 import com.sofka.lab.accounts.app.accounts.domain.model.AccountDomain;
+import com.sofka.lab.accounts.app.transactions.application.port.out.TransactionPersistentPort;
+import com.sofka.lab.accounts.app.transactions.domain.model.TransactionDomain;
 import com.sofka.lab.common.exceptions.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -15,6 +18,9 @@ import java.util.List;
 public class AccountService implements AccountServicePort {
 
     private final AccountPersistencePort accountPersistencePort;
+    private final TransactionPersistentPort transactionServicePort;
+//    private final CustomerReadingServicePort customerReadingServicePort;
+
     private final AccountFactory accountFactory;
 
 
@@ -35,13 +41,20 @@ public class AccountService implements AccountServicePort {
 
     @Override
     public AccountDomain save(AccountDomain accountDomain) {
-        Long seq = 1L; //TODO: Implement sequence
         //TODO: Validate if customer exists
-        accountDomain = accountFactory.getCreatorAccount(accountDomain.getType())
-                .createAccount(seq, accountDomain);
+
+        Long seq = accountPersistencePort.getSeqForAccount();
+        accountDomain = accountFactory.getCreatorAccount(accountDomain.getType()).createAccount(seq, accountDomain);
+        accountDomain.setStatus(true);
+        accountDomain.setBalance(accountDomain.getInitBalance());
         //TODO: Send first transaction
-        return accountPersistencePort.save(accountDomain);
+        var accountCreated = accountPersistencePort.save(accountDomain);
+        var trnCreated = transactionServicePort.save(getFirstTransaction(accountDomain));
+        log.info("Account created: {}", accountCreated);
+        log.info("Transaction created: {}", trnCreated);
+        return accountCreated;
     }
+
 
     @Override
     public AccountDomain update(Long id, AccountDomain accountDomain) {
@@ -49,7 +62,7 @@ public class AccountService implements AccountServicePort {
         accountFound.setId(id);
         accountFound.setType(accountDomain.getType() != null ? accountDomain.getType() : accountFound.getType());
         accountFound.setStatus(accountDomain.getStatus() != null ? accountDomain.getStatus() : accountFound.getStatus());
-        return accountPersistencePort.update(accountDomain);
+        return accountPersistencePort.update(accountFound);
     }
 
     @Override
@@ -59,4 +72,16 @@ public class AccountService implements AccountServicePort {
         accountPersistencePort.deleteById(id);
         return accountFound;
     }
+
+
+    private TransactionDomain getFirstTransaction(AccountDomain accountDomain) {
+        return TransactionDomain.builder()
+                .accountId(accountDomain.getId())
+                .balance(accountDomain.getInitBalance())
+                .type("CRE")
+                .date(LocalDateTime.now())
+                .amount(accountDomain.getInitBalance())
+                .build();
+    }
+
 }

@@ -7,6 +7,7 @@ import java.util.List;
 public interface AccountServicePort {
 
     List<AccountDomain> findAll();
+
     AccountDomain findById(Long id);
 
     AccountDomain findByNumber(String number);

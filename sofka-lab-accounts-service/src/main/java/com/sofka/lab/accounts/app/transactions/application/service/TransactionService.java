@@ -1,6 +1,7 @@
 package com.sofka.lab.accounts.app.transactions.application.service;
 
 
+import com.sofka.lab.accounts.app.accounts.application.port.out.AccountPersistencePort;
 import com.sofka.lab.accounts.app.transactions.application.port.in.TransactionServicePort;
 import com.sofka.lab.accounts.app.transactions.application.port.out.TransactionPersistentPort;
 import com.sofka.lab.accounts.app.transactions.application.service.strategy.TransactionStrategy;
@@ -19,6 +20,7 @@ public class TransactionService implements TransactionServicePort {
 
 
     private final TransactionPersistentPort transactionService;
+    private final AccountPersistencePort accountService;
     private final Map<String, TransactionStrategy> trnStrategies;
 
     @Override
@@ -27,8 +29,8 @@ public class TransactionService implements TransactionServicePort {
     }
 
     @Override
-    public List<TransactionDomain> findByIdAccountNumber(String accountNumber) {
-        return transactionService.findByIdAccountNumber(accountNumber);
+    public List<TransactionDomain> findAllByAccountNumber(String accountNumber) {
+        return transactionService.findAllByAccountNumber(accountNumber);
     }
 
     @Override
@@ -41,12 +43,12 @@ public class TransactionService implements TransactionServicePort {
         if (transactionDomain.getAmount() != null
                 && transactionDomain.getAmount().compareTo(BigDecimal.ZERO) < 0) throw new BusinessLogicException(2002);
         var strategy = trnStrategies.get(transactionDomain.getType());
-        //TODO: Validate if account exists
-        var account = transactionService.findCustomerByAccountNumber(transactionDomain.getAccountId().toString());
-        if (account == null) throw new BusinessLogicException(2001);
+        var account = accountService
+                .findByNumber(transactionDomain.getAccountNumber())
+                .orElseThrow(() -> new BusinessLogicException(2001));
         transactionDomain = strategy.process(transactionDomain, account.getBalance());
-        //transactionDomain.getBalance(); TODO: Save balance in account
-        transactionService.updateAccountBalance(transactionDomain.getAccountId().toString(), transactionDomain.getAmount());
+        account.setBalance(transactionDomain.getBalance());
+        accountService.update(account);
         return transactionService.save(transactionDomain);
     }
 }
