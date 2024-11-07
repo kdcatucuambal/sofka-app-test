@@ -14,7 +14,7 @@ public class CheckingAccount implements AccountCreator {
     public AccountDomain createAccount(Long seq, AccountDomain accountDomain) {
         log.info("[Init] Creating a checking account: {}", accountDomain.getType());
         if (accountDomain.getInitBalance().compareTo(BigDecimal.TEN) < 0) throw new BusinessLogicException(1003);
-        String accountNumber = "C-".concat(AccountConstant.fillWithZeros(seq.toString(), 10));
+        String accountNumber = "C-".concat(AccountConstant.fillWithZeros(seq.toString(), 6));
         log.info("account number generated: {}", accountNumber);
         accountDomain.setId(seq);
         accountDomain.setNumber(accountNumber);

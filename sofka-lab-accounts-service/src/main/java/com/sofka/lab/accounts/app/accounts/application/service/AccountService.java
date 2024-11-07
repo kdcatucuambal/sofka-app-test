@@ -10,6 +10,7 @@ import com.sofka.lab.common.exceptions.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class AccountService implements AccountServicePort {
     @Override
     public AccountDomain save(AccountDomain accountDomain) {
         //TODO: Validate if customer exists
+
 
         Long seq = accountPersistencePort.getSeqForAccount();
         accountDomain = accountFactory.getCreatorAccount(accountDomain.getType()).createAccount(seq, accountDomain);

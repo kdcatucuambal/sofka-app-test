@@ -16,12 +16,17 @@
   },
   "1003": {
     "code": 1003,
-    "messageES": "Para la apertura de una cuenta corriente (AHO) el saldo inicial mínimo es de $10.00.",
+    "messageES": "Para la apertura de una cuenta corriente (CTE) el saldo inicial mínimo es de $10.00.",
     "httpErrorCode": 409
   },
   "1004": {
     "code": 1004,
     "messageES": "La cuenta se encuentra bloqueada.",
+    "httpErrorCode": 409
+  },
+  "1005": {
+    "code": 1005,
+    "messageES": "No se puede aperturar la cuenta con el saldo propuesto.",
     "httpErrorCode": 409
   },
   "2000": {

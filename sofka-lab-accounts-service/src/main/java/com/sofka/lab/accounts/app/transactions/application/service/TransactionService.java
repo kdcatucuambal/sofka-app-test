@@ -2,6 +2,7 @@ package com.sofka.lab.accounts.app.transactions.application.service;
 
 
 import com.sofka.lab.accounts.app.accounts.application.port.out.AccountPersistencePort;
+import com.sofka.lab.accounts.app.accounts.domain.model.AccountDomain;
 import com.sofka.lab.accounts.app.transactions.application.port.in.TransactionServicePort;
 import com.sofka.lab.accounts.app.transactions.application.port.out.TransactionPersistentPort;
 import com.sofka.lab.accounts.app.transactions.application.service.strategy.TransactionStrategy;
@@ -43,12 +44,27 @@ public class TransactionService implements TransactionServicePort {
         if (transactionDomain.getAmount() != null
                 && transactionDomain.getAmount().compareTo(BigDecimal.ZERO) < 0) throw new BusinessLogicException(2002);
         var strategy = trnStrategies.get(transactionDomain.getType());
-        var account = accountService
-                .findByNumber(transactionDomain.getAccountNumber())
-                .orElseThrow(() -> new BusinessLogicException(2001));
+        var account = getAccount(transactionDomain);
         transactionDomain = strategy.process(transactionDomain, account.getBalance());
+        //transactionDomain.setAccountId(account.getId());
+        transactionDomain.setAccountNumber(account.getNumber());
         account.setBalance(transactionDomain.getBalance());
         accountService.update(account);
+        log.info("Transaction saved: {}", transactionDomain);
+//        throw new UnsupportedOperationException("Not implemented yet");
         return transactionService.save(transactionDomain);
     }
+
+    private AccountDomain getAccount(TransactionDomain transactionDomain) {
+        if (transactionDomain.getAccountId() != null) {
+            return accountService.findById(transactionDomain.getAccountId()).orElseThrow(() -> new BusinessLogicException(1001));
+        }
+
+        if (transactionDomain.getAccountNumber() != null) {
+            return accountService.findByNumber(transactionDomain.getAccountNumber()).orElseThrow(() -> new BusinessLogicException(1002));
+        }
+
+        throw new BusinessLogicException(1002);
+    }
+
 }

@@ -9,6 +9,7 @@ import com.sofka.lab.accounts.app.transactions.infrastructure.adapter.out.persis
 import com.sofka.lab.accounts.app.transactions.infrastructure.adapter.out.persistence.repository.TransactionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -19,12 +20,11 @@ import java.util.Optional;
 @Component
 public class TransactionPersistenceAdapter implements TransactionPersistentPort {
 
-
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
 
-
     @Override
+    @Transactional(readOnly = true)
     public List<TransactionDomain> findAll() {
         List<TransactionDomain> transactionDomains = new ArrayList<>();
         transactionRepository.findAll().forEach(transactionEntity -> {
@@ -34,16 +34,19 @@ public class TransactionPersistenceAdapter implements TransactionPersistentPort 
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<TransactionDomain> findById(Long id) {
         return transactionRepository.findById(id).map(transactionMapper::toTransactionDomain);
     }
 
     @Override
+    @Transactional
     public TransactionDomain save(TransactionDomain transactionDomain) {
         return transactionMapper.toTransactionDomain(transactionRepository.save(transactionMapper.toTransactionEntity(transactionDomain)));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TransactionDomain> findAllByAccountNumber(String accountNumber) {
         List<TransactionDomain> transactionDomains = new ArrayList<>();
         this.transactionRepository.findAllByAccountNumber(accountNumber)
