@@ -39,9 +39,9 @@ public class AccountEntity {
     @Column(name = "cli_id", nullable = false)
     private Long customerId;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
-    @ToString.Exclude
-    private List<TransactionEntity> movements;
+//    @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+//    @ToString.Exclude
+//    private List<TransactionEntity> movements;
 
 
 }
