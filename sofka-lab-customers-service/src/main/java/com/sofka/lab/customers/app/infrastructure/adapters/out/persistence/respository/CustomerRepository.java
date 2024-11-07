@@ -1,16 +1,15 @@
 package com.sofka.lab.customers.app.infrastructure.adapters.out.persistence.respository;
 
 import com.sofka.lab.customers.app.infrastructure.adapters.out.persistence.entity.CustomerEntity;
-import lombok.NonNull;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface CustomerRepository extends CrudRepository<CustomerEntity, Long> {
+public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> {
 
     Optional<CustomerEntity> findByIdentification(String identification);
 

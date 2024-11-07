@@ -44,5 +44,4 @@ public class AccountEntity {
     @ToString.Exclude
     private List<TransactionEntity> movements;
 
-
 }

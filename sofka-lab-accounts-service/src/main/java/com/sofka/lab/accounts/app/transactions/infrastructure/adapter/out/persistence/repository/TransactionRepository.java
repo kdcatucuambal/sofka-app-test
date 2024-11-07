@@ -1,12 +1,12 @@
 package com.sofka.lab.accounts.app.transactions.infrastructure.adapter.out.persistence.repository;
 
 import com.sofka.lab.accounts.app.transactions.infrastructure.adapter.out.persistence.entity.TransactionEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface TransactionRepository extends CrudRepository<TransactionEntity, Long> {
+public interface TransactionRepository extends JpaRepository<TransactionEntity, Long> {
 
     List<TransactionEntity> findAllByAccount_NumberOrderByDateDesc(String accountNumber);
 
