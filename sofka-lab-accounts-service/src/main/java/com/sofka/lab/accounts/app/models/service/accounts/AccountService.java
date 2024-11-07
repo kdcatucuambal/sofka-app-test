@@ -1,6 +1,7 @@
 package com.sofka.lab.accounts.app.models.service.accounts;
 
 import com.sofka.lab.accounts.app.models.dtos.AccountDto;
+import com.sofka.lab.accounts.app.models.entities.AccountEntity;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,7 +18,7 @@ public interface AccountService {
 
     List<AccountDto> findAll();
 
-    void updateBalance(String number, BigDecimal amount);
+    AccountEntity updateBalance(String number, BigDecimal amount);
 
     void delete(Long id);
 

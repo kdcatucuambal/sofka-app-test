@@ -100,10 +100,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public void updateBalance(String number, BigDecimal balance) {
+    public AccountEntity updateBalance(String number, BigDecimal balance) {
         AccountEntity account = this.accountDao.findByNumber(number);
         account.setBalance(balance);
-        accountDao.save(account);
+        return accountDao.save(account);
     }
 
 

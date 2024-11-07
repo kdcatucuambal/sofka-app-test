@@ -55,7 +55,11 @@ public class MovementServiceImpl implements MovementService {
         if (accountDto == null) throw new BusinessLogicException(2000);
         var strategy = trnStrategies.get(movement.getType());
         var movementEntity = strategy.process(movement, accountDto);
-        accountService.updateBalance(accountDto.getNumber(), accountDto.getAvailableBalance());
+        var accountUpt = accountService.updateBalance(accountDto.getNumber(), accountDto.getAvailableBalance());
+        System.out.println("Account: " + accountUpt);
+        if (strategy.getType().equals("CRE")) {
+            throw new BusinessLogicException(2001);
+        }
         return movementDao.save(movementEntity);
     }
 
