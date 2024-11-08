@@ -1,4 +1,4 @@
-package com.sofka.lab.accounts.app.accounts.application.service.util;
+package com.sofka.lab.accounts.app.accounts.application.service.account.util;
 
 public class AccountConstant {
 

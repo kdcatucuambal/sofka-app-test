@@ -9,6 +9,7 @@ import com.sofka.lab.accounts.app.transactions.infrastructure.adapter.out.persis
 import com.sofka.lab.accounts.app.transactions.infrastructure.adapter.out.persistence.repository.TransactionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -17,14 +18,14 @@ import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-@Component
+@Service
 public class TransactionPersistenceAdapter implements TransactionPersistentPort {
 
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
 
-    @Override
     @Transactional(readOnly = true)
+    @Override
     public List<TransactionDomain> findAll() {
         List<TransactionDomain> transactionDomains = new ArrayList<>();
         transactionRepository.findAll().forEach(transactionEntity -> {
@@ -33,30 +34,25 @@ public class TransactionPersistenceAdapter implements TransactionPersistentPort 
         return transactionDomains;
     }
 
-    @Override
     @Transactional(readOnly = true)
+    @Override
     public Optional<TransactionDomain> findById(Long id) {
         return transactionRepository.findById(id).map(transactionMapper::toTransactionDomain);
     }
 
-    @Override
     @Transactional
+    @Override
     public TransactionDomain save(TransactionDomain transactionDomain) {
         return transactionMapper.toTransactionDomain(transactionRepository.save(transactionMapper.toTransactionEntity(transactionDomain)));
     }
 
-    @Override
     @Transactional(readOnly = true)
+    @Override
     public List<TransactionDomain> findAllByAccountNumber(String accountNumber) {
         List<TransactionDomain> transactionDomains = new ArrayList<>();
         this.transactionRepository.findAllByAccountNumber(accountNumber)
                 .forEach(transactionEntity -> transactionDomains.add(transactionMapper.toTransactionDomain(transactionEntity)));
         return transactionDomains;
     }
-
-
-
-
-
 
 }

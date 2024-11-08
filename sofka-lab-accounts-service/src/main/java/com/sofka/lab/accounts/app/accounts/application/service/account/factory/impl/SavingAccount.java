@@ -1,7 +1,7 @@
-package com.sofka.lab.accounts.app.accounts.application.service.factory.impl;
+package com.sofka.lab.accounts.app.accounts.application.service.account.factory.impl;
 
-import com.sofka.lab.accounts.app.accounts.application.service.factory.AccountCreator;
-import com.sofka.lab.accounts.app.accounts.application.service.util.AccountConstant;
+import com.sofka.lab.accounts.app.accounts.application.service.account.factory.AccountCreator;
+import com.sofka.lab.accounts.app.accounts.application.service.account.util.AccountConstant;
 import com.sofka.lab.accounts.app.accounts.domain.model.AccountDomain;
 import com.sofka.lab.common.exceptions.BusinessLogicException;
 import lombok.extern.slf4j.Slf4j;

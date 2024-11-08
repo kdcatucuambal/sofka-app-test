@@ -6,6 +6,7 @@ import com.sofka.lab.accounts.app.accounts.infrastructure.adapter.out.persistenc
 import com.sofka.lab.accounts.app.accounts.infrastructure.adapter.out.persistence.repository.AccountRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -13,15 +14,15 @@ import java.util.Optional;
 
 
 @AllArgsConstructor
-@Component
+@Service
 public class AccountPersistenceAdapter implements AccountPersistencePort {
 
 
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
 
-    @Override
     @Transactional(readOnly = true)
+    @Override
     public List<AccountDomain> findAll() {
         return accountRepository.findAllByStatusTrue()
                 .stream()
@@ -29,36 +30,36 @@ public class AccountPersistenceAdapter implements AccountPersistencePort {
                 .toList();
     }
 
-    @Override
     @Transactional(readOnly = true)
+    @Override
     public Optional<AccountDomain> findById(Long id) {
         return accountRepository.findById(id).map(accountMapper::toAccountDomain);
     }
 
-    @Override
     @Transactional(readOnly = true)
+    @Override
     public Optional<AccountDomain> findByNumber(String number) {
         return accountRepository.findByNumber(number).map(accountMapper::toAccountDomain);
     }
 
-    @Override
     @Transactional
+    @Override
     public AccountDomain save(AccountDomain accountDomain) {
         var accountEntity = accountMapper.toAccountEntity(accountDomain);
         accountEntity = accountRepository.save(accountEntity);
         return accountMapper.toAccountDomain(accountEntity);
     }
 
-    @Override
     @Transactional
+    @Override
     public AccountDomain update(AccountDomain update) {
         var accountEntity = accountMapper.toAccountEntity(update);
         accountEntity = this.accountRepository.save(accountEntity);
         return accountMapper.toAccountDomain(accountEntity);
     }
 
-    @Override
     @Transactional
+    @Override
     public void deleteById(Long id) {
         this.accountRepository.updateStatusById(id, Boolean.FALSE);
     }

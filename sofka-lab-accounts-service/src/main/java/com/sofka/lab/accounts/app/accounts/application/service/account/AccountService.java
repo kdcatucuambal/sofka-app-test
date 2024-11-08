@@ -1,16 +1,17 @@
-package com.sofka.lab.accounts.app.accounts.application.service;
+package com.sofka.lab.accounts.app.accounts.application.service.account;
 
 import com.sofka.lab.accounts.app.accounts.application.port.in.AccountServicePort;
 import com.sofka.lab.accounts.app.accounts.application.port.out.AccountPersistencePort;
-import com.sofka.lab.accounts.app.accounts.application.service.factory.AccountFactory;
+import com.sofka.lab.accounts.app.accounts.application.port.out.CustomerRedisPort;
+import com.sofka.lab.accounts.app.accounts.application.service.account.factory.AccountFactory;
 import com.sofka.lab.accounts.app.accounts.domain.model.AccountDomain;
 import com.sofka.lab.accounts.app.transactions.application.port.out.TransactionPersistentPort;
 import com.sofka.lab.accounts.app.transactions.domain.model.TransactionDomain;
+import com.sofka.lab.common.domain.model.CustomerEvent;
 import com.sofka.lab.common.exceptions.BusinessLogicException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,8 +21,7 @@ public class AccountService implements AccountServicePort {
 
     private final AccountPersistencePort accountPersistencePort;
     private final TransactionPersistentPort transactionServicePort;
-//    private final CustomerReadingServicePort customerReadingServicePort;
-
+    private final CustomerRedisPort customerRedisPort;
     private final AccountFactory accountFactory;
 
 
@@ -42,20 +42,21 @@ public class AccountService implements AccountServicePort {
 
     @Override
     public AccountDomain save(AccountDomain accountDomain) {
-        //TODO: Validate if customer exists
-
-
+        var customer = customerRedisPort.findById(accountDomain.getCustomerId())
+                .orElseThrow(() -> new BusinessLogicException(1000));
+        accountDomain.setId(customer.getId());
+        if (!customer.getStatus()) throw new BusinessLogicException(1006);
         Long seq = accountPersistencePort.getSeqForAccount();
         accountDomain = accountFactory.getCreatorAccount(accountDomain.getType()).createAccount(seq, accountDomain);
         accountDomain.setStatus(true);
         accountDomain.setBalance(accountDomain.getInitBalance());
-        //TODO: Send first transaction
         var accountCreated = accountPersistencePort.save(accountDomain);
         var trnCreated = transactionServicePort.save(getFirstTransaction(accountDomain));
         log.info("Account created: {}", accountCreated);
         log.info("Transaction created: {}", trnCreated);
         return accountCreated;
     }
+
 
 
     @Override

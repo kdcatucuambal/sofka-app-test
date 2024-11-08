@@ -11,6 +11,7 @@ import com.sofka.lab.accounts.app.transactions.application.service.util.Transact
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -29,6 +30,7 @@ public class TransactionConfiguration {
     }
 
     @Bean
+    @Transactional
     public TransactionServicePort transactionServicePort(
             TransactionPersistentPort dependency1,
             AccountPersistencePort dependency2,

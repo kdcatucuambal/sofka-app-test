@@ -1,4 +1,4 @@
-package com.sofka.lab.accounts.app.accounts.application.service.factory;
+package com.sofka.lab.accounts.app.accounts.application.service.account.factory;
 
 import com.sofka.lab.accounts.app.accounts.domain.model.AccountDomain;
 

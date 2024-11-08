@@ -46,12 +46,11 @@ public class TransactionService implements TransactionServicePort {
         var strategy = trnStrategies.get(transactionDomain.getType());
         var account = getAccount(transactionDomain);
         transactionDomain = strategy.process(transactionDomain, account.getBalance());
-        //transactionDomain.setAccountId(account.getId());
+        transactionDomain.setAccountId(account.getId());
         transactionDomain.setAccountNumber(account.getNumber());
         account.setBalance(transactionDomain.getBalance());
         accountService.update(account);
         log.info("Transaction saved: {}", transactionDomain);
-//        throw new UnsupportedOperationException("Not implemented yet");
         return transactionService.save(transactionDomain);
     }
 

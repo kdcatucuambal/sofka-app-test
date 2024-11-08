@@ -1,5 +1,6 @@
 package com.sofka.lab.customers.app.infrastructure.adapters.out.persistence.mapper;
 
+import com.sofka.lab.common.domain.model.CustomerEvent;
 import com.sofka.lab.customers.app.domain.model.CustomerDomain;
 import com.sofka.lab.customers.app.infrastructure.adapters.out.persistence.entity.CustomerEntity;
 
@@ -18,6 +19,8 @@ public interface CustomerInfraMapper {
 
     @Mapping(target = "password", ignore = true)
     CustomerDomain toReadCustomerDomain(CustomerEntity customerEntity);
+
+    CustomerEvent toCustomerEventDomain(CustomerEntity customerDomain);
 
 
 }

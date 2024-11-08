@@ -1,9 +1,9 @@
-package com.sofka.lab.accounts.app.accounts.application.service.factory;
+package com.sofka.lab.accounts.app.accounts.application.service.account.factory;
 
 
-import com.sofka.lab.accounts.app.accounts.application.service.factory.impl.CheckingAccount;
-import com.sofka.lab.accounts.app.accounts.application.service.factory.impl.SavingAccount;
-import com.sofka.lab.accounts.app.accounts.application.service.util.AccountConstant;
+import com.sofka.lab.accounts.app.accounts.application.service.account.factory.impl.CheckingAccount;
+import com.sofka.lab.accounts.app.accounts.application.service.account.factory.impl.SavingAccount;
+import com.sofka.lab.accounts.app.accounts.application.service.account.util.AccountConstant;
 import lombok.RequiredArgsConstructor;
 
 

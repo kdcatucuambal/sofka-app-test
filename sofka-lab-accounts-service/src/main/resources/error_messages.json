@@ -11,7 +11,7 @@
   },
   "1002": {
     "code": 1002,
-    "messageES": "No existe la cuenta con el número proportional.",
+    "messageES": "No existe la cuenta con el número proporcionado.",
     "httpErrorCode": 404
   },
   "1003": {
@@ -27,6 +27,11 @@
   "1005": {
     "code": 1005,
     "messageES": "No se puede aperturar la cuenta con el saldo propuesto.",
+    "httpErrorCode": 409
+  },
+  "1006": {
+    "code": 1006,
+    "messageES": "El cliente está bloqueado.",
     "httpErrorCode": 409
   },
   "2000": {
