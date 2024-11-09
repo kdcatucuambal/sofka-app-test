@@ -7,7 +7,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @AllArgsConstructor
 @SuperBuilder
-public abstract class PersonDomain {
+public abstract class PersonModel {
 
     private Long id;
     private String name;

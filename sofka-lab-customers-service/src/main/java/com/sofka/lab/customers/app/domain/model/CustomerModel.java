@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
-public class CustomerDomain extends PersonDomain {
+public class CustomerModel extends PersonModel {
 
     private Boolean status;
     private String password;

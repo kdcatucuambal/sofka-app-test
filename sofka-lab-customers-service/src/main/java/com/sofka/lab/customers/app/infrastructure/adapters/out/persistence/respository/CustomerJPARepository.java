@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> {
+public interface CustomerJPARepository extends JpaRepository<CustomerEntity, Long> {
 
     Optional<CustomerEntity> findByIdentification(String identification);
 

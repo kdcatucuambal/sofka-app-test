@@ -1,7 +1,7 @@
 package com.sofka.lab.customers.app.infrastructure.adapters.in.rest.mapper;
 
 import com.sofka.bank.objects.Customer;
-import com.sofka.lab.customers.app.domain.model.CustomerDomain;
+import com.sofka.lab.customers.app.domain.model.CustomerModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -9,10 +9,10 @@ import org.mapstruct.Mapping;
 public interface CustomerRestMapper {
 
     @Mapping(target = "genre", expression = "java(fromGenreEnum(customer.getGenre()))")
-    CustomerDomain toCustomerDomain(Customer customer);
+    CustomerModel toCustomerDomain(Customer customer);
 
     @Mapping(target = "genre", expression = "java(toGenreEnum(customerDomain.getGenre()))")
-    Customer toCustomer(CustomerDomain customerDomain);
+    Customer toCustomer(CustomerModel customerDomain);
 
 
     default Customer.GenreEnum toGenreEnum(String genre) {

@@ -1,8 +1,8 @@
 package com.sofka.lab.customers.app.infrastructure.adapters.in.rest.adapter;
 
 import com.sofka.bank.objects.*;
-import com.sofka.lab.customers.app.application.port.in.CustomerServicePort;
 import com.sofka.lab.customers.app.infrastructure.adapters.in.rest.mapper.CustomerRestMapper;
+import com.sofka.lab.customers.app.infrastructure.adapters.out.persistence.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomerRestAdapterImpl implements CustomerRestAdapter {
 
-    private final CustomerServicePort customerService;
+    private final CustomerService customerService;
     private final CustomerRestMapper customerRestMapper;
 
     @Override

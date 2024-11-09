@@ -1,35 +1,54 @@
 package com.sofka.lab.customers.app.infrastructure.adapters.configuration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sofka.lab.common.exceptions.models.BusinessToHttpErrorImpl;
-import com.sofka.lab.common.exceptions.models.interfaces.BusinessToHttpError;
-import com.sofka.lab.customers.app.application.port.in.CustomerServicePort;
-import com.sofka.lab.customers.app.application.port.out.CustomerPersistencePort;
-import com.sofka.lab.customers.app.application.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.sofka.lab.customers.app.application.business_logic.contract.*;
+import com.sofka.lab.customers.app.application.business_logic.impl.*;
+import com.sofka.lab.customers.app.domain.ports.out.event.ProducerClient;
+import com.sofka.lab.customers.app.domain.ports.out.repository.CustomerRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.http.HttpStatus;
 
 @Configuration
 @ComponentScan("com.sofka.lab.customers.app")
 public class CustomersConfiguration {
 
-    @Bean
-    @Primary
-    public BusinessToHttpError httpCodeMapping() {
-        var businessToHttpErrorMapping = new BusinessToHttpErrorImpl();
-        businessToHttpErrorMapping.addNewMapping("300", HttpStatus.NOT_FOUND);
-        return businessToHttpErrorMapping;
-    }
-
 
     @Bean
-    public CustomerServicePort customerServicePort(CustomerPersistencePort customerPersistencePort) {
-        return new CustomerService(customerPersistencePort);
+    public BLCreateCustomer blCreateCustomer(CustomerRepository customerRepository) {
+        return new BLCreateCustomerImpl(customerRepository);
     }
+
+    @Bean
+    public BLDeleteByIdCustomer blDeleteCustomer(CustomerRepository customerRepository) {
+        return new BLDeleteByIdCustomerImpl(customerRepository);
+    }
+
+    @Bean
+    public BLFindAllCustomer blFindAllCustomer(CustomerRepository customerRepository) {
+        return new BLFindAllCustomerImpl(customerRepository);
+    }
+
+    @Bean
+    public BLFindByIdCustomer blFindByIdCustomer(CustomerRepository customerRepository) {
+        return new BLFindByIdCustomerImpl(customerRepository);
+    }
+
+    @Bean
+    public BLFindByIdentificationCustomer blFindByIdentificationCustomer(CustomerRepository customerRepository) {
+        return new BLFindByIdentificationCustomerImpl(customerRepository);
+    }
+
+    @Bean
+    public BLUpdateCustomer blUpdateCustomer(CustomerRepository customerRepository) {
+        return new BLUpdateCustomerImpl(customerRepository);
+    }
+
+    @Bean
+    public BLSendCustomerEvent blSendCustomerEvent(ProducerClient producerClient) {
+        return new BLSendCustomerEventImpl(producerClient);
+    }
+
 
 
 }
