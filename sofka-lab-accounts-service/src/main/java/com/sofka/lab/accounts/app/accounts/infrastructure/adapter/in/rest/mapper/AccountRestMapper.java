@@ -2,7 +2,7 @@ package com.sofka.lab.accounts.app.accounts.infrastructure.adapter.in.rest.mappe
 
 import com.sofka.bank.objects.Account;
 import com.sofka.bank.objects.Customer;
-import com.sofka.lab.accounts.app.accounts.domain.model.AccountDomain;
+import com.sofka.lab.accounts.app.accounts.domain.model.AccountModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -11,11 +11,11 @@ public interface AccountRestMapper {
 
     @Mapping(target = "customerId", expression = "java(getCustomerId(account.getCustomer()))")
     @Mapping(target = "type", expression = "java(fromTypeAccount(account.getType()))")
-    AccountDomain toAccountDomain(Account account);
+    AccountModel toAccountDomain(Account account);
 
     @Mapping(target ="type", expression = "java(toTypeAccount(accountDomain.getType()))")
     @Mapping(target = "customer", expression = "java(getCustomerId(accountDomain.getCustomerId()))")
-    Account toAccount(AccountDomain accountDomain);
+    Account toAccount(AccountModel accountDomain);
 
 
     default String fromTypeAccount(Account.TypeEnum type) {

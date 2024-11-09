@@ -1,17 +1,20 @@
 package com.sofka.lab.accounts.app.transactions.infrastructure.adapter.configuration;
 
-import com.sofka.lab.accounts.app.accounts.application.port.out.AccountPersistencePort;
-import com.sofka.lab.accounts.app.transactions.application.port.in.TransactionServicePort;
-import com.sofka.lab.accounts.app.transactions.application.port.out.TransactionPersistentPort;
-import com.sofka.lab.accounts.app.transactions.application.service.TransactionService;
-import com.sofka.lab.accounts.app.transactions.application.service.strategy.TransactionStrategy;
-import com.sofka.lab.accounts.app.transactions.application.service.strategy.impl.CreditStrategy;
-import com.sofka.lab.accounts.app.transactions.application.service.strategy.impl.DebitStrategy;
-import com.sofka.lab.accounts.app.transactions.application.service.util.TransactionUtil;
+
+import com.sofka.lab.accounts.app.accounts.domain.ports.out.AccountRepository;
+import com.sofka.lab.accounts.app.transactions.application.business_logic.*;
+import com.sofka.lab.accounts.app.transactions.application.business_logic.impl.*;
+import com.sofka.lab.accounts.app.transactions.application.business_logic.strategy.constant.ConstantTransaction;
+
+import com.sofka.lab.accounts.app.transactions.application.business_logic.strategy.TransactionStrategy;
+import com.sofka.lab.accounts.app.transactions.application.business_logic.strategy.impl.CreditStrategy;
+import com.sofka.lab.accounts.app.transactions.application.business_logic.strategy.impl.DebitStrategy;
+
+import com.sofka.lab.accounts.app.transactions.domain.port.out.repository.TransactionRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.Map;
 
@@ -20,24 +23,43 @@ import java.util.Map;
 @ComponentScan("com.sofka.lab.accounts.app.accounts")
 public class TransactionConfiguration {
 
-
+//
     @Bean
     public Map<String, TransactionStrategy> trnStrategies() {
         return Map.of(
-                TransactionUtil.CREDIT_TYPE, new CreditStrategy(),
-                TransactionUtil.DEBIT_TYPE, new DebitStrategy()
+                ConstantTransaction.CREDIT_TYPE, new CreditStrategy(),
+                ConstantTransaction.DEBIT_TYPE, new DebitStrategy()
         );
     }
 
     @Bean
-    @Transactional
-    public TransactionServicePort transactionServicePort(
-            TransactionPersistentPort dependency1,
-            AccountPersistencePort dependency2,
-            Map<String, TransactionStrategy> dependency3) {
-        return new TransactionService(dependency1, dependency2, dependency3);
+    public BLCreateOpeningTransaction blCreateOpeningTransaction(TransactionRepository transactionRepository) {
+        return new BLCreateOpeningTransactionImpl(transactionRepository);
+    }
 
+    @Bean
+    public BLCreateTransaction blCreateTransaction(TransactionRepository transactionRepository, AccountRepository accountRepository, Map<String, TransactionStrategy> trnStrategies) {
+        return new BLCreateTransactionImpl(transactionRepository, accountRepository, trnStrategies);
+    }
 
+    @Bean
+    public BLFindAllTransaction blFindAllTransaction(TransactionRepository transactionRepository) {
+        return new BLFindAllTransactionImpl(transactionRepository);
+    }
+
+    @Bean
+    public BLFindAllTrnByAccountNumber blFindAllTrnByAccountNumber(TransactionRepository transactionRepository) {
+        return new BLFindAllTrnByAccountNumberImpl(transactionRepository);
+    }
+
+    @Bean
+    public BLFindByIdTransaction blFindByIdTransaction(TransactionRepository transactionRepository) {
+        return new BLFindByIdTransactionImpl(transactionRepository);
+    }
+
+    @Bean
+    public BLReportTransaction blReportTransaction(TransactionRepository transactionRepository) {
+        return new BLReportTransactionImpl(transactionRepository);
     }
 
 }

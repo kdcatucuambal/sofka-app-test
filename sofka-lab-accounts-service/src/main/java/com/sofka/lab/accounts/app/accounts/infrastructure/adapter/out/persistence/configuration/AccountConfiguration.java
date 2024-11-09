@@ -1,13 +1,15 @@
 package com.sofka.lab.accounts.app.accounts.infrastructure.adapter.out.persistence.configuration;
 
-import com.sofka.lab.accounts.app.accounts.application.port.in.AccountServicePort;
-import com.sofka.lab.accounts.app.accounts.application.port.out.AccountPersistencePort;
-import com.sofka.lab.accounts.app.accounts.application.port.out.CustomerRedisPort;
-import com.sofka.lab.accounts.app.accounts.application.service.account.AccountService;
-import com.sofka.lab.accounts.app.accounts.application.service.account.factory.AccountFactory;
-import com.sofka.lab.accounts.app.accounts.application.service.account.factory.impl.CheckingAccount;
-import com.sofka.lab.accounts.app.accounts.application.service.account.factory.impl.SavingAccount;
-import com.sofka.lab.accounts.app.transactions.application.port.out.TransactionPersistentPort;
+import com.sofka.lab.accounts.app.accounts.application.business_logic.*;
+import com.sofka.lab.accounts.app.accounts.application.business_logic.factory.AccountFactory;
+
+
+import com.sofka.lab.accounts.app.accounts.application.business_logic.factory.impl.CheckingAccount;
+import com.sofka.lab.accounts.app.accounts.application.business_logic.factory.impl.SavingAccount;
+import com.sofka.lab.accounts.app.accounts.application.business_logic.impl.*;
+import com.sofka.lab.accounts.app.accounts.domain.ports.out.AccountRepository;
+import com.sofka.lab.accounts.app.accounts.domain.ports.out.CustomerQueryRepository;
+import com.sofka.lab.accounts.app.accounts.domain.ports.out.SequenceRepository;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
@@ -26,15 +28,35 @@ public class AccountConfiguration {
         return new AccountFactory(new CheckingAccount(), new SavingAccount());
     }
 
+
     @Bean
-    @Transactional
-    public AccountServicePort accountServicePort(
-            AccountPersistencePort dependency1,
-            TransactionPersistentPort dependency2,
-            CustomerRedisPort dependency3,
-            AccountFactory dependency4
-    ) {
-        return new AccountService(dependency1, dependency2, dependency3, dependency4);
+    public BLCreateAccount blCreateAccount(AccountRepository d1, SequenceRepository d2, CustomerQueryRepository d3, AccountFactory d4) {
+        return new BLCreateAccountImpl(d1, d2, d3, d4);
+    }
+
+    @Bean
+    public BLDeleteByIdAccount blDeleteByIdAccount(AccountRepository accountRepository) {
+        return new BLDeleteByIdAccountImpl(accountRepository);
+    }
+
+    @Bean
+    public BLFindAllAccount bLFindAllAccount(AccountRepository accountRepository) {
+        return new BLFindAllAccountImpl(accountRepository);
+    }
+
+    @Bean
+    public BLFindByIdAccount bLFindByIdAccount(AccountRepository accountRepository) {
+        return new BLFindByIdAccountImpl(accountRepository);
+    }
+
+    @Bean
+    public BLFindByNumberAccount bLFindByNumberAccount(AccountRepository accountRepository) {
+        return new BLFindByNumberAccountImpl(accountRepository);
+    }
+
+    @Bean
+    public BLUpdateAccount bLUpdateAccount(AccountRepository accountRepository) {
+        return new BLUpdateAccountImpl(accountRepository);
     }
 
 

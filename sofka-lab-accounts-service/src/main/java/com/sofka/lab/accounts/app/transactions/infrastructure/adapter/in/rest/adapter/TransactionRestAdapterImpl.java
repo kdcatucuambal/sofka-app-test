@@ -1,10 +1,8 @@
 package com.sofka.lab.accounts.app.transactions.infrastructure.adapter.in.rest.adapter;
 
 import com.sofka.bank.objects.*;
-import com.sofka.lab.accounts.app.transactions.application.port.in.TransactionServicePort;
 import com.sofka.lab.accounts.app.transactions.infrastructure.adapter.in.rest.mapper.TransactionRestMapper;
-
-import lombok.AllArgsConstructor;
+import com.sofka.lab.accounts.app.transactions.infrastructure.adapter.out.persistence.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,9 +10,9 @@ import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Component
-public class TransactionRestAdapterImpl implements TransactionRestAdapter{
+public class TransactionRestAdapterImpl implements TransactionRestAdapter {
 
-    private final TransactionServicePort trnService;
+    private final TransactionService trnService;
     private final TransactionRestMapper trnMapper;
 
     @Override

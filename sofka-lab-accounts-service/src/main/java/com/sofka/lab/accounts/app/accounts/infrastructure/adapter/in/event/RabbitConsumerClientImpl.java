@@ -1,15 +1,14 @@
 package com.sofka.lab.accounts.app.accounts.infrastructure.adapter.in.event;
 
-import com.sofka.lab.accounts.app.accounts.application.port.out.CustomerRedisPort;
+
+import com.sofka.lab.accounts.app.accounts.domain.ports.out.CustomerQueryRepository;
 import com.sofka.lab.common.domain.model.CustomerEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Objects;
+
 import java.util.concurrent.CountDownLatch;
 
 @Component
@@ -18,7 +17,7 @@ public class RabbitConsumerClientImpl {
 
     @Getter
     private final CountDownLatch latch = new CountDownLatch(1);
-    private final CustomerRedisPort customerRedisService;
+    private final CustomerQueryRepository customerRedisService;
 
     @RabbitListener(queues = "sofka-customers-queue")
     public void consume(CustomerEvent customerEvent) {

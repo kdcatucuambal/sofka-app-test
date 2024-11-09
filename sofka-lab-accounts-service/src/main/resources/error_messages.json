@@ -63,5 +63,10 @@
     "code": 2005,
     "messageES": "El monto mínimo para acreditar es de $0,50 y el máximo es de $10,000.",
     "httpErrorCode": 404
+  },
+  "2006": {
+    "code": 2006,
+    "messageES": "La cuenta no presenta movimientos. Consulta no permitida.",
+    "httpErrorCode": 404
   }
 }

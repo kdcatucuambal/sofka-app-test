@@ -2,8 +2,8 @@ package com.sofka.lab.accounts.app.accounts.infrastructure.adapter.in.rest.adapt
 
 
 import com.sofka.bank.objects.*;
-import com.sofka.lab.accounts.app.accounts.application.port.in.AccountServicePort;
 import com.sofka.lab.accounts.app.accounts.infrastructure.adapter.in.rest.mapper.AccountRestMapper;
+import com.sofka.lab.accounts.app.accounts.infrastructure.adapter.out.persistence.service.AccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class AccountRestAdapterImpl implements AccountRestAdapter {
 
     private final AccountRestMapper accountRestMapper;
-    private final AccountServicePort accountService;
+    private final AccountService accountService;
 
     @Override
     public AccountGETAllRs execAccountGETAll() {
@@ -22,7 +22,7 @@ public class AccountRestAdapterImpl implements AccountRestAdapter {
 
     @Override
     public AccountGETByAccountNumberRs execAccountGETByAccountNumber(String accountNumber) {
-        var account = accountService.findByNumber(accountNumber);
+        var account = accountService.findByAccountNumber(accountNumber);
         return AccountGETByAccountNumberRs.builder().account(accountRestMapper.toAccount(account)).build();
     }
 
